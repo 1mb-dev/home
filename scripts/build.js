@@ -40,10 +40,26 @@ function updateServiceWorker(sha) {
   console.log(`✓ Service Worker cache version: 1mb-${sha}`);
 }
 
+// Update sitemap lastmod date
+function updateSitemap(date) {
+  const sitemapPath = join(ROOT, 'docs', 'sitemap.xml');
+  let content = readFileSync(sitemapPath, 'utf8');
+
+  content = content.replace(
+    /<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/,
+    `<lastmod>${date}</lastmod>`
+  );
+
+  writeFileSync(sitemapPath, content);
+  console.log(`✓ Sitemap lastmod: ${date}`);
+}
+
 // Main
 const sha = getCommitSha();
+const today = new Date().toISOString().slice(0, 10);
 console.log(`Building 1mb.dev (${sha})...\n`);
 
 updateServiceWorker(sha);
+updateSitemap(today);
 
 console.log('\n✓ Build complete');
