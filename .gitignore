@@ -25,5 +25,6 @@ vendor/
 # Build & env
 dist/
 build/
+coverage/
 .env
 .env.local

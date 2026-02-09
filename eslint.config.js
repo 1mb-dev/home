@@ -42,4 +42,18 @@ export default [
       },
     },
   },
+  {
+    files: ['workers/*.test.js'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      globals: {
+        describe: 'readonly',
+        it: 'readonly',
+        expect: 'readonly',
+        beforeAll: 'readonly',
+        afterEach: 'readonly',
+      },
+    },
+  },
 ];
