@@ -1,5 +1,6 @@
 name = "1mb-counter"
 main = "counter.js"
+account_id = "a256c6c12e5ff87e9d2444d72ea65e3a"
 compatibility_date = "2025-12-31"
 preview_urls = false
 
