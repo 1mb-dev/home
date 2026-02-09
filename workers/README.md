@@ -39,6 +39,24 @@ npm run worker:deploy   # deploy to production
 npm run worker:tail     # view live logs
 ```
 
+## Testing
+
+```bash
+npm test              # run test suite
+npm run test:watch    # run in watch mode
+```
+
+Tests use `@cloudflare/vitest-pool-workers` to run the worker in a local Cloudflare runtime with mocked Redis (via `fetchMock`).
+
+## CI/CD
+
+Worker deployment is automated via GitHub Actions (`.github/workflows/deploy-worker.yml`). Pushes to `main` that modify `workers/**` trigger:
+
+1. **Test** — runs `npm test`
+2. **Deploy** — deploys via `wrangler-action@v3`
+
+**Setup:** Add `CLOUDFLARE_API_TOKEN` as a repo secret. Create the token at the Cloudflare dashboard with "Workers Scripts: Edit" permission.
+
 ## Production
 
 - **URL:** https://1mb-counter.vmx-builds.workers.dev
