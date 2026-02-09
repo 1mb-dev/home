@@ -1,6 +1,6 @@
 import { env, fetchMock, SELF } from 'cloudflare:test';
 import { describe, it, expect, beforeAll, afterEach } from 'vitest';
-import worker from './counter.js';
+import worker, { hashIP } from './counter.js';
 
 beforeAll(() => {
   fetchMock.activate();
@@ -101,28 +101,20 @@ describe('POST /', () => {
   });
 
   it('hashes IP for privacy (does not store raw IP)', async () => {
-    // Two different IPs should produce different rate-limit keys
-    // We verify indirectly: both should succeed (not rate-limited)
-    mockRedisSequence([{ result: null }, { result: 10 }, { result: 'OK' }]);
+    const hash = await hashIP('10.0.0.1');
 
-    const request1 = new Request('http://localhost/', {
-      method: 'POST',
-      headers: { 'CF-Connecting-IP': '10.0.0.1' },
-    });
-    const response1 = await worker.fetch(request1, env, { waitUntil() {} });
-    const body1 = await response1.json();
+    // Hash is a 16-char hex string (8 bytes), not the raw IP
+    expect(hash).toMatch(/^[0-9a-f]{16}$/);
+    expect(hash).not.toContain('10.0.0.1');
 
-    mockRedisSequence([{ result: null }, { result: 11 }, { result: 'OK' }]);
+    // Different IPs produce different hashes
+    const hash2 = await hashIP('10.0.0.2');
+    expect(hash2).toMatch(/^[0-9a-f]{16}$/);
+    expect(hash).not.toBe(hash2);
 
-    const request2 = new Request('http://localhost/', {
-      method: 'POST',
-      headers: { 'CF-Connecting-IP': '10.0.0.2' },
-    });
-    const response2 = await worker.fetch(request2, env, { waitUntil() {} });
-    const body2 = await response2.json();
-
-    expect(body1.count).toBe(10);
-    expect(body2.count).toBe(11);
+    // Same IP produces same hash (deterministic)
+    const hash3 = await hashIP('10.0.0.1');
+    expect(hash).toBe(hash3);
   });
 });
 

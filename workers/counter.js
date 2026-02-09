@@ -159,6 +159,8 @@ function getRequestContext(request) {
   };
 }
 
+export { hashIP };
+
 // Main handler
 export default {
   async fetch(request, env, ctx) {
