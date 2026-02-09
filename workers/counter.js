@@ -81,11 +81,12 @@ async function redis(env, command) {
   return data.result;
 }
 
-// GET /: Return current count
+// GET /: Return current count + daily momentum
 async function handleGet(env) {
-  const count = await redis(env, ['GET', 'count']);
-  const result = { count: parseInt(count) || 0 };
-  log('info', 'count.fetch', { count: result.count });
+  const today = new Date().toISOString().slice(0, 10);
+  const [count, todayCount] = await redis(env, ['MGET', 'count', `daily:${today}`]);
+  const result = { count: parseInt(count) || 0, today: parseInt(todayCount) || 0 };
+  log('info', 'count.fetch', { count: result.count, today: result.today });
   return result;
 }
 
@@ -99,20 +100,25 @@ async function handlePost(request, env) {
   // Check if already voted (within 24h)
   const hasVoted = await redis(env, ['GET', rateLimitKey]);
 
+  const today = new Date().toISOString().slice(0, 10);
+  const dailyKey = `daily:${today}`;
+
   if (hasVoted) {
-    const count = await redis(env, ['GET', 'count']);
+    const [count, todayCount] = await redis(env, ['MGET', 'count', dailyKey]);
     log('info', 'vote.rate_limited', { count: parseInt(count) || 0 });
-    return { count: parseInt(count) || 0, voted: true, message: 'Already counted' };
+    return { count: parseInt(count) || 0, today: parseInt(todayCount) || 0, voted: true, message: 'Already counted' };
   }
 
-  // Increment counter
+  // Increment counter + daily
   const count = await redis(env, ['INCR', 'count']);
+  const todayCount = await redis(env, ['INCR', dailyKey]);
+  await redis(env, ['EXPIRE', dailyKey, 172800]);
 
   // Mark IP as voted (expires in 24 hours = 86400 seconds)
   await redis(env, ['SET', rateLimitKey, '1', 'EX', 86400]);
 
-  log('info', 'vote.new', { count: parseInt(count) });
-  return { count: parseInt(count), voted: true, message: 'Counted' };
+  log('info', 'vote.new', { count: parseInt(count), today: parseInt(todayCount) });
+  return { count: parseInt(count), today: parseInt(todayCount), voted: true, message: 'Counted' };
 }
 
 // GET /health: Return service health status
@@ -203,9 +209,12 @@ export default {
       }
 
       log('info', 'request', { ...reqCtx, status, duration_ms: Date.now() - start });
+      const responseHeaders = request.method === 'GET'
+        ? { ...corsHeaders, 'Cache-Control': 'public, max-age=60' }
+        : corsHeaders;
       return new Response(JSON.stringify(result), {
         status: 200,
-        headers: corsHeaders,
+        headers: responseHeaders,
       });
 
     } catch (error) {

@@ -19,16 +19,19 @@
   let isErrorState = false;
 
   // Format count with proper grammar
-  function formatCount(count) {
+  function formatCount(count, today) {
     if (count === 0) return 'none yet';
-    if (count === 1) return '1 other';
-    return count.toLocaleString() + ' others';
+    let text = count === 1 ? '1 other' : count.toLocaleString() + ' others';
+    if (today > 0) {
+      text += ' \u2014 ' + today + ' today';
+    }
+    return text;
   }
 
   // Show count with fade-in animation
-  function showCount(count) {
+  function showCount(count, today) {
     countEl.classList.remove('count-loading');
-    countEl.textContent = formatCount(count);
+    countEl.textContent = formatCount(count, today);
     countEl.classList.add('count-loaded');
   }
 
@@ -43,7 +46,7 @@
     try {
       const res = await fetch(API_URL);
       const data = await res.json();
-      showCount(data.count);
+      showCount(data.count, data.today);
     } catch (_e) {
       showError();
     }
@@ -79,7 +82,7 @@
       const res = await fetch(API_URL, { method: 'POST' });
       const data = await res.json();
 
-      showCount(data.count);
+      showCount(data.count, data.today);
       markAsVoted();
     } catch (_e) {
       setErrorState();

@@ -34,24 +34,32 @@ function mockRedisError() {
 }
 
 describe('GET /', () => {
-  it('returns current count', async () => {
-    mockRedis({ result: '42' });
+  it('returns current count and daily momentum', async () => {
+    mockRedis({ result: ['42', '5'] });
 
     const response = await worker.fetch(new Request('http://localhost/'), env, { waitUntil() {} });
     const body = await response.json();
 
     expect(response.status).toBe(200);
-    expect(body).toEqual({ count: 42 });
+    expect(body).toEqual({ count: 42, today: 5 });
   });
 
-  it('returns 0 when count is null', async () => {
-    mockRedis({ result: null });
+  it('returns 0 when count and daily are null', async () => {
+    mockRedis({ result: [null, null] });
 
     const response = await worker.fetch(new Request('http://localhost/'), env, { waitUntil() {} });
     const body = await response.json();
 
     expect(response.status).toBe(200);
-    expect(body).toEqual({ count: 0 });
+    expect(body).toEqual({ count: 0, today: 0 });
+  });
+
+  it('returns Cache-Control header', async () => {
+    mockRedis({ result: ['1', '0'] });
+
+    const response = await worker.fetch(new Request('http://localhost/'), env, { waitUntil() {} });
+
+    expect(response.headers.get('Cache-Control')).toBe('public, max-age=60');
   });
 
   it('returns 500 on Redis failure', async () => {
@@ -66,9 +74,15 @@ describe('GET /', () => {
 });
 
 describe('POST /', () => {
-  it('increments count on first vote', async () => {
-    // GET voted:<hash> -> null, INCR count -> 1, SET voted:<hash> -> OK
-    mockRedisSequence([{ result: null }, { result: 1 }, { result: 'OK' }]);
+  it('increments count and daily on first vote', async () => {
+    // GET voted:<hash> -> null, INCR count -> 1, INCR daily -> 1, EXPIRE daily -> 1, SET voted:<hash> -> OK
+    mockRedisSequence([
+      { result: null },
+      { result: 1 },
+      { result: 1 },
+      { result: 1 },
+      { result: 'OK' },
+    ]);
 
     const request = new Request('http://localhost/', {
       method: 'POST',
@@ -79,13 +93,15 @@ describe('POST /', () => {
 
     expect(response.status).toBe(200);
     expect(body.count).toBe(1);
+    expect(body.today).toBe(1);
     expect(body.voted).toBe(true);
     expect(body.message).toBe('Counted');
+    expect(response.headers.get('Cache-Control')).toBeNull();
   });
 
   it('returns existing count when rate-limited', async () => {
-    // GET voted:<hash> -> "1" (already voted), GET count -> "5"
-    mockRedisSequence([{ result: '1' }, { result: '5' }]);
+    // GET voted:<hash> -> "1" (already voted), MGET count + daily -> ["5", "2"]
+    mockRedisSequence([{ result: '1' }, { result: ['5', '2'] }]);
 
     const request = new Request('http://localhost/', {
       method: 'POST',
@@ -96,6 +112,7 @@ describe('POST /', () => {
 
     expect(response.status).toBe(200);
     expect(body.count).toBe(5);
+    expect(body.today).toBe(2);
     expect(body.voted).toBe(true);
     expect(body.message).toBe('Already counted');
   });
@@ -187,7 +204,7 @@ describe('Unsupported methods', () => {
 
 describe('CORS', () => {
   it('allows 1mb.dev origin', async () => {
-    mockRedis({ result: '1' });
+    mockRedis({ result: ['1', '0'] });
 
     const request = new Request('http://localhost/', {
       headers: { Origin: 'https://1mb.dev' },
@@ -198,7 +215,7 @@ describe('CORS', () => {
   });
 
   it('allows localhost origin', async () => {
-    mockRedis({ result: '1' });
+    mockRedis({ result: ['1', '0'] });
 
     const request = new Request('http://localhost/', {
       headers: { Origin: 'http://localhost:8080' },
@@ -209,7 +226,7 @@ describe('CORS', () => {
   });
 
   it('defaults to 1mb.dev for unknown origins', async () => {
-    mockRedis({ result: '1' });
+    mockRedis({ result: ['1', '0'] });
 
     const request = new Request('http://localhost/', {
       headers: { Origin: 'https://evil.com' },
