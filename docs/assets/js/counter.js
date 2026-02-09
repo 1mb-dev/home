@@ -45,6 +45,7 @@
   async function fetchCount() {
     try {
       const res = await fetch(API_URL);
+      if (!res.ok) throw new Error(res.status);
       const data = await res.json();
       showCount(data.count, data.today);
     } catch (_e) {
@@ -80,6 +81,7 @@
 
     try {
       const res = await fetch(API_URL, { method: 'POST' });
+      if (!res.ok) throw new Error(res.status);
       const data = await res.json();
 
       showCount(data.count, data.today);

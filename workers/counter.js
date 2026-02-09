@@ -8,17 +8,14 @@
  *   UPSTASH_REDIS_REST_TOKEN - Your Upstash REST token
  *
  * Endpoints:
- *   GET  /        → Returns { count: number }
- *   POST /        → Increments count (1 per IP per 24h), returns { count, voted }
+ *   GET  /        → Returns { count, today }
+ *   POST /        → Increments count (1 per IP per 24h), returns { count, today, voted, message }
  *   GET  /health  → Returns service health status
  *
- * Recovery & Backup:
- *   - Counter data stored in Upstash Redis (managed service with automatic backups)
- *   - Key: "count" (integer) - total community count
- *   - Keys: "voted:<ip-hash>" (string, TTL 24h) - rate limiting
- *   - To backup: GET https://your-upstash-url with Authorization header
- *   - To restore: SET count <value> via Upstash console or REST API
- *   - Upstash console: https://console.upstash.com
+ * Redis keys:
+ *   - "count" (integer) - total community count
+ *   - "daily:YYYY-MM-DD" (integer, TTL 48h) - daily momentum counter
+ *   - "voted:<ip-hash>" (string, TTL 24h) - rate limiting
  *
  * Logging:
  *   - Structured JSON logs for all requests
@@ -112,7 +109,11 @@ async function handlePost(request, env) {
   // Increment counter + daily
   const count = await redis(env, ['INCR', 'count']);
   const todayCount = await redis(env, ['INCR', dailyKey]);
-  await redis(env, ['EXPIRE', dailyKey, 172800]);
+  try {
+    await redis(env, ['EXPIRE', dailyKey, 172800]);
+  } catch (e) {
+    log('warn', 'expire.failed', { key: dailyKey, error: e.message });
+  }
 
   // Mark IP as voted (expires in 24 hours = 86400 seconds)
   await redis(env, ['SET', rateLimitKey, '1', 'EX', 86400]);
@@ -210,7 +211,7 @@ export default {
 
       log('info', 'request', { ...reqCtx, status, duration_ms: Date.now() - start });
       const responseHeaders = request.method === 'GET'
-        ? { ...corsHeaders, 'Cache-Control': 'public, max-age=60' }
+        ? { ...corsHeaders, 'Cache-Control': 'public, max-age=60', Vary: 'Origin' }
         : corsHeaders;
       return new Response(JSON.stringify(result), {
         status: 200,

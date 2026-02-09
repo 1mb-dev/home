@@ -54,12 +54,23 @@ describe('GET /', () => {
     expect(body).toEqual({ count: 0, today: 0 });
   });
 
-  it('returns Cache-Control header', async () => {
+  it('returns count with today=0 when daily key is null', async () => {
+    mockRedis({ result: ['42', null] });
+
+    const response = await worker.fetch(new Request('http://localhost/'), env, { waitUntil() {} });
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body).toEqual({ count: 42, today: 0 });
+  });
+
+  it('returns Cache-Control and Vary headers', async () => {
     mockRedis({ result: ['1', '0'] });
 
     const response = await worker.fetch(new Request('http://localhost/'), env, { waitUntil() {} });
 
     expect(response.headers.get('Cache-Control')).toBe('public, max-age=60');
+    expect(response.headers.get('Vary')).toBe('Origin');
   });
 
   it('returns 500 on Redis failure', async () => {
