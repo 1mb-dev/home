@@ -21,7 +21,7 @@
     "worker:tail": "wrangler tail --config workers/wrangler.toml"
   },
   "devDependencies": {
-    "@cloudflare/vitest-pool-workers": "^0.12.14",
+    "@cloudflare/vitest-pool-workers": "^0.12.18",
     "eslint": "^9.17.0",
     "html-validate": "^10.9.0",
     "prettier": "^3.8.1",
