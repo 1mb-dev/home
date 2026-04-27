@@ -18,6 +18,14 @@ updates:
         update-types:
           - 'minor'
           - 'patch'
+    # Major-bump hold (revisit 2026-05-27): eslint 10, stylelint 17, cloudflare/vitest-pool-workers (transitive vitest 4)
+    ignore:
+      - dependency-name: 'eslint'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'stylelint'
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@cloudflare/vitest-pool-workers'
+        versions: ['>=0.15.0']
 
   - package-ecosystem: 'github-actions'
     directory: '/'
