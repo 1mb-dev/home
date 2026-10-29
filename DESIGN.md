@@ -30,7 +30,7 @@ Every work page stands alone for a reader with no context. The row's name goes t
 | **Sequence**    | Previous and next work, each with its tagline, in index order                                       | Work pages      |
 | **Credit**      | `1mb ·` \| "All the hats. One head." \| toggle; beneath the credit: `github`, `log`, `feed`, © year | Every page      |
 
-**The watermark `1` is the signature.** A semi-visible presence (the `--watermark` token: 4% ink light, 6% dark) behind every content section: the cover, the index, and the notes on each work page. The 404 carries a `0` the same way. Refine it; never remove or demote it.
+**The watermark `1` is the signature.** A semi-visible presence (the `--watermark` token: 4% ink light, 6% dark) behind the cover and behind the notes on each work page. One per page: the index has none, so the cover's `1` stays the home page's only one. The 404 carries a `0` the same way. Refine it; never remove or demote it.
 
 **The capstone anchors the cover.** `1mb` in the display face at 56px tops the root. Inner pages carry the same mark, small, top centre: the one constant at the top of every page.
 
@@ -151,23 +151,23 @@ Checklist (owner, outside the repo):
 
 ## Vocabulary
 
-| Name         | Class                                                          | Is                                                                               |
-| ------------ | -------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| Capstone     | `.logo`                                                        | `1mb` at 56px, the root `h1`, top of the cover                                   |
-| Masthead     | `.masthead`                                                    | Top of inner pages: the mark alone                                               |
-| Mark         | `.mark`                                                        | `1mb` in the display face, small, top centre, links home                         |
-| Theme toggle | `.theme-toggle`                                                | The one glyph control (☀/☾), in the colophon                                     |
-| Hero         | `.hero`                                                        | The cover; capped height                                                         |
-| Manifesto    | `.manifesto`                                                   | "All the hats. One head." under the capstone                                     |
-| Watermark    | `::before` on `.hero`, `.work`, `.page-work main`, `.page-404` | The numeral behind each content section, at `--watermark`                        |
-| Separator    | `.separator`                                                   | `· · ·` in muted ink, the cover's one divider                                    |
-| Bridge       | `.work-title`                                                  | The line that opens the index                                                    |
-| Side         | `.side`                                                        | A group heading: tracked, muted                                                  |
-| Track        | `.track`                                                       | One work row: `-no`, `-name`, `-state`, `-lead`, `-verb`, `-tagline`             |
-| Notes        | `.notes`                                                       | A work page: `-side`, `-tagline`, `-body`, `-status`, `-next`                    |
-| Action       | `.action`                                                      | The one filled control on a page (also the counter button)                       |
-| Sequence     | `.sequence`, `.all-work`                                       | Previous and next work; the `all work` link beneath                              |
-| Colophon     | `.colophon` (`-home`, `-credit`, `-meta`)                      | Every page's last two lines, a three-column grid: mark, credit and links, toggle |
+| Name         | Class                                                 | Is                                                                               |
+| ------------ | ----------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Capstone     | `.logo`                                               | `1mb` at 56px, the root `h1`, top of the cover                                   |
+| Masthead     | `.masthead`                                           | Top of inner pages: the mark alone                                               |
+| Mark         | `.mark`                                               | `1mb` in the display face, small, top centre, links home                         |
+| Theme toggle | `.theme-toggle`                                       | The one glyph control (☀/☾), in the colophon                                     |
+| Hero         | `.hero`                                               | The cover; capped height                                                         |
+| Manifesto    | `.manifesto`                                          | "All the hats. One head." under the capstone                                     |
+| Watermark    | `::before` on `.hero`, `.page-work main`, `.page-404` | The numeral behind each content section, at `--watermark`                        |
+| Separator    | `.separator`                                          | `· · ·` in muted ink, the cover's one divider                                    |
+| Bridge       | `.work-title`                                         | The line that opens the index                                                    |
+| Side         | `.side`                                               | A group heading: tracked, muted                                                  |
+| Track        | `.track`                                              | One work row: `-no`, `-name`, `-state`, `-lead`, `-verb`, `-tagline`             |
+| Notes        | `.notes`                                              | A work page: `-side`, `-tagline`, `-body`, `-status`, `-next`                    |
+| Action       | `.action`                                             | The one filled control on a page (also the counter button)                       |
+| Sequence     | `.sequence`, `.all-work`                              | Previous and next work; the `all work` link beneath                              |
+| Colophon     | `.colophon` (`-home`, `-credit`, `-meta`)             | Every page's last two lines, a three-column grid: mark, credit and links, toggle |
 
 Labels inside notes (`why it exists`, `what it taught`, `related`) share the side style: one heading voice across the site.
 
@@ -261,6 +261,7 @@ Every generated file has one script. Edit the source, run the script, commit bot
 | 2026-10-29 | Icons outlined from Space Grotesk, regenerated by script                               | The old SVG used the system font and the 512 was an upscale                                       |
 | 2026-10-29 | Colophon in two lines: credit and toggle, then © and links                             | Owner: credit and switch first, links second                                                      |
 | 2026-10-29 | Colophon grid: links aligned under the credit, © year last                             | Owner sketch; the year is a sign-off, so it reads last rather than sitting alone under the toggle |
+| 2026-10-29 | Watermark removed from the index                                                       | Owner: one `1` on the home page; two read as repetition                                           |
 | 2026-10-29 | `.sequence-all` renamed `.all-work`; also on the 404                                   | The 404 needed a second way out; one name for one link                                            |
 | 2026-10-29 | Invitation \"Work this way too?\"; counter \"{n} in\"; 404 \"The rest is still here.\" | Copy review: \"resonates\" was a tell, \"joined by\" claimed a join that had not happened         |
 

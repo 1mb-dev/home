@@ -116,7 +116,6 @@ body {
 /* Watermark: the numeral behind each content section ('0' on the 404). Opacity is per theme:
    above 4% in light, muted text over it drops below AA. */
 .hero::before,
-.work::before,
 .page-work main::before,
 .page-404::before {
   content: '1';
@@ -434,8 +433,6 @@ article {
    ======================================== */
 
 .work {
-  position: relative;
-  isolation: isolate;
   text-align: left;
   padding-top: var(--space-8);
 }
@@ -771,7 +768,6 @@ article {
   }
 
   .hero::before,
-  .work::before,
   .page-work main::before,
   .page-404::before {
     display: none;
