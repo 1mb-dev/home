@@ -103,36 +103,30 @@ body {
   font-size: var(--text-base);
   background: var(--bg);
   color: var(--fg);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: var(--space-4);
+  min-height: 100svh;
+  padding: 0 var(--space-4);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  position: relative;
-  overflow: hidden;
+  overflow-x: clip;
 }
 
-/* Watermark */
-body::before {
+/* Watermark: one numeral behind the hero ('1' on the root, '0' on 404). Never on work pages. */
+.hero::before,
+.page-404::before {
   content: '1';
-  position: fixed;
+  position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(calc(-50% + var(--parallax-x, 0px)), calc(-45% + var(--parallax-y, 0px)));
+  transform: translate(-50%, -45%);
   font-family: var(--font-display);
   font-size: clamp(250px, 40vw, 400px);
   font-weight: 700;
   color: var(--fg);
   opacity: 0.04;
   pointer-events: none;
-  z-index: 0;
+  z-index: -1;
   line-height: 1;
-  transition: transform 0.15s ease-out;
-  will-change: transform;
 }
 
 /* ========================================
@@ -141,9 +135,22 @@ body::before {
 
 main {
   max-width: 480px;
+  margin: 0 auto;
   text-align: center;
   position: relative;
   z-index: 1;
+}
+
+/* Hero: the manifesto unit (header, manifesto, invitation, counter). Short of full height,
+   so the first side of the index shows at the fold without a scroll hint. */
+.hero {
+  position: relative;
+  isolation: isolate;
+  min-height: 88svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--space-6) 0;
 }
 
 header {
@@ -431,15 +438,20 @@ article {
   .counter-btn {
     transition: none;
   }
-
-  body::before {
-    display: none;
-  }
 }
 
 /* ========================================
    404 Page
    ======================================== */
+
+.page-404 {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
 
 .page-404::before {
   content: '0';
@@ -470,7 +482,11 @@ article {
   margin-bottom: var(--space-5);
 }
 
-.page-404 .back-link {
+/* ========================================
+   Action: the one filled control. One per page, the page's first action.
+   ======================================== */
+
+.action {
   display: inline-block;
   font-size: var(--text-sm);
   color: var(--bg);
@@ -481,13 +497,223 @@ article {
   transition: opacity 0.2s ease;
 }
 
-.page-404 .back-link:hover {
+.action:hover {
   opacity: 0.85;
 }
 
-.page-404 .back-link:focus-visible {
+.action:focus-visible {
   outline: 2px solid var(--fg);
   outline-offset: 2px;
+}
+
+/* ========================================
+   Work index: a track listing. Sides = groups, numbering runs across sides.
+   ======================================== */
+
+.work {
+  text-align: left;
+  padding-bottom: var(--space-8);
+}
+
+.side {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 400;
+  color: var(--muted);
+  text-transform: lowercase;
+  letter-spacing: 0.15em;
+  margin: var(--space-6) 0 var(--space-2);
+}
+
+.side:first-child {
+  margin-top: 0;
+}
+
+.tracks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.track {
+  display: grid;
+  grid-template-columns: 2.5em auto 1fr auto;
+  column-gap: var(--space-1);
+  align-items: baseline;
+  padding: var(--space-1) 0;
+}
+
+.track-no {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.track-name a {
+  font-weight: 500;
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.track-state {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  margin-left: var(--space-1);
+}
+
+/* Leader: the dotted run from title to verb, as on a sleeve. */
+.track-lead {
+  min-width: var(--space-2);
+  height: 2px;
+  background-image: radial-gradient(circle, var(--muted) 0.75px, transparent 1px);
+  background-size: 6px 2px;
+  background-repeat: repeat-x;
+  opacity: 0.5;
+  transform: translateY(-0.3em);
+}
+
+.track-verb {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.track-tagline {
+  grid-column: 2 / -1;
+  font-size: var(--text-sm);
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.track-name a:hover,
+.track-verb:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.track-name a:focus-visible,
+.track-verb:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+}
+
+/* ========================================
+   Work page: liner notes for one track.
+   ======================================== */
+
+.masthead {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: var(--space-4) 0 0;
+}
+
+.mark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-lg);
+  letter-spacing: -0.03em;
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.page-work main {
+  text-align: left;
+  padding: var(--space-8) 0 var(--space-4);
+}
+
+.notes-no {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  text-transform: lowercase;
+  letter-spacing: 0.15em;
+  margin-bottom: var(--space-1);
+}
+
+.notes-no span {
+  font-variant-numeric: tabular-nums;
+  margin-right: var(--space-1);
+}
+
+.notes h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.notes-tagline {
+  font-size: var(--text-md);
+  color: var(--muted);
+  margin: var(--space-1) 0 var(--space-6);
+}
+
+.notes-body p,
+.notes-status {
+  margin-bottom: var(--space-2);
+}
+
+.notes h2 {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 400;
+  color: var(--muted);
+  text-transform: lowercase;
+  letter-spacing: 0.15em;
+  margin: var(--space-5) 0 var(--space-2);
+}
+
+.notes a:not(.action) {
+  color: var(--fg);
+  text-underline-offset: 0.2em;
+}
+
+.notes code {
+  font-size: 0.9em;
+  background: var(--surface);
+  padding: 0.1em 0.3em;
+  border-radius: 4px;
+}
+
+.notes-status {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  margin-top: var(--space-5);
+}
+
+.notes-next {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-3);
+  margin-top: var(--space-4);
+  font-size: var(--text-sm);
+}
+
+.related {
+  list-style: none;
+  padding: 0;
+  font-size: var(--text-sm);
+}
+
+/* Colophon: the credit line every page ends on. */
+.colophon {
+  max-width: 480px;
+  margin: 0 auto;
+  padding-bottom: var(--space-8);
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.colophon p {
+  font-style: italic;
+  margin-bottom: var(--space-1);
+}
+
+.colophon a {
+  color: var(--muted);
+  text-underline-offset: 0.2em;
 }
 
 /* ========================================
@@ -500,7 +726,12 @@ article {
     color: black;
   }
 
-  body::before {
+  .hero::before,
+  .page-404::before {
+    display: none;
+  }
+
+  .theme-toggle {
     display: none;
   }
 

@@ -6,14 +6,9 @@
 
     <!-- Primary Meta Tags -->
     <title>1mb — one-man-band</title>
-    <meta name="title" content="1mb — one-man-band" />
     <meta
       name="description"
       content="All the hats. One head. A way of building — own it end to end, ship without waiting."
-    />
-    <meta
-      name="keywords"
-      content="one-man-band, end-to-end ownership, ship without waiting, builder mindset, accountability"
     />
     <meta name="author" content="1mb" />
     <meta name="robots" content="index, follow" />
@@ -24,7 +19,7 @@
     <!-- Security -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://1mb-counter.vmx-builds.workers.dev;"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://1mb-counter.vmx-builds.workers.dev;"
     />
 
     <!-- Favicon -->
@@ -50,13 +45,6 @@
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content="https://1mb.dev/" />
-    <meta name="twitter:title" content="1mb — one-man-band" />
-    <meta
-      name="twitter:description"
-      content="All the hats. One head. A way of building — own it end to end, ship without waiting."
-    />
-    <meta name="twitter:image" content="https://1mb.dev/assets/images/og-image.png" />
 
     <!-- Canonical -->
     <link rel="canonical" href="https://1mb.dev/" />
@@ -93,20 +81,6 @@
       }
     </script>
 
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "CreativeWork",
-        "name": "1mb",
-        "alternateName": "one-man-band",
-        "url": "https://1mb.dev",
-        "description": "A way of working. Own it end to end. Ship without waiting. Sometimes solo, sometimes inside a team. Always accountable.",
-        "slogan": "All the hats. One head.",
-        "abstract": "1mb recognizes a mode of building — taking full ownership, shipping without waiting for permission, and staying accountable regardless of team size.",
-        "keywords": ["one-man-band", "ownership", "accountability", "builder mindset"]
-      }
-    </script>
-
     <!-- Styles -->
     <link rel="stylesheet" href="/assets/css/style.css" />
 
@@ -121,52 +95,86 @@
     </button>
 
     <main>
-      <header>
-        <h1 class="logo">1mb</h1>
-        <p class="subtitle">one-man-band</p>
-      </header>
+      <div class="hero">
+        <header>
+          <h1 class="logo">1mb</h1>
+          <p class="subtitle">one-man-band</p>
+        </header>
 
-      <article>
-        <p class="manifesto">All the hats. One head.</p>
+        <article>
+          <p class="manifesto">All the hats. One head.</p>
 
-        <p class="description">
-          Own it end to end.
-          <br />
-          Ship without waiting.
-        </p>
-
-        <p class="context">
-          Sometimes solo.
-          <br />
-          Sometimes inside a team.
-          <br />
-          Always accountable.
-        </p>
-
-        <hr class="separator" aria-hidden="true" />
-
-        <p class="invitation">If this resonates, you're already part of it.</p>
-
-        <!-- Counter -->
-        <section id="counter" class="counter" aria-label="Community counter">
-          <button type="button" id="count-btn" class="counter-btn">count me in</button>
-          <p class="counter-proof" aria-live="polite">
-            joined by
-            <span id="count" class="count-loading"></span>
+          <p class="description">
+            Own it end to end.
+            <br />
+            Ship without waiting.
           </p>
-        </section>
-      </article>
+
+          <p class="context">
+            Sometimes solo.
+            <br />
+            Sometimes inside a team.
+            <br />
+            Always accountable.
+          </p>
+
+          <hr class="separator" aria-hidden="true" />
+
+          <p class="invitation">If this resonates, you're already part of it.</p>
+
+          <!-- Counter -->
+          <section id="counter" class="counter" aria-label="Community counter">
+            <button type="button" id="count-btn" class="counter-btn">count me in</button>
+            <p class="counter-proof" aria-live="polite">
+              joined by
+              <span id="count" class="count-loading"></span>
+            </p>
+          </section>
+        </article>
+      </div>
+
+      <!-- gen:work:start -->
+      <section id="work" class="work" aria-label="The work">
+        <h2 class="side">Use</h2>
+        <ol class="tracks">
+          <li class="track">
+            <span class="track-no">01</span>
+            <span class="track-name"><a href="/work/sift/">sift</a></span>
+            <span class="track-lead" aria-hidden="true"></span>
+            <a class="track-verb" href="https://sift.1mb.dev" aria-label="open sift">open</a>
+            <span class="track-tagline">Hacker News, ranked by depth.</span>
+          </li>
+        </ol>
+        <h2 class="side">Read</h2>
+        <ol class="tracks">
+          <li class="track">
+            <span class="track-no">02</span>
+            <span class="track-name">
+              <a href="/work/nivomoney/">nivomoney</a>
+              <span class="track-state">retired</span>
+            </span>
+            <span class="track-lead" aria-hidden="true"></span>
+            <a class="track-verb" href="https://www.nivomoney.com" aria-label="read nivomoney">
+              read
+            </a>
+            <span class="track-tagline">A neobank, opened up to be read.</span>
+          </li>
+        </ol>
+        <h2 class="side">Build with</h2>
+        <ol class="tracks">
+          <li class="track">
+            <span class="track-no">03</span>
+            <span class="track-name"><a href="/work/ledgerq/">ledgerq</a></span>
+
+            <span class="track-tagline">A durable queue that lives on one disk.</span>
+          </li>
+        </ol>
+      </section>
+      <!-- gen:work:end -->
     </main>
 
     <!-- Scripts -->
     <script src="/assets/js/counter.js"></script>
-    <script src="/assets/js/parallax.js"></script>
-
-    <!-- Service Worker Registration -->
-    <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js').catch(() => {});
-      }
-    </script>
+    <script src="/assets/js/sw-register.js"></script>
   </body>
 </html>

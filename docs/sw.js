@@ -1,6 +1,6 @@
 /**
  * 1mb Service Worker
- * Provides offline support with cache-first strategy for static assets.
+ * Offline support: network-first for pages, cache-first for static assets.
  */
 
 const CACHE_NAME = '1mb-dev';
@@ -12,7 +12,7 @@ const STATIC_ASSETS = [
   '/assets/css/style.css',
   '/assets/js/theme.js',
   '/assets/js/counter.js',
-  '/assets/js/parallax.js',
+  '/assets/js/sw-register.js',
   '/assets/images/favicon.svg',
   '/assets/images/logo.svg',
 ];
@@ -44,9 +44,25 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch: cache-first for static, stale-while-revalidate for fonts, network-first for API
+// Fetch: network-first for pages and API, stale-while-revalidate for fonts, cache-first for static
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
+
+  // Network-first for pages: work status must not lag a deploy. Visited pages stay readable offline.
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          if (response && response.status === 200) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          }
+          return response;
+        })
+        .catch(() => caches.match(event.request).then((cached) => cached || caches.match('/')))
+    );
+    return;
+  }
 
   // Network-first for counter API
   if (url.hostname.includes('workers.dev')) {

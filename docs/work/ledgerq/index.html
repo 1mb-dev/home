@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ledgerq — 1mb</title>
+    <meta name="description" content="A durable queue that lives on one disk." />
+    <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
+    <meta name="color-scheme" content="dark light" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:;"
+    />
+    <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://1mb.dev/work/ledgerq/" />
+    <meta property="og:title" content="ledgerq — 1mb" />
+    <meta property="og:description" content="A durable queue that lives on one disk." />
+    <meta property="og:image" content="https://1mb.dev/assets/images/og-image.png" />
+    <meta property="og:site_name" content="1mb" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href="https://1mb.dev/work/ledgerq/" />
+    <link
+      rel="preload"
+      href="/assets/fonts/inter-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/assets/fonts/space-grotesk-700-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <script src="/assets/js/theme.js"></script>
+  </head>
+  <body class="page-work">
+    <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+      <span class="icon-sun">☀</span>
+      <span class="icon-moon">☾</span>
+    </button>
+    <header class="masthead"><a class="mark" href="/">1mb</a></header>
+    <main>
+      <article class="notes">
+        <p class="notes-no"><span>03</span> build with</p>
+        <h1>ledgerq</h1>
+        <p class="notes-tagline">A durable queue that lives on one disk.</p>
+        <div class="notes-body">
+          <p>Messages go to an append-only log and survive a crash.</p>
+          <p>No network. No cluster. Nothing beyond Go&#39;s standard library.</p>
+          <h2>why it exists</h2>
+          <p>
+            Not every queue needs a cluster. A CLI tool, an edge device, a desktop app: each needs
+            tasks that outlive a restart.
+          </p>
+          <p>Running Kafka for that is ceremony.</p>
+          <h2>what it taught</h2>
+          <p>
+            Feature-complete at <code>v1.4.0</code>, on purpose. It does one job and stopped
+            growing.
+          </p>
+          <p>Knowing when it is done is part of the design.</p>
+        </div>
+        <p class="notes-status">Source is public.</p>
+        <p class="notes-next">
+          <a class="action" href="https://github.com/1mb-dev/ledgerq">get ledgerq</a>
+          <a href="https://pkg.go.dev/github.com/1mb-dev/ledgerq/pkg/ledgerq">docs</a>
+        </p>
+      </article>
+    </main>
+    <footer class="colophon">
+      <hr class="separator" aria-hidden="true" />
+      <p>All the hats. One head.</p>
+      <a href="/#work">all work</a>
+    </footer>
+    <script src="/assets/js/sw-register.js"></script>
+  </body>
+</html>
