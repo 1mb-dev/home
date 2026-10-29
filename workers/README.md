@@ -52,8 +52,8 @@ Tests use `@cloudflare/vitest-pool-workers` to run the worker in a local Cloudfl
 
 Worker deployment is automated via GitHub Actions (`.github/workflows/deploy-worker.yml`). Pushes to `main` that modify `workers/**` trigger:
 
-1. **Test** — runs `npm test`
-2. **Deploy** — deploys via `wrangler-action@v3`
+1. **Test**: runs `npm test`
+2. **Deploy**: deploys via `wrangler-action@v3`
 
 **Setup:** Add `CLOUDFLARE_API_TOKEN` as a repo secret. Create the token at the Cloudflare dashboard with "Workers Scripts: Edit" permission.
 
@@ -73,4 +73,4 @@ Upstash Redis (managed)
 ```
 
 - Rate limiting: 1 vote per IP per 24h (IP is hashed, not stored)
-- Offline fallback: Client shows "—" if API unavailable
+- Offline fallback: the client hides the count line if the API is unavailable
