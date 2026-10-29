@@ -10,7 +10,7 @@
     "lint:fix": "eslint docs/assets/js/*.js --fix",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
-    "validate:html": "html-validate docs/*.html",
+    "validate:html": "html-validate 'docs/**/*.html'",
     "validate:css": "stylelint docs/assets/css/*.css",
     "validate": "npm run lint && npm run format && npm run validate:html && npm run validate:css",
     "ci": "npm run validate && npm run build",
@@ -18,7 +18,8 @@
     "test:watch": "vitest",
     "worker:dev": "wrangler dev --config workers/wrangler.toml",
     "worker:deploy": "wrangler deploy --config workers/wrangler.toml",
-    "worker:tail": "wrangler tail --config workers/wrangler.toml"
+    "worker:tail": "wrangler tail --config workers/wrangler.toml",
+    "gen": "node scripts/gen.js"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.23.0",
