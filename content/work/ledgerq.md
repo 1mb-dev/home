@@ -3,6 +3,7 @@ name: ledgerq
 tagline: A durable queue that lives on one disk.
 source: https://github.com/1mb-dev/ledgerq
 docs: https://pkg.go.dev/github.com/1mb-dev/ledgerq/pkg/ledgerq
+shipped: 2025-10-17
 ---
 
 Messages go to an append-only log and survive a crash.

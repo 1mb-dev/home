@@ -4,6 +4,7 @@ tagline: A neobank, opened up to be read.
 site: https://www.nivomoney.com
 source: https://github.com/1mb-dev/nivomoney
 retired: true
+shipped: 2025-11-21
 ---
 
 Nine Go services. A double-entry ledger. React on the front.

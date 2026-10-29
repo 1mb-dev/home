@@ -1,5 +1,5 @@
 /**
- * 1mb — one-man-band
+ * 1mb
  * https://1mb.dev
  */
 
@@ -40,6 +40,7 @@
   --muted: #6b6b6b;
   --border: #e0e0e0;
   --surface: #f0f0f0;
+  --watermark: 0.04;
 
   /* Spacing - 8pt grid */
   --space-1: 0.5rem; /* 8px */
@@ -51,7 +52,6 @@
   --space-8: 4rem; /* 64px */
 
   /* Type Scale - 1.25 ratio */
-  --text-xs: 0.75rem; /* 12px */
   --text-sm: 0.875rem; /* 14px */
   --text-base: 1rem; /* 16px */
   --text-md: 1.125rem; /* 18px */
@@ -59,13 +59,14 @@
   --text-xl: 1.5rem; /* 24px */
   --text-2xl: 2rem; /* 32px */
   --text-3xl: 2.5rem; /* 40px */
+  --text-4xl: 3.5rem; /* 56px */
 
   /* Fonts */
   --font-display: 'Space Grotesk', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
 
   /* Misc */
-  --radius: 12px;
+  --radius: 6px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -75,6 +76,7 @@
     --muted: #888;
     --border: #2a2a2a;
     --surface: #151515;
+    --watermark: 0.06;
   }
 }
 
@@ -111,19 +113,22 @@ body {
   overflow-x: clip;
 }
 
-/* Watermark: one numeral behind the hero ('1' on the root, '0' on 404). Never on work pages. */
+/* Watermark: the numeral behind each content section ('0' on the 404). Opacity is per theme:
+   above 4% in light, muted text over it drops below AA. */
 .hero::before,
+.work::before,
+.page-work main::before,
 .page-404::before {
   content: '1';
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -45%);
+  transform: translate(-50%, -50%);
   font-family: var(--font-display);
-  font-size: clamp(250px, 40vw, 400px);
+  font-size: clamp(320px, 50vw, 480px);
   font-weight: 700;
   color: var(--fg);
-  opacity: 0.04;
+  opacity: var(--watermark);
   pointer-events: none;
   z-index: -1;
   line-height: 1;
@@ -141,20 +146,16 @@ main {
   z-index: 1;
 }
 
-/* Hero: the manifesto unit (header, manifesto, invitation, counter). Short of full height,
-   so the first side of the index shows at the fold without a scroll hint. */
+/* Hero: the cover (manifesto, invitation, counter). Capped so the index opens at the fold
+   on a laptop and is never pushed out of reach on a tall screen. */
 .hero {
   position: relative;
   isolation: isolate;
-  min-height: 88svh;
+  min-height: min(80svh, 640px);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: var(--space-6) 0;
-}
-
-header {
-  margin-bottom: var(--space-6);
+  padding: var(--space-6) 0 0;
 }
 
 article {
@@ -162,36 +163,28 @@ article {
 }
 
 /* ========================================
-   Logo
+   Content
    ======================================== */
 
 .logo {
   font-family: var(--font-display);
-  font-size: var(--text-3xl);
+  font-size: var(--text-4xl);
   font-weight: 700;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
   line-height: 1;
-  margin-bottom: var(--space-2);
+  color: var(--fg);
+  margin-bottom: var(--space-3);
 }
-
-.subtitle {
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  color: var(--muted);
-  text-transform: lowercase;
-  letter-spacing: 0.15em;
-}
-
-/* ========================================
-   Content
-   ======================================== */
 
 .manifesto {
-  font-family: var(--font-body);
-  font-size: var(--text-md);
-  font-weight: 500;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  text-wrap: balance;
   color: var(--fg);
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-5);
 }
 
 .description {
@@ -203,12 +196,8 @@ article {
   line-height: 1.7;
 }
 
-.context {
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  color: var(--muted);
-  margin-top: var(--space-4);
-  line-height: 1.8;
+.description + .description {
+  margin-top: var(--space-3);
 }
 
 /* ========================================
@@ -218,7 +207,7 @@ article {
 .separator {
   border: none;
   margin: var(--space-2) 0;
-  color: var(--border);
+  color: var(--muted);
   font-size: var(--text-sm);
   letter-spacing: 0.5em;
   text-align: center;
@@ -234,9 +223,8 @@ article {
 
 .invitation {
   font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-style: italic;
-  color: var(--muted);
+  font-size: var(--text-base);
+  color: var(--fg);
   margin-bottom: var(--space-4);
 }
 
@@ -244,107 +232,24 @@ article {
    Counter
    ======================================== */
 
-.counter {
-  margin-top: 0;
-}
-
-.counter-btn {
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-weight: 500;
-  font-style: italic;
-  color: var(--bg);
-  background: var(--fg);
-  border: none;
-  padding: var(--space-2) var(--space-4);
-  border-radius: calc(var(--radius) / 2);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.counter-btn:hover:not(:disabled) {
-  opacity: 0.85;
-}
-
-.counter-btn:active:not(:disabled) {
-  transform: scale(0.98);
-}
-
 .counter-btn:disabled {
   cursor: default;
 }
 
-.counter-btn:focus-visible {
-  outline: 2px solid var(--fg);
-  outline-offset: 2px;
-}
-
-.counter-btn.voted {
-  background: transparent;
-  color: var(--muted);
-  font-style: normal;
-}
-
-.counter-btn.voted::before {
-  content: '✓ ';
-}
-
+.counter-btn.voted,
 .counter-btn.error {
   background: transparent;
   color: var(--muted);
+}
+
+.counter-btn.error {
   border: 1px solid var(--border);
-  font-style: normal;
 }
 
 .counter-proof {
-  font-family: var(--font-body);
   font-size: var(--text-sm);
   color: var(--muted);
   margin-top: var(--space-3);
-}
-
-.counter-proof span {
-  color: var(--fg);
-  font-weight: 500;
-}
-
-/* Counter loading skeleton - shimmer effect */
-.count-loading {
-  display: inline-block;
-  width: 4em;
-  height: 1em;
-  background: linear-gradient(90deg, var(--border) 0%, var(--surface) 50%, var(--border) 100%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s ease-in-out infinite;
-  border-radius: 4px;
-  vertical-align: middle;
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: 200% 0;
-  }
-
-  100% {
-    background-position: -200% 0;
-  }
-}
-
-/* Counter fade-in */
-.count-loaded {
-  animation: fadeIn 0.3s ease-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 /* ========================================
@@ -352,22 +257,24 @@ article {
    ======================================== */
 
 .theme-toggle {
-  position: fixed;
-  bottom: var(--space-4);
-  right: var(--space-4);
   background: transparent;
   border: 1px solid var(--border);
   color: var(--muted);
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: var(--text-base);
-  transition: all 0.2s ease;
-  z-index: 10;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.theme-toggle[hidden] {
+  display: none;
 }
 
 .theme-toggle:hover {
@@ -416,6 +323,7 @@ article {
   --muted: #888;
   --border: #2a2a2a;
   --surface: #151515;
+  --watermark: 0.06;
 }
 
 [data-theme='light'] {
@@ -424,6 +332,7 @@ article {
   --muted: #6b6b6b;
   --border: #e0e0e0;
   --surface: #f0f0f0;
+  --watermark: 0.04;
 }
 
 /* ========================================
@@ -435,7 +344,8 @@ article {
     scroll-behavior: auto;
   }
 
-  .counter-btn {
+  .action,
+  .theme-toggle {
     transition: none;
   }
 }
@@ -448,9 +358,13 @@ article {
   position: relative;
   isolation: isolate;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   overflow: hidden;
+}
+
+.page-404 .masthead,
+.page-404 .colophon {
+  width: 100%;
 }
 
 .page-404::before {
@@ -458,12 +372,17 @@ article {
 }
 
 .page-404 main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   max-width: 320px;
 }
 
 .page-404 h1 {
   font-family: var(--font-display);
-  font-size: var(--text-3xl);
+  font-size: var(--text-4xl);
   font-weight: 700;
   letter-spacing: -0.03em;
   margin-bottom: var(--space-2);
@@ -488,16 +407,20 @@ article {
 
 .action {
   display: inline-block;
+  font-family: var(--font-body);
   font-size: var(--text-sm);
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
   color: var(--bg);
   background: var(--fg);
   text-decoration: none;
   padding: var(--space-2) var(--space-3);
-  border-radius: calc(var(--radius) / 2);
+  border-radius: var(--radius);
   transition: opacity 0.2s ease;
 }
 
-.action:hover {
+.action:hover:not(:disabled) {
   opacity: 0.85;
 }
 
@@ -511,8 +434,20 @@ article {
    ======================================== */
 
 .work {
+  position: relative;
+  isolation: isolate;
   text-align: left;
-  padding-bottom: var(--space-8);
+  padding-top: var(--space-8);
+}
+
+/* The bridge from the cover: names the three sides in the manifesto's rhythm. */
+.work-title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  margin-bottom: var(--space-6);
 }
 
 .side {
@@ -520,12 +455,11 @@ article {
   font-size: var(--text-sm);
   font-weight: 400;
   color: var(--muted);
-  text-transform: lowercase;
   letter-spacing: 0.15em;
   margin: var(--space-6) 0 var(--space-2);
 }
 
-.side:first-child {
+.work-title + .side {
   margin-top: 0;
 }
 
@@ -598,40 +532,42 @@ article {
 }
 
 /* ========================================
-   Work page: liner notes for one track.
+   Masthead: the mark alone, top centre. The root's capstone plays this part on the cover.
    ======================================== */
 
 .masthead {
-  max-width: 480px;
-  margin: 0 auto;
-  padding: var(--space-4) 0 0;
+  padding-top: var(--space-4);
+  text-align: center;
 }
 
 .mark {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--text-lg);
+  font-size: var(--text-xl);
   letter-spacing: -0.03em;
   color: var(--fg);
   text-decoration: none;
 }
 
+.mark:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 4px;
+}
+
+/* ========================================
+   Work page: liner notes for one track.
+   ======================================== */
+
 .page-work main {
   text-align: left;
-  padding: var(--space-8) 0 var(--space-4);
+  padding: var(--space-8) 0 0;
 }
 
-.notes-no {
+.notes-side {
   font-size: var(--text-sm);
   color: var(--muted);
-  text-transform: lowercase;
   letter-spacing: 0.15em;
   margin-bottom: var(--space-1);
-}
-
-.notes-no span {
-  font-variant-numeric: tabular-nums;
-  margin-right: var(--space-1);
 }
 
 .notes h1 {
@@ -658,7 +594,6 @@ article {
   font-size: var(--text-sm);
   font-weight: 400;
   color: var(--muted);
-  text-transform: lowercase;
   letter-spacing: 0.15em;
   margin: var(--space-5) 0 var(--space-2);
 }
@@ -696,24 +631,133 @@ article {
   font-size: var(--text-sm);
 }
 
-/* Colophon: the credit line every page ends on. */
+/* Sequence: the neighbouring tracks, each with its tagline. Next sits right; an end stays empty. */
+.sequence {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+}
+
+.sequence-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-decoration: none;
+}
+
+.sequence-next {
+  grid-column: 2;
+  text-align: right;
+}
+
+.sequence-label {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  letter-spacing: 0.15em;
+}
+
+.sequence-name {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+}
+
+.sequence-tagline {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  line-height: 1.5;
+  text-wrap: balance;
+}
+
+.sequence-item:hover .sequence-name {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.sequence-item:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 4px;
+}
+
+.all-work {
+  margin-top: var(--space-4);
+  text-align: center;
+  font-size: var(--text-sm);
+}
+
+.all-work a {
+  color: var(--muted);
+  text-underline-offset: 0.2em;
+}
+
+@media (width <= 480px) {
+  .sequence {
+    grid-template-columns: 1fr;
+  }
+
+  .sequence-next {
+    grid-column: 1;
+    text-align: left;
+  }
+
+  .all-work {
+    text-align: left;
+  }
+}
+
+/* Colophon: a three-column grid. `1mb ·` | credit, and beneath it the links then the year |
+   theme toggle. Nothing sits under the mark, so the second line aligns with the credit. */
 .colophon {
   max-width: 480px;
   margin: 0 auto;
-  padding-bottom: var(--space-8);
-  text-align: center;
+  padding: var(--space-8) 0 var(--space-4);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  column-gap: 0.35em;
+  row-gap: var(--space-1);
+  align-items: center;
   font-size: var(--text-sm);
   color: var(--muted);
 }
 
-.colophon p {
-  font-style: italic;
-  margin-bottom: var(--space-1);
+.colophon-home a {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  text-decoration: none;
 }
 
-.colophon a {
+.colophon .theme-toggle {
+  grid-row: 1;
+  grid-column: 3;
+  width: 28px;
+  height: 28px;
+}
+
+.colophon-meta {
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.colophon-meta a {
   color: var(--muted);
+  text-decoration: none;
+}
+
+.colophon a:hover {
+  text-decoration: underline;
   text-underline-offset: 0.2em;
+}
+
+.colophon a:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
 }
 
 /* ========================================
@@ -727,6 +771,8 @@ article {
   }
 
   .hero::before,
+  .work::before,
+  .page-work main::before,
   .page-404::before {
     display: none;
   }
@@ -735,15 +781,10 @@ article {
     display: none;
   }
 
-  .logo,
-  .subtitle,
   .manifesto,
-  .description {
+  .description,
+  .invitation {
     color: black;
-  }
-
-  .logo-container {
-    border-color: #ccc;
   }
 
   .counter {

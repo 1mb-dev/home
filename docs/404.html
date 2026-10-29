@@ -5,16 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Primary Meta Tags -->
-    <title>404 — 1mb</title>
+    <title>404 · 1mb</title>
     <meta name="author" content="1mb" />
     <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
     <meta name="color-scheme" content="dark light" />
 
     <!-- Security -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self';"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none';"
     />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <!-- Fonts (self-hosted) -->
     <link
@@ -39,11 +48,46 @@
     <script src="/assets/js/theme.js"></script>
   </head>
   <body class="page-404">
+    <!-- gen:masthead:start -->
+    <header class="masthead"><a class="mark" href="/">1mb</a></header>
+    <!-- gen:masthead:end -->
+
     <main>
       <h1>404</h1>
-      <p class="message">This page wandered off.</p>
-      <p class="subtext">Even solo builders lose things sometimes.</p>
-      <a href="/" class="action">back to building</a>
+      <p class="message">Nothing at this address.</p>
+      <p class="subtext">The rest is still here.</p>
+      <a href="/" class="action">back to 1mb</a>
+      <p class="all-work"><a href="/#work">all work</a></p>
     </main>
+
+    <!-- gen:colophon:start -->
+    <footer class="colophon">
+      <p class="colophon-home">
+        <a href="/">1mb</a>
+        ·
+      </p>
+      <p class="colophon-credit">All the hats. One head.</p>
+      <button
+        type="button"
+        id="theme-toggle"
+        class="theme-toggle"
+        aria-label="Dark theme"
+        aria-pressed="false"
+        hidden
+      >
+        <span class="icon-sun" aria-hidden="true">☀</span>
+        <span class="icon-moon" aria-hidden="true">☾</span>
+      </button>
+      <p class="colophon-meta">
+        <a href="https://github.com/1mb-dev" rel="me">github</a>
+        <a href="https://log.1mb.dev">log</a>
+        <a href="/feed.xml">feed</a>
+        <span>
+          ©
+          <span class="year">2026</span>
+        </span>
+      </p>
+    </footer>
+    <!-- gen:colophon:end -->
   </body>
 </html>

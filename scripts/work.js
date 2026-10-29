@@ -10,12 +10,12 @@ export const SITE = 'https://1mb.dev';
 
 // Group = the work's first action. Order here is display order on the root.
 export const GROUPS = {
-  use: { label: 'Use', verb: 'open' },
-  read: { label: 'Read', verb: 'read' },
-  build: { label: 'Build with', verb: 'get' },
+  use: { label: 'use', verb: 'open' },
+  read: { label: 'read', verb: 'read' },
+  build: { label: 'build with', verb: 'get' },
 };
 
-const KEYS = new Set(['name', 'tagline', 'site', 'source', 'docs', 'retired', 'maintained']);
+const KEYS = new Set(['name', 'tagline', 'site', 'source', 'docs', 'retired', 'maintained', 'shipped']);
 const URL_KEYS = new Set(['site', 'source', 'docs']);
 const BOOL_KEYS = new Set(['retired', 'maintained']);
 
@@ -28,6 +28,7 @@ const SECTIONS = [
 
 const SLUG = /^[a-z0-9][a-z0-9-]*$/;
 const TAGLINE_MAX = 80;
+const TITLE_MAX = 70; // search results truncate beyond this; html-validate enforces it too
 const PARAGRAPH_MAX = 400;
 
 export class ContentError extends Error {
@@ -35,6 +36,15 @@ export class ContentError extends Error {
     super(`${file}:${line} ${message}`);
     this.name = 'ContentError';
   }
+}
+
+// Em-dashes are banned from copy (DESIGN.md, Voice). Matches the character and its escapes.
+const EM_DASH = /\u2014|&mdash;|\\u2014/;
+
+export function assertNoEmDash(text, file) {
+  const lines = text.split('\n');
+  const i = lines.findIndex((l) => EM_DASH.test(l));
+  if (i !== -1) throw new ContentError(file, i + 1, 'em-dash in copy; rewrite the sentence');
 }
 
 export function esc(value) {
@@ -89,6 +99,7 @@ export function parseIndex(text, file = 'content/index.txt') {
  */
 export function parseWork(text, slug, file = `content/work/${slug}.md`) {
   if (!SLUG.test(slug)) throw new ContentError(file, 1, `invalid slug "${slug}"`);
+  assertNoEmDash(text, file);
 
   const lines = text.split('\n');
   if (lines[0] !== '---') throw new ContentError(file, 1, 'expected front matter opening "---"');
@@ -110,6 +121,9 @@ export function parseWork(text, slug, file = `content/work/${slug}.md`) {
     if (URL_KEYS.has(key) && !/^https:\/\/[^\s]+$/.test(value)) {
       throw new ContentError(file, line, `${key} must be an https:// URL`);
     }
+    if (key === 'shipped' && !isDate(value)) {
+      throw new ContentError(file, line, 'shipped must be a date, YYYY-MM-DD');
+    }
     if (BOOL_KEYS.has(key)) {
       if (value !== 'true' && value !== 'false') {
         throw new ContentError(file, line, `${key} must be true or false`);
@@ -123,8 +137,15 @@ export function parseWork(text, slug, file = `content/work/${slug}.md`) {
 
   if (!work.name) throw new ContentError(file, 1, 'missing "name"');
   if (!work.tagline) throw new ContentError(file, 1, 'missing "tagline"');
+  if (/[.!?]\s/.test(work.tagline)) {
+    throw new ContentError(file, 1, 'tagline must be one sentence (it becomes the page title)');
+  }
   if (work.tagline.length > TAGLINE_MAX) {
     throw new ContentError(file, 1, `tagline is ${work.tagline.length} chars (max ${TAGLINE_MAX})`);
+  }
+  const title = `${workHeadline(work)} · 1mb`;
+  if (title.length > TITLE_MAX) {
+    throw new ContentError(file, 1, `page title "${title}" is ${title.length} chars (max ${TITLE_MAX}); shorten the tagline`);
   }
 
   // Body: paragraphs separated by blank lines, under fixed headings.
@@ -198,6 +219,11 @@ export function parseWork(text, slug, file = `content/work/${slug}.md`) {
   return work;
 }
 
+function isDate(value) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  return new Date(`${value}T00:00:00Z`).toISOString().startsWith(value);
+}
+
 function checkHref(href, file, line) {
   if (/^https:\/\/[^\s]+$/.test(href)) return;
   if (/^\/work\/[a-z0-9-]+\/$/.test(href)) return;
@@ -246,6 +272,9 @@ export function validateCollection(entries, works) {
     if (!work) {
       throw new ContentError('content/index.txt', entry.line, `no file ${file}`);
     }
+    if (!work.shipped) {
+      throw new ContentError(file, 1, 'listed works need "shipped: YYYY-MM-DD"');
+    }
     if (!primaryAction(work, entry.group)) {
       const needs = entry.group === 'build' ? 'source or docs' : 'site';
       throw new ContentError(file, 1, `group "${entry.group}" needs ${needs}`);
@@ -276,6 +305,11 @@ export function checkDurable(previousLocs, entries) {
   }
 }
 
+// "ledgerq: A durable queue that lives on one disk". Search titles carry what the work is.
+export function workHeadline(work) {
+  return `${work.name}: ${work.tagline.replace(/[.]$/, '')}`;
+}
+
 export function workPath(slug) {
   return `/work/${slug}/`;
 }
@@ -285,13 +319,10 @@ export function workUrl(slug) {
 }
 
 function primaryAction(work, group) {
-  if (group === 'build') {
-    if (work.source) return { href: work.source, label: `get ${work.name}` };
-    if (work.docs) return { href: work.docs, label: `get ${work.name}` };
-    return null;
-  }
-  if (!work.site) return null;
-  return { href: work.site, label: `${GROUPS[group].verb} ${work.name}` };
+  const verb = GROUPS[group].verb;
+  const href = group === 'build' ? work.source || work.docs : work.site;
+  if (!href) return null;
+  return { href, verb, label: `${verb} ${work.name}` };
 }
 
 function host(url) {
@@ -311,7 +342,7 @@ export function statusLines(work) {
     );
   }
   if (work.source) {
-    if (work.maintained === true) lines.push('Source is public, and kept current.');
+    if (work.maintained === true) lines.push('Source is public and kept current.');
     else if (work.maintained === false) lines.push('Source stays public. No longer maintained.');
     else lines.push('Source is public.');
   }
@@ -344,50 +375,139 @@ function trackNo(n) {
 }
 
 /**
+ * Shared chrome. The mark sits top centre on every page: the capstone on the root (hand-written),
+ * this smaller masthead elsewhere. The colophon closes every page and holds the theme toggle, which
+ * ships hidden so it is absent, not dead, without JS. gen.js writes both into the hand-written pages.
+ */
+export function renderMasthead() {
+  return `<header class="masthead"><a class="mark" href="/">1mb</a></header>`;
+}
+
+export const LINKS = {
+  github: 'https://github.com/1mb-dev',
+  log: 'https://log.1mb.dev',
+};
+
+// Two lines on a three-column grid: `1mb ·` | the credit, then the links and year beneath it |
+// the theme toggle. The links align with the credit, not the mark. The year is stamped at deploy
+// by scripts/build.js; the committed value only has to be a year.
+export function renderColophon() {
+  return `<footer class="colophon">
+<p class="colophon-home"><a href="/">1mb</a> ·</p>
+<p class="colophon-credit">All the hats. One head.</p>
+<button type="button" id="theme-toggle" class="theme-toggle" aria-label="Dark theme" aria-pressed="false" hidden>
+<span class="icon-sun" aria-hidden="true">☀</span>
+<span class="icon-moon" aria-hidden="true">☾</span>
+</button>
+<p class="colophon-meta">
+<a href="${LINKS.github}" rel="me">github</a>
+<a href="${LINKS.log}">log</a>
+<a href="/feed.xml">feed</a>
+<span>© <span class="year">2026</span></span>
+</p>
+</footer>`;
+}
+
+const DESCRIPTION_MAX = 160;
+
+/**
+ * Search snippet: the tagline, then whole synopsis sentences while they fit. Authored copy only,
+ * markup stripped, never cut mid-sentence.
+ */
+export function metaDescription(work) {
+  const plainText = (t) => t.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/[`*]/g, '');
+  let out = work.tagline;
+  const sentences = work.synopsis.flatMap((p) => plainText(p.text).match(/[^.!?]+[.!?]+/g) ?? []);
+  for (const sentence of sentences) {
+    const next = `${out} ${sentence.trim()}`;
+    if (next.length > DESCRIPTION_MAX) break;
+    out = next;
+  }
+  return out;
+}
+
+/**
+ * Structured data for a work page: the work typed by its side, inside a page with a breadcrumb.
+ * Only public facts: codeRepository appears only when the content names public source.
+ */
+export function workJsonLd(work, group) {
+  const url = workUrl(work.slug);
+  const org = { '@type': 'Organization', '@id': `${SITE}/#org`, name: '1mb' };
+  const thing = {
+    use: { '@type': 'WebApplication', url: work.site },
+    read: { '@type': 'CreativeWork', url: work.site },
+    build: { '@type': 'SoftwareSourceCode', codeRepository: work.source },
+  }[group];
+  const about = { ...thing, name: work.name, description: work.tagline, creator: org };
+  if (work.shipped) about.datePublished = work.shipped;
+  if (group === 'build' && work.docs) about.url = work.docs;
+  if (group !== 'build' && work.source) about.sameAs = work.source;
+  for (const key of Object.keys(about)) if (about[key] === undefined) delete about[key];
+
+  const data = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    url,
+    name: `${workHeadline(work)} · 1mb`,
+    description: metaDescription(work),
+    isPartOf: { '@type': 'WebSite', '@id': `${SITE}/#website`, name: '1mb', url: `${SITE}/` },
+    publisher: org,
+    about,
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: '1mb', item: `${SITE}/` },
+        { '@type': 'ListItem', position: 2, name: work.name, item: url },
+      ],
+    },
+  };
+  // "</" inside a script block would end it early.
+  return JSON.stringify(data, null, 2).replace(/<\//g, '<\\/');
+}
+
+/**
  * The root index: sides (groups) of numbered tracks. Numbering runs across sides.
  */
 export function renderIndex(entries, works) {
   const sides = Object.keys(GROUPS)
     .map((group) => {
-      const rows = entries
-        .filter((e) => e.group === group)
-        .map((e) => {
-          const work = works.get(e.slug);
-          const state = rowState(work);
-          const verb = group === 'build' ? null : work.site;
-          return `<li class="track">
-  <span class="track-no">${trackNo(e.no)}</span>
-  <span class="track-name"><a href="${workPath(work.slug)}">${esc(work.name)}</a>${
-    state ? ` <span class="track-state">${state}</span>` : ''
-  }</span>
-  ${
-    verb
-      ? `<span class="track-lead" aria-hidden="true"></span>
-  <a class="track-verb" href="${esc(verb)}" aria-label="${GROUPS[group].verb} ${esc(work.name)}">${GROUPS[group].verb}</a>`
-      : ''
-  }
-  <span class="track-tagline">${esc(work.tagline)}</span>
+      const side = entries.filter((e) => e.group === group);
+      if (side.length === 0) return '';
+      const rows = side.map((e) => {
+        const work = works.get(e.slug);
+        const state = rowState(work);
+        const verb = primaryAction(work, group);
+        return `<li class="track">
+<span class="track-no" aria-hidden="true">${trackNo(e.no)}</span>
+<span class="track-name"><a href="${workPath(work.slug)}">${esc(work.name)}</a>${
+          state ? ` <span class="track-state">${state}</span>` : ''
+        }</span>
+<span class="track-lead" aria-hidden="true"></span>
+<a class="track-verb" href="${esc(verb.href)}" aria-label="${esc(verb.label)}">${verb.verb}</a>
+<span class="track-tagline">${esc(work.tagline)}</span>
 </li>`;
-        });
-      if (rows.length === 0) return '';
-      return `<h2 class="side">${GROUPS[group].label}</h2>
-<ol class="tracks">
+      });
+      return `<h3 class="side">${GROUPS[group].label}</h3>
+<ol class="tracks" start="${side[0].no}">
 ${rows.join('\n')}
 </ol>`;
     })
     .filter(Boolean);
 
-  return `<section id="work" class="work" aria-label="The work">
+  return `<section id="work" class="work" aria-labelledby="work-title">
+<h2 id="work-title" class="work-title">Use it. Read it. Build with it.</h2>
 ${sides.join('\n')}
 </section>`;
 }
 
 /**
- * A work page: liner notes for one track.
+ * A work page: liner notes for one track. prev/next are neighbouring entries in index order
+ * (null at either end: the record has an end, it does not wrap).
  */
-export function renderPage(work, group, no) {
+export function renderPage(work, entry, { prev = null, next = null, works } = {}) {
+  const group = entry.group;
   const url = workUrl(work.slug);
-  const title = `${work.name} — 1mb`;
+  const title = `${workHeadline(work)} · 1mb`;
   const { primary, rest } = actions(work, group);
   const paras = (list) =>
     list.map((p) => `<p>${renderInline(p.text, `content/work/${work.slug}.md`, p.line)}</p>`).join('\n');
@@ -404,6 +524,15 @@ export function renderPage(work, group, no) {
     return `<h2>${s.label}</h2>\n${paras(work[key])}`;
   };
   const status = statusLines(work);
+  const neighbour = (e, rel) => {
+    if (!e) return '';
+    const w = works.get(e.slug);
+    return `<a class="sequence-item sequence-${rel}" href="${workPath(e.slug)}" rel="${rel}">
+<span class="sequence-label">${rel === 'prev' ? 'previous' : 'next'}</span>
+<span class="sequence-name">${esc(w.name)}</span>
+<span class="sequence-tagline">${esc(w.tagline)}</span>
+</a>`;
+  };
 
   return `<!doctype html>
 <html lang="en">
@@ -411,37 +540,43 @@ export function renderPage(work, group, no) {
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>${esc(title)}</title>
-<meta name="description" content="${esc(work.tagline)}" />
+<meta name="description" content="${esc(metaDescription(work))}" />
+<meta name="author" content="1mb" />
 <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
 <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
 <meta name="color-scheme" content="dark light" />
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:;" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none';" />
 <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg" />
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16.png" />
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png" />
 <link rel="manifest" href="/site.webmanifest" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="${url}" />
 <meta property="og:title" content="${esc(title)}" />
-<meta property="og:description" content="${esc(work.tagline)}" />
+<meta property="og:description" content="${esc(metaDescription(work))}" />
 <meta property="og:image" content="${SITE}/assets/images/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="1mb, one-man-band. All the hats. One head." />
 <meta property="og:site_name" content="1mb" />
+<meta property="og:locale" content="en_US" />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="canonical" href="${url}" />
+<link rel="alternate" type="application/atom+xml" title="1mb: work" href="/feed.xml" />
 <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="preload" href="/assets/fonts/space-grotesk-700-latin.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="stylesheet" href="/assets/css/style.css" />
 <script src="/assets/js/theme.js"></script>
+<script type="application/ld+json">
+${workJsonLd(work, group)}
+</script>
 </head>
 <body class="page-work">
-<button type="button" id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-<span class="icon-sun">☀</span>
-<span class="icon-moon">☾</span>
-</button>
-<header class="masthead"><a class="mark" href="/">1mb</a></header>
+${renderMasthead()}
 <main>
 <article class="notes">
-<p class="notes-no"><span>${trackNo(no)}</span> ${GROUPS[group].label.toLowerCase()}</p>
+<p class="notes-side">${GROUPS[group].label}</p>
 <h1>${esc(work.name)}</h1>
 <p class="notes-tagline">${esc(work.tagline)}</p>
 <div class="notes-body">
@@ -456,15 +591,49 @@ ${rest.map((a) => `<a href="${esc(a.href)}">${a.label}</a>`).join('\n')}
 </p>
 ${section('related')}
 </article>
+${prev || next ? `<nav class="sequence" aria-label="More work">\n${neighbour(prev, 'prev')}\n${neighbour(next, 'next')}\n</nav>` : ''}
+<p class="all-work"><a href="/#work">all work</a></p>
 </main>
-<footer class="colophon">
-<hr class="separator" aria-hidden="true" />
-<p>All the hats. One head.</p>
-<a href="/#work">all work</a>
-</footer>
+${renderColophon()}
 <script src="/assets/js/sw-register.js"></script>
 </body>
 </html>
+`;
+}
+
+/**
+ * Atom feed of listed works, newest ship date first. Dates are editorial (content `shipped:`),
+ * so the feed is deterministic and never claims a change that did not happen.
+ */
+export function renderFeed(entries, works, description) {
+  const listed = entries
+    .map((e) => works.get(e.slug))
+    .sort((a, b) => b.shipped.localeCompare(a.shipped) || a.name.localeCompare(b.name));
+  const stamp = (d) => `${d}T00:00:00Z`;
+  const items = listed
+    .map(
+      (w) => `  <entry>
+    <title>${esc(workHeadline(w))}</title>
+    <link href="${workUrl(w.slug)}" />
+    <id>${workUrl(w.slug)}</id>
+    <published>${stamp(w.shipped)}</published>
+    <updated>${stamp(w.shipped)}</updated>
+    <summary>${esc(metaDescription(w))}</summary>
+  </entry>`
+    )
+    .join('\n');
+  return `<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>1mb: work</title>
+  <subtitle>${esc(description)}</subtitle>
+  <link href="${SITE}/feed.xml" rel="self" />
+  <link href="${SITE}/" />
+  <id>${SITE}/</id>
+  <updated>${stamp(listed[0]?.shipped ?? '2026-01-01')}</updated>
+  <author><name>1mb</name></author>
+  <icon>${SITE}/favicon.ico</icon>
+${items}
+</feed>
 `;
 }
 

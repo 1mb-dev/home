@@ -3,27 +3,40 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>nivomoney — 1mb</title>
-    <meta name="description" content="A neobank, opened up to be read." />
+    <title>nivomoney: A neobank, opened up to be read · 1mb</title>
+    <meta
+      name="description"
+      content="A neobank, opened up to be read. Nine Go services. A double-entry ledger. React on the front. It ran live. Now it is a record: what was built, and how."
+    />
+    <meta name="author" content="1mb" />
     <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
     <meta name="color-scheme" content="dark light" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:;"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none';"
     />
     <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://1mb.dev/work/nivomoney/" />
-    <meta property="og:title" content="nivomoney — 1mb" />
-    <meta property="og:description" content="A neobank, opened up to be read." />
+    <meta property="og:title" content="nivomoney: A neobank, opened up to be read · 1mb" />
+    <meta
+      property="og:description"
+      content="A neobank, opened up to be read. Nine Go services. A double-entry ledger. React on the front. It ran live. Now it is a record: what was built, and how."
+    />
     <meta property="og:image" content="https://1mb.dev/assets/images/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="1mb, one-man-band. All the hats. One head." />
     <meta property="og:site_name" content="1mb" />
+    <meta property="og:locale" content="en_US" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="canonical" href="https://1mb.dev/work/nivomoney/" />
+    <link rel="alternate" type="application/atom+xml" title="1mb: work" href="/feed.xml" />
     <link
       rel="preload"
       href="/assets/fonts/inter-latin.woff2"
@@ -40,16 +53,62 @@
     />
     <link rel="stylesheet" href="/assets/css/style.css" />
     <script src="/assets/js/theme.js"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "url": "https://1mb.dev/work/nivomoney/",
+        "name": "nivomoney: A neobank, opened up to be read · 1mb",
+        "description": "A neobank, opened up to be read. Nine Go services. A double-entry ledger. React on the front. It ran live. Now it is a record: what was built, and how.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "@id": "https://1mb.dev/#website",
+          "name": "1mb",
+          "url": "https://1mb.dev/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://1mb.dev/#org",
+          "name": "1mb"
+        },
+        "about": {
+          "@type": "CreativeWork",
+          "url": "https://www.nivomoney.com",
+          "name": "nivomoney",
+          "description": "A neobank, opened up to be read.",
+          "creator": {
+            "@type": "Organization",
+            "@id": "https://1mb.dev/#org",
+            "name": "1mb"
+          },
+          "datePublished": "2025-11-21",
+          "sameAs": "https://github.com/1mb-dev/nivomoney"
+        },
+        "breadcrumb": {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "1mb",
+              "item": "https://1mb.dev/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "nivomoney",
+              "item": "https://1mb.dev/work/nivomoney/"
+            }
+          ]
+        }
+      }
+    </script>
   </head>
   <body class="page-work">
-    <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-      <span class="icon-sun">☀</span>
-      <span class="icon-moon">☾</span>
-    </button>
     <header class="masthead"><a class="mark" href="/">1mb</a></header>
     <main>
       <article class="notes">
-        <p class="notes-no"><span>02</span> read</p>
+        <p class="notes-side">read</p>
         <h1>nivomoney</h1>
         <p class="notes-tagline">A neobank, opened up to be read.</p>
         <div class="notes-body">
@@ -68,11 +127,40 @@
           <a href="https://github.com/1mb-dev/nivomoney">source</a>
         </p>
       </article>
+      <nav class="sequence" aria-label="More work">
+        <a class="sequence-item sequence-prev" href="/work/sift/" rel="prev">
+          <span class="sequence-label">previous</span>
+          <span class="sequence-name">sift</span>
+          <span class="sequence-tagline">Hacker News, ranked by depth.</span>
+        </a>
+        <a class="sequence-item sequence-next" href="/work/ledgerq/" rel="next">
+          <span class="sequence-label">next</span>
+          <span class="sequence-name">ledgerq</span>
+          <span class="sequence-tagline">A durable queue that lives on one disk.</span>
+        </a>
+      </nav>
+      <p class="all-work"><a href="/#work">all work</a></p>
     </main>
     <footer class="colophon">
-      <hr class="separator" aria-hidden="true" />
-      <p>All the hats. One head.</p>
-      <a href="/#work">all work</a>
+      <p class="colophon-home"><a href="/">1mb</a> ·</p>
+      <p class="colophon-credit">All the hats. One head.</p>
+      <button
+        type="button"
+        id="theme-toggle"
+        class="theme-toggle"
+        aria-label="Dark theme"
+        aria-pressed="false"
+        hidden
+      >
+        <span class="icon-sun" aria-hidden="true">☀</span>
+        <span class="icon-moon" aria-hidden="true">☾</span>
+      </button>
+      <p class="colophon-meta">
+        <a href="https://github.com/1mb-dev" rel="me">github</a>
+        <a href="https://log.1mb.dev">log</a>
+        <a href="/feed.xml">feed</a>
+        <span>© <span class="year">2026</span></span>
+      </p>
     </footer>
     <script src="/assets/js/sw-register.js"></script>
   </body>

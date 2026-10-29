@@ -5,19 +5,24 @@ import {
   esc,
   parseIndex,
   parseWork,
+  renderColophon,
   renderIndex,
   renderInline,
+  renderMasthead,
   renderPage,
   renderSitemap,
   sitemapLocs,
   statusLines,
   validateCollection,
+  metaDescription,
+  renderFeed,
+  workJsonLd,
 } from './work.js';
 
 const work = (front, body = 'A synopsis.\n\n## Why it exists\n\nA reason.') =>
   `---\n${front}\n---\n\n${body}\n`;
 
-const SIFT = work('name: sift\ntagline: Ranked by depth.\nsite: https://sift.1mb.dev');
+const SIFT = work('name: sift\ntagline: Ranked by depth.\nsite: https://sift.1mb.dev\nshipped: 2026-02-22');
 
 describe('parseIndex', () => {
   it('numbers works across groups in display order, whatever the file order', () => {
@@ -65,6 +70,25 @@ describe('parseWork', () => {
     expect(() => parseWork(work('name: a\nname: b'), 'a')).toThrow(':3 duplicate key "name"');
   });
 
+  it('requires a real calendar date for shipped', () => {
+    expect(parseWork(work('name: a\ntagline: t\nshipped: 2024-02-29'), 'a').shipped).toBe('2024-02-29');
+    expect(() => parseWork(work('name: a\ntagline: t\nshipped: 2025-02-29'), 'a')).toThrow(
+      ':4 shipped must be a date'
+    );
+    expect(() => parseWork(work('name: a\ntagline: t\nshipped: Oct 2025'), 'a')).toThrow(
+      'shipped must be a date'
+    );
+  });
+
+  it('keeps a tagline to one sentence', () => {
+    expect(() => parseWork(work('name: a\ntagline: One. Two.'), 'a')).toThrow('tagline must be one sentence');
+  });
+
+  it('keeps the page title within 70 characters', () => {
+    const long = 'Quite a long tagline that would push the page title past the limit.';
+    expect(() => parseWork(work(`name: something\ntagline: ${long}`), 'a')).toThrow('shorten the tagline');
+  });
+
   it('requires https URLs and boolean flags', () => {
     expect(() => parseWork(work('name: a\ntagline: t\nsite: http://a.dev'), 'a')).toThrow(
       'site must be an https:// URL'
@@ -99,6 +123,15 @@ describe('parseWork', () => {
     );
   });
 
+  it('rejects em-dashes anywhere in a work file', () => {
+    expect(() => parseWork(work('name: a\ntagline: one — two'), 'a')).toThrow(
+      'content/work/a.md:3 em-dash in copy'
+    );
+    expect(() =>
+      parseWork(work('name: a\ntagline: t', 'S &mdash; s.\n\n## Why it exists\n\nW.'), 'a')
+    ).toThrow(':6 em-dash in copy');
+  });
+
   it('allows emphasis at the start of a paragraph', () => {
     const w = parseWork(work('name: a\ntagline: t', '*Quiet* on purpose.\n\n## Why it exists\n\nW.'), 'a');
     expect(w.synopsis[0].text).toBe('*Quiet* on purpose.');
@@ -128,7 +161,7 @@ describe('status and actions', () => {
   it('claims upkeep only when the file says so', () => {
     const src = { ...base, source: 'https://github.com/x/w' };
     expect(statusLines(src)).toEqual(['Source is public.']);
-    expect(statusLines({ ...src, maintained: true })).toEqual(['Source is public, and kept current.']);
+    expect(statusLines({ ...src, maintained: true })).toEqual(['Source is public and kept current.']);
     expect(statusLines({ ...src, maintained: false })).toEqual([
       'Source stays public. No longer maintained.',
     ]);
@@ -143,13 +176,17 @@ describe('status and actions', () => {
   it("leads with the group's first action, then each remaining link once", () => {
     const w = { ...base, site: 'https://w.dev', source: 'https://github.com/x/w', docs: 'https://d.dev' };
     expect(actions(w, 'use')).toEqual({
-      primary: { href: 'https://w.dev', label: 'open w' },
+      primary: { href: 'https://w.dev', verb: 'open', label: 'open w' },
       rest: [
         { href: 'https://github.com/x/w', label: 'source' },
         { href: 'https://d.dev', label: 'docs' },
       ],
     });
-    expect(actions(w, 'build').primary).toEqual({ href: 'https://github.com/x/w', label: 'get w' });
+    expect(actions(w, 'build').primary).toEqual({
+      href: 'https://github.com/x/w',
+      verb: 'get',
+      label: 'get w',
+    });
   });
 });
 
@@ -161,12 +198,15 @@ describe('collection rules', () => {
     expect(() => validateCollection(entries, works)).toThrow('content/index.txt:4 no file');
 
     works.set('ledgerq', parseWork(work('name: ledgerq\ntagline: q'), 'ledgerq'));
+    expect(() => validateCollection(entries, works)).toThrow('listed works need "shipped: YYYY-MM-DD"');
+
+    works.set('ledgerq', parseWork(work('name: ledgerq\ntagline: q\nshipped: 2025-10-17'), 'ledgerq'));
     expect(() => validateCollection(entries, works)).toThrow('group "build" needs source or docs');
   });
 
   it('rejects Related links to unlisted works', () => {
     const draftLink = work(
-      'name: sift\ntagline: t\nsite: https://s.dev',
+      'name: sift\ntagline: t\nsite: https://s.dev\nshipped: 2026-01-01',
       'S.\n\n## Why it exists\n\nW.\n\n## Related\n\n[d](/work/draft/)'
     );
     const works = new Map([['sift', parseWork(draftLink, 'sift')]]);
@@ -183,27 +223,123 @@ describe('collection rules', () => {
 });
 
 describe('rendering', () => {
+  const pageFor = (w, group = 'use', opts = {}) =>
+    renderPage(w, { slug: w.slug, group }, { works: new Map([[w.slug, w]]), ...opts });
+
   it('escapes content in rows and pages', () => {
     const w = parseWork(work('name: a&b\ntagline: "<x>"\nsite: https://a.dev'), 'ab');
-    const entries = parseIndex('use\n  ab');
-    const index = renderIndex(entries, new Map([['ab', w]]));
-    const page = renderPage(w, 'use', 1);
+    const index = renderIndex(parseIndex('use\n  ab'), new Map([['ab', w]]));
     expect(index).toContain('a&amp;b');
     expect(index).not.toContain('<x>');
-    expect(page).toContain('content="&quot;&lt;x&gt;&quot;"');
+    expect(pageFor(w)).toContain('content="&quot;&lt;x&gt;&quot; A synopsis."');
   });
 
-  it('omits the verb link for build entries and empty sides', () => {
+  it('gives every side the same row anatomy; build rows link the verb to source', () => {
     const w = parseWork(work('name: q\ntagline: t\nsource: https://g.dev/q'), 'q');
     const index = renderIndex(parseIndex('build\n  q'), new Map([['q', w]]));
-    expect(index).not.toContain('track-verb');
-    expect(index).not.toContain('>Use<');
+    expect(index).toContain('<a class="track-verb" href="https://g.dev/q" aria-label="get q">get</a>');
+    expect(index).not.toContain('>use<');
+  });
+
+  it('continues list numbering across sides for assistive tech', () => {
+    const works = new Map([
+      ['s', parseWork(SIFT.replace('name: sift', 'name: s'), 's')],
+      ['q', parseWork(work('name: q\ntagline: t\nsource: https://g.dev/q'), 'q')],
+    ]);
+    const index = renderIndex(parseIndex('use\n  s\nbuild\n  q'), works);
+    expect(index).toContain('<ol class="tracks" start="1">');
+    expect(index).toContain('<ol class="tracks" start="2">');
+    expect(index).toContain('<span class="track-no" aria-hidden="true">02</span>');
   });
 
   it('gives each page its own canonical and description', () => {
-    const page = renderPage(parseWork(SIFT, 'sift'), 'use', 1);
+    const page = pageFor(parseWork(SIFT, 'sift'));
     expect(page).toContain('<link rel="canonical" href="https://1mb.dev/work/sift/" />');
-    expect(page).toContain('<meta property="og:description" content="Ranked by depth." />');
+    expect(page).toContain('<meta property="og:description" content="Ranked by depth. A synopsis." />');
+  });
+
+  it('shows the side, not a track number, on a work page', () => {
+    const page = pageFor(parseWork(SIFT, 'sift'));
+    expect(page).toContain('<p class="notes-side">use</p>');
+  });
+
+  it('links neighbours by name and leaves an end empty instead of wrapping', () => {
+    const a = parseWork(SIFT.replace('name: sift', 'name: alpha'), 'alpha');
+    const b = parseWork(SIFT.replace('name: sift', 'name: beta'), 'beta');
+    const works = new Map([
+      ['alpha', a],
+      ['beta', b],
+    ]);
+    const first = renderPage(a, { slug: 'alpha', group: 'use' }, { next: { slug: 'beta' }, works });
+    expect(first).toContain('class="sequence-item sequence-next" href="/work/beta/" rel="next"');
+    expect(first).toContain('<span class="sequence-name">beta</span>');
+    expect(first).not.toContain('sequence-prev');
+    const only = pageFor(a);
+    expect(only).not.toContain('class="sequence"');
+  });
+
+  it('puts the same masthead and colophon on every page', () => {
+    const page = pageFor(parseWork(SIFT, 'sift'));
+    expect(page).toContain(renderMasthead());
+    expect(page).toContain(renderColophon());
+    expect(renderColophon()).toContain('hidden>'); // toggle absent without JS
+    expect(renderColophon()).toMatch(
+      /^<footer class="colophon">\n<p class="colophon-home"><a href="\/">1mb<\/a> ·<\/p>\n<p class="colophon-credit">All the hats\. One head\.<\/p>/
+    );
+    expect(renderColophon()).toMatch(/feed<\/a>\n<span>© <span class="year">\d{4}<\/span><\/span>\n<\/p>\n<\/footer>$/);
+  });
+
+  it('describes a work in structured data with public facts only', () => {
+    const ld = (w, g) => JSON.parse(workJsonLd(w, g));
+    const live = ld(parseWork(SIFT, 'sift'), 'use');
+    expect(live.about).toEqual({
+      '@type': 'WebApplication',
+      url: 'https://sift.1mb.dev',
+      name: 'sift',
+      description: 'Ranked by depth.',
+      creator: { '@type': 'Organization', '@id': 'https://1mb.dev/#org', name: '1mb' },
+      datePublished: '2026-02-22',
+    });
+    expect(live.isPartOf['@id']).toBe('https://1mb.dev/#website');
+    expect(live.breadcrumb.itemListElement[1].item).toBe('https://1mb.dev/work/sift/');
+
+    const lib = parseWork(work('name: q\ntagline: t\nsource: https://github.com/x/q'), 'q');
+    expect(ld(lib, 'build').about.codeRepository).toBe('https://github.com/x/q');
+  });
+
+  it('builds the search snippet from whole sentences, within 160 chars', () => {
+    const long = 'Word '.repeat(20).trim() + '.';
+    const w = parseWork(
+      work('name: a\ntagline: Short tag.\nsite: https://a.dev', `One [link](https://x.dev) here. ${long} Third.\n\n## Why it exists\n\nW.`),
+      'a'
+    );
+    const d = metaDescription(w);
+    expect(d.startsWith('Short tag. One link here.')).toBe(true);
+    expect(d.length).toBeLessThanOrEqual(160);
+    expect(d.endsWith('.')).toBe(true);
+  });
+
+  it('titles a page by what the work is', () => {
+    const page = pageFor(parseWork(SIFT, 'sift'));
+    expect(page).toContain('<title>sift: Ranked by depth · 1mb</title>');
+    expect(JSON.parse(workJsonLd(parseWork(SIFT, 'sift'), 'use')).about.datePublished).toBe('2026-02-22');
+  });
+
+  it('lists works in the feed newest ship date first, escaped', () => {
+    const works = new Map([
+      ['sift', parseWork(SIFT, 'sift')],
+      ['q', parseWork(work('name: q&a\ntagline: t\nsource: https://g.dev/q\nshipped: 2025-01-01'), 'q')],
+    ]);
+    const feed = renderFeed(parseIndex('use\n  sift\nbuild\n  q'), works, 'About <1mb>.');
+    expect(feed.indexOf('/work/sift/')).toBeLessThan(feed.indexOf('/work/q/'));
+    expect(feed).toContain('<updated>2026-02-22T00:00:00Z</updated>\n  <author>');
+    expect(feed).toContain('<title>q&amp;a: t</title>');
+    expect(feed).toContain('<subtitle>About &lt;1mb&gt;.</subtitle>');
+  });
+
+  it('keeps a script block intact when copy contains "</"', () => {
+    const w = parseWork(work('name: a\ntagline: x </script> y\nsite: https://a.dev'), 'a');
+    expect(workJsonLd(w, 'use')).not.toContain('</script>');
   });
 
   it('escape helper covers attribute-breaking characters', () => {
