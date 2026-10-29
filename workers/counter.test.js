@@ -1,36 +1,42 @@
-import { env, fetchMock, SELF } from 'cloudflare:test';
-import { describe, it, expect, beforeAll, afterEach } from 'vitest';
+import { env } from 'cloudflare:test';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import worker, { hashIP } from './counter.js';
 
-beforeAll(() => {
-  fetchMock.activate();
-  fetchMock.disableNetConnect();
+// Queued Redis replies, consumed in order. Any fetch that is not a POST to the
+// mock Upstash URL, or that arrives with the queue empty, throws (no network).
+let pending = [];
+
+beforeEach(() => {
+  pending = [];
+  vi.spyOn(globalThis, 'fetch').mockImplementation(async (input, init) => {
+    const url = input instanceof Request ? input.url : String(input);
+    const method = init?.method ?? (input instanceof Request ? input.method : 'GET');
+    if (method !== 'POST' || new URL(url).origin !== 'https://mock.upstash.io') {
+      throw new Error(`Unexpected fetch: ${method} ${url}`);
+    }
+    if (pending.length === 0) throw new Error(`No mocked Redis reply left for ${url}`);
+    return pending.shift()();
+  });
 });
 
-afterEach(() => fetchMock.assertNoPendingInterceptors());
+afterEach(() => {
+  vi.restoreAllMocks();
+  expect(pending, 'unconsumed Redis replies').toHaveLength(0);
+});
 
 // Helper: mock a single Redis response
 function mockRedis(response) {
-  fetchMock
-    .get('https://mock.upstash.io')
-    .intercept({ method: 'POST', path: '/' })
-    .reply(200, JSON.stringify(response));
+  pending.push(() => new Response(JSON.stringify(response), { status: 200 }));
 }
 
 // Helper: mock multiple sequential Redis calls
 function mockRedisSequence(responses) {
-  const pool = fetchMock.get('https://mock.upstash.io');
-  for (const response of responses) {
-    pool.intercept({ method: 'POST', path: '/' }).reply(200, JSON.stringify(response));
-  }
+  for (const response of responses) mockRedis(response);
 }
 
 // Helper: mock a Redis failure
 function mockRedisError() {
-  fetchMock
-    .get('https://mock.upstash.io')
-    .intercept({ method: 'POST', path: '/' })
-    .reply(500, 'Internal Server Error');
+  pending.push(() => new Response('Internal Server Error', { status: 500 }));
 }
 
 describe('GET /', () => {
