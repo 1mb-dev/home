@@ -19,13 +19,15 @@
     "worker:dev": "wrangler dev --config workers/wrangler.toml",
     "worker:deploy": "wrangler deploy --config workers/wrangler.toml",
     "worker:tail": "wrangler tail --config workers/wrangler.toml",
-    "gen": "node scripts/gen.js"
+    "gen": "node scripts/gen.js",
+    "icons": "sh scripts/icons/build.sh"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.23.0",
     "eslint": "^9.39.5",
     "html-validate": "^11.17.0",
     "prettier": "^3.9.10",
+    "sharp": "^0.35.5",
     "stylelint": "^16.12.0",
     "stylelint-config-standard": "^36.0.1",
     "vitest": "~4.1.0",
