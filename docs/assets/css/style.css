@@ -754,9 +754,13 @@ article {
    ======================================== */
 
 @media print {
-  body {
-    background: white;
-    color: black;
+  /* Must follow the theme overrides: a dark theme otherwise prints pale ink on white paper. */
+  :root {
+    --bg: #fff;
+    --fg: #000;
+    --muted: #555;
+    --border: #ccc;
+    --surface: #f0f0f0;
   }
 
   .hero::before,
@@ -769,10 +773,15 @@ article {
     display: none;
   }
 
-  .manifesto,
-  .description,
-  .invitation {
-    color: black;
+  .description {
+    color: var(--fg);
+  }
+
+  /* Browsers drop backgrounds by default, which would leave the fill's paper-coloured label. */
+  .action {
+    background: none;
+    border: 1px solid var(--fg);
+    color: var(--fg);
   }
 
   .counter {
