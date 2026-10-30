@@ -19,6 +19,7 @@ import * as prettier from 'prettier';
 import {
   ContentError,
   assertNoEmDash,
+  bridgeLinked,
   isText,
   checkDurable,
   parseIndex,
@@ -121,6 +122,9 @@ async function main() {
   console.log(
     `✓ ${entries.length} works published${drafts.length ? `, drafts: ${drafts.join(', ')}` : ''}`
   );
+  if (bridgeLinked(entries)) {
+    console.log('! bridge links to the sides: a side passed 12 rows or the index reached 16 works');
+  }
 }
 
 main().catch((err) => {

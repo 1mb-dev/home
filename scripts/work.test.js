@@ -254,6 +254,28 @@ describe('rendering', () => {
     expect(index).toContain('<span class="track-no" aria-hidden="true">02</span>');
   });
 
+  it('gives each side an id and links the bridge only past the trigger', () => {
+    const w = (slug) => parseWork(work(`name: ${slug}\ntagline: t\nsite: https://${slug}.dev`), slug);
+    const slugs = (n, p) => Array.from({ length: n }, (_, i) => `${p}${i}`);
+    const index = (use, read) => {
+      const all = [...slugs(use, 'u'), ...slugs(read, 'r')];
+      const text = `use\n${slugs(use, 'u').map((s) => `  ${s}`).join('\n')}\nread\n${slugs(read, 'r')
+        .map((s) => `  ${s}`)
+        .join('\n')}`;
+      return renderIndex(parseIndex(text), new Map(all.map((s) => [s, w(s)])));
+    };
+
+    const short = index(12, 3);
+    expect(short).toContain('<h3 class="side" id="use">use</h3>');
+    expect(short).toContain('>Use it. Read it. Build with it.</h2>');
+
+    const longSide = index(13, 1);
+    expect(longSide).toContain('<a href="#use">Use it</a>. <a href="#read">Read it</a>. Build with it.');
+
+    const atSixteen = index(9, 7);
+    expect(atSixteen).toContain('<a href="#use">Use it</a>.');
+  });
+
   it('gives each page its own canonical and description', () => {
     const page = pageFor(parseWork(SIFT, 'sift'));
     expect(page).toContain('<link rel="canonical" href="https://1mb.dev/work/sift/" />');

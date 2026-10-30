@@ -434,6 +434,21 @@ article {
   margin: var(--space-6) 0 var(--space-2);
 }
 
+.work-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.work-title a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.work-title a:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+}
+
 .work-title + .side {
   margin-top: 0;
 }
