@@ -345,7 +345,7 @@ export function statusLines(work) {
   if (work.retired) {
     lines.push(
       work.site
-        ? `No longer running. The write-up stays at <a href="${esc(work.site)}">${esc(host(work.site))}</a>.`
+        ? `No longer running. The write-up stays at ${esc(host(work.site))}.`
         : 'No longer running.'
     );
   }

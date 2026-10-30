@@ -171,7 +171,7 @@ describe('status and actions', () => {
 
   it('names the write-up for a retired instance', () => {
     expect(statusLines({ ...base, retired: true, site: 'https://www.nivo.com' })[0]).toBe(
-      'No longer running. The write-up stays at <a href="https://www.nivo.com">nivo.com</a>.'
+      'No longer running. The write-up stays at nivo.com.'
     );
   });
 
