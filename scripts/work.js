@@ -15,7 +15,16 @@ export const GROUPS = {
   build: { label: 'build with', verb: 'get' },
 };
 
-const KEYS = new Set(['name', 'tagline', 'site', 'source', 'docs', 'retired', 'maintained', 'shipped']);
+const KEYS = new Set([
+  'name',
+  'tagline',
+  'site',
+  'source',
+  'docs',
+  'retired',
+  'maintained',
+  'shipped',
+]);
 const URL_KEYS = new Set(['site', 'source', 'docs']);
 const BOOL_KEYS = new Set(['retired', 'maintained']);
 
@@ -153,7 +162,11 @@ export function parseWork(text, slug, file = `content/work/${slug}.md`) {
   }
   const title = `${workHeadline(work)} · 1mb`;
   if (title.length > TITLE_MAX) {
-    throw new ContentError(file, 1, `page title "${title}" is ${title.length} chars (max ${TITLE_MAX}); shorten the tagline`);
+    throw new ContentError(
+      file,
+      1,
+      `page title "${title}" is ${title.length} chars (max ${TITLE_MAX}); shorten the tagline`
+    );
   }
 
   // Body: paragraphs separated by blank lines, under fixed headings.
@@ -218,7 +231,11 @@ export function parseWork(text, slug, file = `content/work/${slug}.md`) {
   for (const key of ['synopsis', 'why', 'taught']) {
     for (const p of work[key]) {
       if (p.text.length > PARAGRAPH_MAX) {
-        throw new ContentError(file, p.line, `paragraph is ${p.text.length} chars (max ${PARAGRAPH_MAX})`);
+        throw new ContentError(
+          file,
+          p.line,
+          `paragraph is ${p.text.length} chars (max ${PARAGRAPH_MAX})`
+        );
       }
       renderInline(p.text, file, p.line); // surface inline errors at parse time
     }
@@ -292,7 +309,11 @@ export function validateCollection(entries, works) {
     for (const link of work.related) {
       const slug = /^\/work\/([a-z0-9-]+)\/$/.exec(link.href)?.[1];
       if (slug && !listed.has(slug)) {
-        throw new ContentError(`content/work/${work.slug}.md`, link.line, `"${slug}" is not listed`);
+        throw new ContentError(
+          `content/work/${work.slug}.md`,
+          link.line,
+          `"${slug}" is not listed`
+        );
       }
     }
   }
@@ -488,7 +509,9 @@ function bridge(entries) {
   const linked = bridgeLinked(entries);
   return Object.entries(BRIDGE)
     .map(([group, text]) =>
-      linked && entries.some((e) => e.group === group) ? `<a href="#${group}">${text}</a>.` : `${text}.`
+      linked && entries.some((e) => e.group === group)
+        ? `<a href="#${group}">${text}</a>.`
+        : `${text}.`
     )
     .join(' ');
 }
@@ -538,7 +561,9 @@ export function renderPage(work, entry, { prev = null, next = null, works } = {}
   const title = `${workHeadline(work)} · 1mb`;
   const { primary, rest } = actions(work, group);
   const paras = (list) =>
-    list.map((p) => `<p>${renderInline(p.text, `content/work/${work.slug}.md`, p.line)}</p>`).join('\n');
+    list
+      .map((p) => `<p>${renderInline(p.text, `content/work/${work.slug}.md`, p.line)}</p>`)
+      .join('\n');
   const section = (key) => {
     const s = SECTIONS.find((x) => x.key === key);
     if (key === 'related') {

@@ -24,7 +24,9 @@ import {
 const work = (front, body = 'A synopsis.\n\n## Why it exists\n\nA reason.') =>
   `---\n${front}\n---\n\n${body}\n`;
 
-const SIFT = work('name: sift\ntagline: Ranked by depth.\nsite: https://sift.1mb.dev\nshipped: 2026-02-22');
+const SIFT = work(
+  'name: sift\ntagline: Ranked by depth.\nsite: https://sift.1mb.dev\nshipped: 2026-02-22'
+);
 
 describe('parseIndex', () => {
   it('numbers works across groups in display order, whatever the file order', () => {
@@ -73,7 +75,9 @@ describe('parseWork', () => {
   });
 
   it('requires a real calendar date for shipped', () => {
-    expect(parseWork(work('name: a\ntagline: t\nshipped: 2024-02-29'), 'a').shipped).toBe('2024-02-29');
+    expect(parseWork(work('name: a\ntagline: t\nshipped: 2024-02-29'), 'a').shipped).toBe(
+      '2024-02-29'
+    );
     expect(() => parseWork(work('name: a\ntagline: t\nshipped: 2025-02-29'), 'a')).toThrow(
       ':4 shipped must be a date'
     );
@@ -83,12 +87,16 @@ describe('parseWork', () => {
   });
 
   it('keeps a tagline to one sentence', () => {
-    expect(() => parseWork(work('name: a\ntagline: One. Two.'), 'a')).toThrow('tagline must be one sentence');
+    expect(() => parseWork(work('name: a\ntagline: One. Two.'), 'a')).toThrow(
+      'tagline must be one sentence'
+    );
   });
 
   it('keeps the page title within 70 characters', () => {
     const long = 'Quite a long tagline that would push the page title past the limit.';
-    expect(() => parseWork(work(`name: something\ntagline: ${long}`), 'a')).toThrow('shorten the tagline');
+    expect(() => parseWork(work(`name: something\ntagline: ${long}`), 'a')).toThrow(
+      'shorten the tagline'
+    );
   });
 
   it('requires https URLs and boolean flags', () => {
@@ -135,7 +143,10 @@ describe('parseWork', () => {
   });
 
   it('allows emphasis at the start of a paragraph', () => {
-    const w = parseWork(work('name: a\ntagline: t', '*Quiet* on purpose.\n\n## Why it exists\n\nW.'), 'a');
+    const w = parseWork(
+      work('name: a\ntagline: t', '*Quiet* on purpose.\n\n## Why it exists\n\nW.'),
+      'a'
+    );
     expect(w.synopsis[0].text).toBe('*Quiet* on purpose.');
   });
 });
@@ -148,7 +159,9 @@ describe('renderInline', () => {
   });
 
   it('rejects non-https links', () => {
-    expect(() => renderInline('[x](javascript:alert(1))', 'f.md', 4)).toThrow('f.md:4 link must be');
+    expect(() => renderInline('[x](javascript:alert(1))', 'f.md', 4)).toThrow(
+      'f.md:4 link must be'
+    );
     expect(() => renderInline('[x](http://a.dev)')).toThrow('link must be');
   });
 });
@@ -163,7 +176,9 @@ describe('status and actions', () => {
   it('claims upkeep only when the file says so', () => {
     const src = { ...base, source: 'https://github.com/x/w' };
     expect(statusLines(src)).toEqual(['Source is public.']);
-    expect(statusLines({ ...src, maintained: true })).toEqual(['Source is public and kept current.']);
+    expect(statusLines({ ...src, maintained: true })).toEqual([
+      'Source is public and kept current.',
+    ]);
     expect(statusLines({ ...src, maintained: false })).toEqual([
       'Source stays public. No longer maintained.',
     ]);
@@ -176,7 +191,12 @@ describe('status and actions', () => {
   });
 
   it("leads with the group's first action, then each remaining link once", () => {
-    const w = { ...base, site: 'https://w.dev', source: 'https://github.com/x/w', docs: 'https://d.dev' };
+    const w = {
+      ...base,
+      site: 'https://w.dev',
+      source: 'https://github.com/x/w',
+      docs: 'https://d.dev',
+    };
     expect(actions(w, 'use')).toEqual({
       primary: { href: 'https://w.dev', verb: 'open', label: 'open w' },
       rest: [
@@ -200,9 +220,14 @@ describe('collection rules', () => {
     expect(() => validateCollection(entries, works)).toThrow('content/index.txt:4 no file');
 
     works.set('ledgerq', parseWork(work('name: ledgerq\ntagline: q'), 'ledgerq'));
-    expect(() => validateCollection(entries, works)).toThrow('listed works need "shipped: YYYY-MM-DD"');
+    expect(() => validateCollection(entries, works)).toThrow(
+      'listed works need "shipped: YYYY-MM-DD"'
+    );
 
-    works.set('ledgerq', parseWork(work('name: ledgerq\ntagline: q\nshipped: 2025-10-17'), 'ledgerq'));
+    works.set(
+      'ledgerq',
+      parseWork(work('name: ledgerq\ntagline: q\nshipped: 2025-10-17'), 'ledgerq')
+    );
     expect(() => validateCollection(entries, works)).toThrow('group "build" needs source or docs');
   });
 
@@ -212,7 +237,9 @@ describe('collection rules', () => {
       'S.\n\n## Why it exists\n\nW.\n\n## Related\n\n[d](/work/draft/)'
     );
     const works = new Map([['sift', parseWork(draftLink, 'sift')]]);
-    expect(() => validateCollection(parseIndex('use\n  sift'), works)).toThrow('"draft" is not listed');
+    expect(() => validateCollection(parseIndex('use\n  sift'), works)).toThrow(
+      '"draft" is not listed'
+    );
   });
 
   it('never lets a published /work/ page disappear', () => {
@@ -239,7 +266,9 @@ describe('rendering', () => {
   it('gives every side the same row anatomy; build rows link the verb to source', () => {
     const w = parseWork(work('name: q\ntagline: t\nsource: https://g.dev/q'), 'q');
     const index = renderIndex(parseIndex('build\n  q'), new Map([['q', w]]));
-    expect(index).toContain('<a class="track-verb" href="https://g.dev/q" aria-label="get q">get</a>');
+    expect(index).toContain(
+      '<a class="track-verb" href="https://g.dev/q" aria-label="get q">get</a>'
+    );
     expect(index).not.toContain('>use<');
   });
 
@@ -255,11 +284,14 @@ describe('rendering', () => {
   });
 
   it('gives each side an id and links the bridge only past the trigger', () => {
-    const w = (slug) => parseWork(work(`name: ${slug}\ntagline: t\nsite: https://${slug}.dev`), slug);
+    const w = (slug) =>
+      parseWork(work(`name: ${slug}\ntagline: t\nsite: https://${slug}.dev`), slug);
     const slugs = (n, p) => Array.from({ length: n }, (_, i) => `${p}${i}`);
     const index = (use, read) => {
       const all = [...slugs(use, 'u'), ...slugs(read, 'r')];
-      const text = `use\n${slugs(use, 'u').map((s) => `  ${s}`).join('\n')}\nread\n${slugs(read, 'r')
+      const text = `use\n${slugs(use, 'u')
+        .map((s) => `  ${s}`)
+        .join('\n')}\nread\n${slugs(read, 'r')
         .map((s) => `  ${s}`)
         .join('\n')}`;
       return renderIndex(parseIndex(text), new Map(all.map((s) => [s, w(s)])));
@@ -270,7 +302,9 @@ describe('rendering', () => {
     expect(short).toContain('>Use it. Read it. Build with it.</h2>');
 
     const longSide = index(13, 1);
-    expect(longSide).toContain('<a href="#use">Use it</a>. <a href="#read">Read it</a>. Build with it.');
+    expect(longSide).toContain(
+      '<a href="#use">Use it</a>. <a href="#read">Read it</a>. Build with it.'
+    );
 
     const atSixteen = index(9, 7);
     expect(atSixteen).toContain('<a href="#use">Use it</a>.');
@@ -279,7 +313,9 @@ describe('rendering', () => {
   it('gives each page its own canonical and description', () => {
     const page = pageFor(parseWork(SIFT, 'sift'));
     expect(page).toContain('<link rel="canonical" href="https://1mb.dev/work/sift/" />');
-    expect(page).toContain('<meta property="og:description" content="Ranked by depth. A synopsis." />');
+    expect(page).toContain(
+      '<meta property="og:description" content="Ranked by depth. A synopsis." />'
+    );
   });
 
   it('shows the side, not a track number, on a work page', () => {
@@ -310,7 +346,9 @@ describe('rendering', () => {
     expect(renderColophon()).toMatch(
       /^<footer class="colophon">\n<p class="colophon-home"><a href="\/">1mb<\/a> ·<\/p>\n<p class="colophon-credit">All the hats\. One head\.<\/p>/
     );
-    expect(renderColophon()).toMatch(/feed<\/a>\n<span>© <span class="year">\d{4}<\/span><\/span>\n<\/p>\n<\/footer>$/);
+    expect(renderColophon()).toMatch(
+      /feed<\/a>\n<span>© <span class="year">\d{4}<\/span><\/span>\n<\/p>\n<\/footer>$/
+    );
   });
 
   it('describes a work in structured data with public facts only', () => {
@@ -334,7 +372,10 @@ describe('rendering', () => {
   it('builds the search snippet from whole sentences, within 160 chars', () => {
     const long = 'Word '.repeat(20).trim() + '.';
     const w = parseWork(
-      work('name: a\ntagline: Short tag.\nsite: https://a.dev', `One [link](https://x.dev) here. ${long} Third.\n\n## Why it exists\n\nW.`),
+      work(
+        'name: a\ntagline: Short tag.\nsite: https://a.dev',
+        `One [link](https://x.dev) here. ${long} Third.\n\n## Why it exists\n\nW.`
+      ),
       'a'
     );
     const d = metaDescription(w);
@@ -346,13 +387,18 @@ describe('rendering', () => {
   it('titles a page by what the work is', () => {
     const page = pageFor(parseWork(SIFT, 'sift'));
     expect(page).toContain('<title>sift: Ranked by depth · 1mb</title>');
-    expect(JSON.parse(workJsonLd(parseWork(SIFT, 'sift'), 'use')).about.datePublished).toBe('2026-02-22');
+    expect(JSON.parse(workJsonLd(parseWork(SIFT, 'sift'), 'use')).about.datePublished).toBe(
+      '2026-02-22'
+    );
   });
 
   it('lists works in the feed newest ship date first, escaped', () => {
     const works = new Map([
       ['sift', parseWork(SIFT, 'sift')],
-      ['q', parseWork(work('name: q&a\ntagline: t\nsource: https://g.dev/q\nshipped: 2025-01-01'), 'q')],
+      [
+        'q',
+        parseWork(work('name: q&a\ntagline: t\nsource: https://g.dev/q\nshipped: 2025-01-01'), 'q'),
+      ],
     ]);
     const feed = renderFeed(parseIndex('use\n  sift\nbuild\n  q'), works, 'About <1mb>.');
     expect(feed.indexOf('/work/sift/')).toBeLessThan(feed.indexOf('/work/q/'));
@@ -377,7 +423,14 @@ describe('em-dash scan coverage', () => {
   it('reads every file under docs/ that is not binary', () => {
     const binary = /\.(png|ico|woff2|jpg|webp)$/;
     const unread = readdirSync('docs', { recursive: true, withFileTypes: true })
-      .filter((e) => e.isFile() && !e.name.startsWith('.') && e.name !== 'CNAME' && !isText(e.name) && !binary.test(e.name))
+      .filter(
+        (e) =>
+          e.isFile() &&
+          !e.name.startsWith('.') &&
+          e.name !== 'CNAME' &&
+          !isText(e.name) &&
+          !binary.test(e.name)
+      )
       .map((e) => e.name);
     expect(unread).toEqual([]);
   });

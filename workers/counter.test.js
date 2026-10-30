@@ -197,11 +197,9 @@ describe('OPTIONS /', () => {
 
 describe('Unsupported methods', () => {
   it('PUT returns 405', async () => {
-    const response = await worker.fetch(
-      new Request('http://localhost/', { method: 'PUT' }),
-      env,
-      { waitUntil() {} }
-    );
+    const response = await worker.fetch(new Request('http://localhost/', { method: 'PUT' }), env, {
+      waitUntil() {},
+    });
 
     expect(response.status).toBe(405);
     const body = await response.json();

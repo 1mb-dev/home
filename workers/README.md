@@ -4,11 +4,11 @@ Cloudflare Worker for the 1mb community counter.
 
 ## Endpoints
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/` | Returns `{ count: number }` |
-| POST | `/` | Increment count (1 per IP per 24h) |
-| GET | `/health` | Service health status |
+| Method | Path      | Description                        |
+| ------ | --------- | ---------------------------------- |
+| GET    | `/`       | Returns `{ count: number }`        |
+| POST   | `/`       | Increment count (1 per IP per 24h) |
+| GET    | `/health` | Service health status              |
 
 ## Setup
 

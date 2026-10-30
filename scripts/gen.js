@@ -113,7 +113,8 @@ async function main() {
   writeFileSync(sitemapPath, renderSitemap(entries));
 
   const description = /<meta\s+name="description"\s+content="([^"]+)"/.exec(index)?.[1];
-  if (!description) throw new Error('docs/index.html: missing meta description (the feed subtitle)');
+  if (!description)
+    throw new Error('docs/index.html: missing meta description (the feed subtitle)');
   const feed = renderFeed(entries, works, description);
   assertNoEmDash(feed, 'docs/feed.xml');
   writeFileSync(join(DOCS, 'feed.xml'), feed);

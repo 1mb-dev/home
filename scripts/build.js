@@ -35,10 +35,7 @@ function updateServiceWorker(sha) {
   let content = readFileSync(swPath, 'utf8');
 
   // Replace cache name pattern: '1mb-v4' or '1mb-abc1234' -> '1mb-{sha}'
-  content = content.replace(
-    /const CACHE_NAME = '1mb-[^']+'/,
-    `const CACHE_NAME = '1mb-${sha}'`
-  );
+  content = content.replace(/const CACHE_NAME = '1mb-[^']+'/, `const CACHE_NAME = '1mb-${sha}'`);
 
   writeFileSync(swPath, content);
   console.log(`✓ Service Worker cache version: 1mb-${sha}`);
@@ -52,7 +49,10 @@ function updateYear(year) {
   for (const page of pages) {
     const path = join(ROOT, 'docs', page);
     const content = readFileSync(path, 'utf8');
-    writeFileSync(path, content.replace(/<span class="year">\d{4}<\/span>/g, `<span class="year">${year}</span>`));
+    writeFileSync(
+      path,
+      content.replace(/<span class="year">\d{4}<\/span>/g, `<span class="year">${year}</span>`)
+    );
   }
   console.log(`✓ Colophon year: ${year} (${pages.length} pages)`);
 }

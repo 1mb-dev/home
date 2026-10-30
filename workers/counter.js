@@ -45,7 +45,7 @@ function getCorsHeaders(request) {
   const origin = request.headers.get('Origin') || '';
   const allowedOrigins = ['https://1mb.dev', 'http://localhost', 'http://127.0.0.1'];
 
-  const isAllowed = allowedOrigins.some(allowed => origin.startsWith(allowed));
+  const isAllowed = allowedOrigins.some((allowed) => origin.startsWith(allowed));
 
   return {
     ...CORS_HEADERS,
@@ -59,7 +59,10 @@ async function hashIP(ip) {
   const data = encoder.encode(ip + '_1mb_salt_2024');
   const hash = await crypto.subtle.digest('SHA-256', data);
   const hashArray = Array.from(new Uint8Array(hash));
-  return hashArray.slice(0, 8).map(b => b.toString(16).padStart(2, '0')).join('');
+  return hashArray
+    .slice(0, 8)
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
 }
 
 // Upstash Redis REST API helper
@@ -103,7 +106,12 @@ async function handlePost(request, env) {
   if (hasVoted) {
     const [count, todayCount] = await redis(env, ['MGET', 'count', dailyKey]);
     log('info', 'vote.rate_limited', { count: parseInt(count) || 0 });
-    return { count: parseInt(count) || 0, today: parseInt(todayCount) || 0, voted: true, message: 'Already counted' };
+    return {
+      count: parseInt(count) || 0,
+      today: parseInt(todayCount) || 0,
+      voted: true,
+      message: 'Already counted',
+    };
   }
 
   // Increment counter + daily
@@ -210,16 +218,21 @@ export default {
       }
 
       log('info', 'request', { ...reqCtx, status, duration_ms: Date.now() - start });
-      const responseHeaders = request.method === 'GET'
-        ? { ...corsHeaders, 'Cache-Control': 'public, max-age=60', Vary: 'Origin' }
-        : corsHeaders;
+      const responseHeaders =
+        request.method === 'GET'
+          ? { ...corsHeaders, 'Cache-Control': 'public, max-age=60', Vary: 'Origin' }
+          : corsHeaders;
       return new Response(JSON.stringify(result), {
         status: 200,
         headers: responseHeaders,
       });
-
     } catch (error) {
-      log('error', 'request', { ...reqCtx, status: 500, error: error.message, duration_ms: Date.now() - start });
+      log('error', 'request', {
+        ...reqCtx,
+        status: 500,
+        error: error.message,
+        duration_ms: Date.now() - start,
+      });
       return new Response(JSON.stringify({ error: 'Internal error' }), {
         status: 500,
         headers: corsHeaders,
