@@ -140,7 +140,7 @@ async function handleHealth(env) {
       hosting: 'cloudflare-workers',
       latency_ms: latency,
     };
-  } catch (error) {
+  } catch {
     log('error', 'health.degraded', { error: 'Redis connection failed' });
     return {
       status: 'degraded',
@@ -170,7 +170,7 @@ export { hashIP };
 
 // Main handler
 export default {
-  async fetch(request, env, ctx) {
+  async fetch(request, env) {
     const start = Date.now();
     const url = new URL(request.url);
     const corsHeaders = getCorsHeaders(request);
