@@ -10,7 +10,7 @@ All the hats. One head.
 
 Things to use, read and build with, each shipped end to end.
 
-The site, its counter API, and the design language behind them. To add a work, see [DESIGN.md](DESIGN.md#content-format).
+The site, its counter API, and the design language behind them. To add a work, see [design.md](design.md#content-format).
 
 ---
 

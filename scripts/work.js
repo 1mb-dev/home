@@ -2,7 +2,7 @@
  * Work index: parse content/, validate, render HTML.
  *
  * Pure functions only; scripts/gen.js does the file IO.
- * The content format is a deliberate subset (see DESIGN.md, "Content format"):
+ * The content format is a deliberate subset (see design.md, "Content format"):
  * anything outside it is an error, never silently dropped.
  */
 
@@ -57,7 +57,7 @@ export class ContentError extends Error {
   }
 }
 
-// Em-dashes are banned from copy (DESIGN.md, Voice). Matches the character and its escapes.
+// Em-dashes are banned from copy (design.md, Voice). Matches the character and its escapes.
 const EM_DASH = /\u2014|&mdash;|\\u2014/;
 
 export function assertNoEmDash(text, file) {
@@ -66,7 +66,7 @@ export function assertNoEmDash(text, file) {
   if (i !== -1) throw new ContentError(file, i + 1, 'em-dash in copy; rewrite the sentence');
 }
 
-// Time words go stale on a page that is never re-dated (DESIGN.md, Voice). Code spans and link
+// Time words go stale on a page that is never re-dated (design.md, Voice). Code spans and link
 // targets are exempt: `/releases/latest` is an address, not a claim.
 const RELATIVE_TIME = /\b(currently|now|recently|today|latest|these days)\b/i;
 
@@ -553,7 +553,7 @@ export function workJsonLd(work, group) {
 }
 
 // Each side's id is its address (/#build). Past the trigger the bridge links to them
-// (DESIGN.md, Layout); gen says when that switches on.
+// (design.md, Layout); gen says when that switches on.
 const BRIDGE = { use: 'Use it', read: 'Read it', build: 'Build with it' };
 
 export function bridgeLinked(entries) {
