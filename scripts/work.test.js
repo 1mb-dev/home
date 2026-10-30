@@ -81,6 +81,9 @@ describe('parseWork', () => {
     expect(() => parseWork(work('name: a\ntagline: t\nshipped: 2025-02-29'), 'a')).toThrow(
       ':4 shipped must be a date'
     );
+    expect(() => parseWork(work('name: a\ntagline: t\nshipped: 2025-13-01'), 'a')).toThrow(
+      ':4 shipped must be a date'
+    );
     expect(() => parseWork(work('name: a\ntagline: t\nshipped: Oct 2025'), 'a')).toThrow(
       'shipped must be a date'
     );

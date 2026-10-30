@@ -246,7 +246,8 @@ export function parseWork(text, slug, file = `content/work/${slug}.md`) {
 
 function isDate(value) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
-  return new Date(`${value}T00:00:00Z`).toISOString().startsWith(value);
+  const date = new Date(`${value}T00:00:00Z`);
+  return !Number.isNaN(date.getTime()) && date.toISOString().startsWith(value);
 }
 
 function checkHref(href, file, line) {
