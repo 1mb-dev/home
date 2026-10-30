@@ -2,7 +2,7 @@
  * Work index: parse content/, validate, render HTML.
  *
  * Pure functions only; scripts/gen.js does the file IO.
- * The content format is a deliberate subset (see design.md, "Content format"):
+ * The content format is a deliberate subset (see content/README.md):
  * anything outside it is an error, never silently dropped.
  */
 
