@@ -14,7 +14,10 @@
     <id>https://1mb.dev/work/sift/</id>
     <published>2026-10-30T00:00:00Z</published>
     <updated>2026-10-30T00:00:00Z</updated>
-    <summary>Hacker News, ranked by depth. Ten to twelve discussions a day. Picked for the quality of the thread, not the count of votes.</summary>
+    <summary>Hacker News, ranked by depth. Ten to twelve discussions a day, picked for the quality of the thread, not the count of votes.</summary>
+    <category term="hacker news" />
+    <category term="curated reading" />
+    <category term="developer news" />
   </entry>
   <entry>
     <title>nivomoney: A neobank, opened up to be read</title>
@@ -22,7 +25,12 @@
     <id>https://1mb.dev/work/nivomoney/</id>
     <published>2026-10-30T00:00:00Z</published>
     <updated>2026-10-30T00:00:00Z</updated>
-    <summary>A neobank, opened up to be read. Nine Go services. A double-entry ledger. React on the front.</summary>
+    <summary>A neobank, opened up to be read. Nine Go services, a double-entry ledger and React on the front, with the whole system on show.</summary>
+    <category term="neobank" />
+    <category term="double-entry ledger" />
+    <category term="go" />
+    <category term="microservices" />
+    <category term="fintech" />
   </entry>
   <entry>
     <title>ledgerq: A durable queue that lives on one disk</title>
@@ -30,6 +38,11 @@
     <id>https://1mb.dev/work/ledgerq/</id>
     <published>2026-10-30T00:00:00Z</published>
     <updated>2026-10-30T00:00:00Z</updated>
-    <summary>A durable queue that lives on one disk. Messages go to an append-only log and survive a crash. No network. No cluster. Nothing beyond Go&#39;s standard library.</summary>
+    <summary>A Go message queue in a directory: embedded, one process, one consumer, and no dependencies beyond the standard library.</summary>
+    <category term="message queue" />
+    <category term="go" />
+    <category term="embedded" />
+    <category term="disk-backed" />
+    <category term="zero dependencies" />
   </entry>
 </feed>

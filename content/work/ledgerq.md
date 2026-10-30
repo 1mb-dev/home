@@ -1,6 +1,8 @@
 ---
 name: ledgerq
 tagline: A durable queue that lives on one disk.
+description: A Go message queue in a directory: embedded, one process, one consumer, and no dependencies beyond the standard library.
+tags: message queue, go, embedded, disk-backed, zero dependencies
 source: https://github.com/1mb-dev/ledgerq
 docs: https://pkg.go.dev/github.com/1mb-dev/ledgerq/pkg/ledgerq
 shipped: 2025-10-17

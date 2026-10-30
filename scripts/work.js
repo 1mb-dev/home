@@ -18,6 +18,8 @@ export const GROUPS = {
 const KEYS = new Set([
   'name',
   'tagline',
+  'description',
+  'tags',
   'site',
   'source',
   'docs',
@@ -40,6 +42,11 @@ const SECTIONS = [
 const SLUG = /^[a-z0-9][a-z0-9-]*$/;
 const TAGLINE_MAX = 80;
 const TITLE_MAX = 70; // search results truncate beyond this; html-validate enforces it too
+const DESCRIPTION_MIN = 70; // shorter and search engines write their own snippet
+const DESCRIPTION_MAX = 160; // search results truncate beyond this
+const TAGS_MIN = 3;
+const TAGS_MAX = 6;
+const TAG = /^[a-z0-9][a-z0-9 +#.-]*$/;
 const PARAGRAPH_MAX = 400;
 
 export class ContentError extends Error {
@@ -122,9 +129,21 @@ export function parseIndex(text, file = 'content/index.txt') {
     .map((entry, i) => ({ ...entry, no: i + 1 }));
 }
 
+function parseTags(value, file, line) {
+  const tags = value.split(',').map((t) => t.trim());
+  if (tags.length < TAGS_MIN || tags.length > TAGS_MAX) {
+    throw new ContentError(file, line, `${tags.length} tags (${TAGS_MIN} to ${TAGS_MAX})`);
+  }
+  if (new Set(tags).size !== tags.length) throw new ContentError(file, line, 'duplicate tag');
+  for (const tag of tags) {
+    if (!TAG.test(tag)) throw new ContentError(file, line, `tag "${tag}" must be lowercase`);
+  }
+  return tags;
+}
+
 /**
  * content/work/{slug}.md -> { slug, name, tagline, site?, source?, docs?, retired, maintained,
- *                             shipped?, listed?,
+ *                             shipped?, listed?, description?, tags?,
  *                             synopsis: [para], why: [para], taught: [para], related: [link] }
  * Paragraphs are kept as { text, line } so inline errors can point at the source line.
  */
@@ -158,7 +177,21 @@ export function parseWork(text, slug, file = `content/work/${slug}.md`) {
       throw new ContentError(file, line, `${key} must be a date, YYYY-MM-DD`);
     }
     if (key === 'listed') listedLine = line;
-    if (key === 'tagline') assertNoRelativeTime(value, file, line);
+    if (key === 'tagline' || key === 'description') assertNoRelativeTime(value, file, line);
+    if (
+      key === 'description' &&
+      (value.length < DESCRIPTION_MIN || value.length > DESCRIPTION_MAX)
+    ) {
+      throw new ContentError(
+        file,
+        line,
+        `description is ${value.length} chars (${DESCRIPTION_MIN} to ${DESCRIPTION_MAX})`
+      );
+    }
+    if (key === 'tags') {
+      work.tags = parseTags(value, file, line);
+      continue;
+    }
     if (BOOL_KEYS.has(key)) {
       if (value !== 'true' && value !== 'false') {
         throw new ContentError(file, line, `${key} must be true or false`);
@@ -326,6 +359,12 @@ export function validateCollection(entries, works) {
     if (!work.listed) {
       throw new ContentError(file, 1, 'listed works need "listed: YYYY-MM-DD"');
     }
+    if (!work.description) {
+      throw new ContentError(file, 1, 'listed works need "description: ..." (the search snippet)');
+    }
+    if (!work.tags) {
+      throw new ContentError(file, 1, 'listed works need "tags: a, b, c"');
+    }
     if (!primaryAction(work, entry.group)) {
       const needs = entry.group === 'build' ? 'source or docs' : 'site';
       throw new ContentError(file, 1, `group "${entry.group}" needs ${needs}`);
@@ -463,24 +502,6 @@ export function renderColophon() {
 </footer>`;
 }
 
-const DESCRIPTION_MAX = 160;
-
-/**
- * Search snippet: the tagline, then whole synopsis sentences while they fit. Authored copy only,
- * markup stripped, never cut mid-sentence.
- */
-export function metaDescription(work) {
-  const plainText = (t) => t.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/[`*]/g, '');
-  let out = work.tagline;
-  const sentences = work.synopsis.flatMap((p) => plainText(p.text).match(/[^.!?]+[.!?]+/g) ?? []);
-  for (const sentence of sentences) {
-    const next = `${out} ${sentence.trim()}`;
-    if (next.length > DESCRIPTION_MAX) break;
-    out = next;
-  }
-  return out;
-}
-
 /**
  * Structured data for a work page: the work typed by its side, inside a page with a breadcrumb.
  * Only public facts: codeRepository appears only when the content names public source.
@@ -493,7 +514,13 @@ export function workJsonLd(work, group) {
     read: { '@type': 'CreativeWork', url: work.site },
     build: { '@type': 'SoftwareSourceCode', codeRepository: work.source },
   }[group];
-  const about = { ...thing, name: work.name, description: work.tagline, creator: org };
+  const about = {
+    ...thing,
+    name: work.name,
+    description: work.tagline,
+    keywords: work.tags.join(', '),
+    creator: org,
+  };
   if (work.shipped) about.datePublished = work.shipped;
   if (group === 'build' && work.docs) about.url = work.docs;
   if (group !== 'build' && work.source) about.sameAs = work.source;
@@ -504,7 +531,7 @@ export function workJsonLd(work, group) {
     '@type': 'WebPage',
     url,
     name: `${workHeadline(work)} · 1mb`,
-    description: metaDescription(work),
+    description: work.description,
     isPartOf: { '@type': 'WebSite', '@id': `${SITE}/#website`, name: '1mb', url: `${SITE}/` },
     publisher: org,
     about,
@@ -619,7 +646,8 @@ export function renderPage(work, entry, { prev = null, next = null, works } = {}
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>${esc(title)}</title>
-<meta name="description" content="${esc(metaDescription(work))}" />
+<meta name="description" content="${esc(work.description)}" />
+<meta name="keywords" content="${esc(work.tags.join(', '))}" />
 <meta name="author" content="1mb" />
 <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
 <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
@@ -632,7 +660,7 @@ export function renderPage(work, entry, { prev = null, next = null, works } = {}
 <meta property="og:type" content="website" />
 <meta property="og:url" content="${url}" />
 <meta property="og:title" content="${esc(title)}" />
-<meta property="og:description" content="${esc(metaDescription(work))}" />
+<meta property="og:description" content="${esc(work.description)}" />
 <meta property="og:image" content="${SITE}/assets/images/og-image.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
@@ -702,7 +730,8 @@ export function renderFeed(entries, works, description) {
     <id>${workUrl(w.slug)}</id>
     <published>${stamp(w.listed)}</published>
     <updated>${stamp(w.listed)}</updated>
-    <summary>${esc(metaDescription(w))}</summary>
+    <summary>${esc(w.description)}</summary>
+${w.tags.map((t) => `    <category term="${esc(t)}" />`).join('\n')}
   </entry>`
     )
     .join('\n');

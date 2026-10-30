@@ -1,6 +1,6 @@
 # 1mb Design Language
 
-**Version:** 0.7.8
+**Version:** 0.7.9
 **Last updated:** 2026-10-30
 **Source of truth for values:** `docs/assets/css/style.css` (tokens on `:root`). This file holds the why.
 
@@ -71,6 +71,8 @@ Same structure on every page: root, work pages, 404. `scripts/gen.js` writes the
 | Field          | Says                                                                          |
 | -------------- | ----------------------------------------------------------------------------- |
 | Tagline        | What the work is, not what it is like, in one sentence. Aim for 36 characters |
+| Description    | The search result: the category a searcher types, and the limit. 70 to 160    |
+| Tags           | Three to six lowercase words a searcher would use. Never padding              |
 | Synopsis       | What it does, with a number or a name. No status, no author                   |
 | Why it exists  | The problem specific to this work                                             |
 | What it taught | What the owner learned, or one point from the work's record they approve      |
@@ -150,7 +152,8 @@ No accent colour. Monochrome is the brand.
 What every page carries, and why. `scripts/work.js` renders it for work pages; the root and 404 are hand-written to the same standard.
 
 - **Title:** `{name}: {tagline} · 1mb` (taglines are one sentence; the parser enforces it), so a search result says what the work is; root `1mb, one-man-band: Things to use, read and build with`. 70 characters at most: the parser rejects a tagline that would push a title past it. Middle dot and colon, never an em-dash.
-- **Description:** the tagline, then whole synopsis sentences while they fit in 160 characters. Authored copy only, never cut mid-sentence. Root, OG, JSON-LD and the manifest share one sentence.
+- **Description:** written by hand as `description:`, 70 to 160 characters, and a work cannot list without it. It is the sentence a stranger reads in a search result, so it earns the click with the category and the limit, not with a pitch. It feeds the meta tag, Open Graph, JSON-LD and the feed. On the root, the meta tag, OG, JSON-LD and the manifest share one sentence.
+- **Tags:** `tags:`, three to six, lowercase, and a work cannot list without them. Search engines ignore `<meta name="keywords">`, so tags also feed JSON-LD `keywords` and the feed's `<category>`. Never shown on the page. The words a searcher uses belong in the description and synopsis first: tags do not rescue copy that never says them.
 - **Canonical:** self, absolute, trailing slash; matches `og:url`.
 - **Open Graph:** type, url, title, description, the one shared image with width, height and alt, site name, locale. `twitter:card` only; X falls back to OG.
 - **Structured data:** one entity graph. Root: `WebSite` (`#website`) published by `Organization` (`#org`, `sameAs` GitHub and the log). Work pages: `WebPage` with `isPartOf #website`, `publisher #org`, a `BreadcrumbList`, and `about` typed by side: `WebApplication` (use), `CreativeWork` (read), `SoftwareSourceCode` (build). `codeRepository` and `sameAs` appear only for public source. No ratings, no dates: nothing invented.
@@ -201,7 +204,7 @@ Labels inside notes (`why it exists`, `what it taught`, `related`) share the sid
 
 ## Content format
 
-`content/index.txt` decides what is listed, in which side, in what order. `content/work/{slug}.md` holds one work: flat front matter (`name`, `tagline`, `site`, `source`, `docs`, `retired`, `maintained`, `shipped`, `listed`), then the synopsis, `## Why it exists`, optional `## What it taught` and `## Related`. Inline: links, `*emphasis*`, `` `code` ``. Anything else fails the build with file and line.
+`content/index.txt` decides what is listed, in which side, in what order. `content/work/{slug}.md` holds one work: flat front matter (`name`, `tagline`, `description`, `tags`, `site`, `source`, `docs`, `retired`, `maintained`, `shipped`, `listed`), then the synopsis, `## Why it exists`, optional `## What it taught` and `## Related`. Inline: links, `*emphasis*`, `` `code` ``. Anything else fails the build with file and line.
 
 To add a work: write `content/work/{slug}.md`, check it reads well as a draft, list the slug in `content/index.txt`, run `npm run gen`, commit `content/` and `docs/` together. CI fails when `docs/` is stale.
 
@@ -209,7 +212,7 @@ A file not listed in `index.txt` is a draft. Works enter the index one at a time
 
 Within a side, the work most useful to a reader with no context comes first; retired and unmaintained works come last. No side launches or stays at a single row: one row reads as a stub.
 
-A listed work needs two dates, both hand-picked during curation. `shipped: YYYY-MM-DD` is its go-live date. `listed: YYYY-MM-DD` is the day it joins the index; it dates the feed, so a work listed today never enters the feed months old. It may not precede `shipped`. Both are editorial, so `gen` stays deterministic. Current values are placeholders: `shipped` is the first commit, `listed` the day the field landed. `shipped` is a sensible date, not a proven one: the first release or tag, the first commit, or the owner's own pick. The commit that lists the work says which.
+A listed work needs `description` and `tags` (Web presence), and two dates, both hand-picked during curation. `shipped: YYYY-MM-DD` is its go-live date. `listed: YYYY-MM-DD` is the day it joins the index; it dates the feed, so a work listed today never enters the feed months old. It may not precede `shipped`. Both are editorial, so `gen` stays deterministic. Current values are placeholders: `shipped` is the first commit, `listed` the day the field landed. `shipped` is a sensible date, not a proven one: the first release or tag, the first commit, or the owner's own pick. The commit that lists the work says which.
 
 ## Regenerating
 
@@ -288,6 +291,7 @@ Every generated file has one script. Edit the source, run the script, commit bot
 | 2026-10-30 | "Ends with weight" means a checkable fact                                              | Owner: the checklist said fact, the register said weight; samples ended on maxims                         |
 | 2026-10-30 | Cloudflare Pages, headers in `_headers`                                                | One CSP instead of three hand copies, and `frame-ancestors`, which a meta tag cannot carry                |
 | 2026-10-30 | "What it taught" may be curated from the work's record                                 | Owner: a section is not left out only because the owner did not write it; the owner still approves it     |
+| 2026-10-30 | Hand-written `description:` and `tags:` on every listed work                           | Owner: ample prominence to search posture. A stitched snippet reads like one; tags stay out of the layout |
 
 ## Evolving this
 

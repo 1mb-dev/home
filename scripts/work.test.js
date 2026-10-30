@@ -16,7 +16,6 @@ import {
   sitemapLocs,
   statusLines,
   validateCollection,
-  metaDescription,
   renderFeed,
   workJsonLd,
 } from './work.js';
@@ -24,8 +23,11 @@ import {
 const work = (front, body = 'A synopsis.\n\n## Why it exists\n\nA reason.') =>
   `---\n${front}\n---\n\n${body}\n`;
 
+const SEO =
+  'description: A description long enough to stand as the snippet shown in a search result.\ntags: one, two, three';
+
 const SIFT = work(
-  'name: sift\ntagline: Ranked by depth.\nsite: https://sift.1mb.dev\nshipped: 2026-02-22\nlisted: 2026-03-01'
+  `name: sift\ntagline: Ranked by depth.\nsite: https://sift.1mb.dev\nshipped: 2026-02-22\nlisted: 2026-03-01\n${SEO}`
 );
 
 describe('parseIndex', () => {
@@ -256,6 +258,43 @@ describe('status and actions', () => {
   });
 });
 
+describe('search fields', () => {
+  const parse = (front) => parseWork(work(`name: a\ntagline: t\n${front}`), 'a');
+  const long = 'x'.repeat(161);
+
+  it('accepts a description from 70 to 160 characters', () => {
+    expect(parse(`description: ${'x'.repeat(70)}`).description).toHaveLength(70);
+    expect(parse(`description: ${'x'.repeat(160)}`).description).toHaveLength(160);
+    expect(() => parse(`description: ${'x'.repeat(69)}`)).toThrow('description is 69 chars');
+    expect(() => parse(`description: ${long}`)).toThrow('description is 161 chars');
+  });
+
+  it('rejects a time word in a description', () => {
+    const stale = `description: The latest ${'x'.repeat(70)}`;
+    expect(() => parse(stale)).toThrow();
+  });
+
+  it('parses three to six lowercase tags', () => {
+    expect(parse('tags: go, message queue, c++').tags).toEqual(['go', 'message queue', 'c++']);
+    expect(() => parse('tags: a, b')).toThrow('2 tags (3 to 6)');
+    expect(() => parse('tags: a, b, c, d, e, f, g')).toThrow('7 tags (3 to 6)');
+    expect(() => parse('tags: a, b, a')).toThrow('duplicate tag');
+    expect(() => parse('tags: a, b, Go')).toThrow('tag "Go" must be lowercase');
+  });
+
+  it('requires both on a listed work, not on a draft', () => {
+    const dates = 'site: https://a.dev\nshipped: 2026-01-01\nlisted: 2026-01-02';
+    const entries = parseIndex('use\n  a\n');
+    const check = (front) => validateCollection(entries, new Map([['a', parse(front)]]));
+    expect(() => check(dates)).toThrow('listed works need "description: ..."');
+    expect(() => check(`${dates}\ndescription: ${'x'.repeat(70)}`)).toThrow(
+      'listed works need "tags: a, b, c"'
+    );
+    expect(() => check(`${dates}\n${SEO}`)).not.toThrow();
+    expect(parse('site: https://a.dev').description).toBeUndefined();
+  });
+});
+
 describe('collection rules', () => {
   const entries = parseIndex('use\n  sift\nbuild\n  ledgerq\n');
 
@@ -279,7 +318,7 @@ describe('collection rules', () => {
     works.set(
       'ledgerq',
       parseWork(
-        work('name: ledgerq\ntagline: q\nshipped: 2025-10-17\nlisted: 2026-01-01'),
+        work(`name: ledgerq\ntagline: q\nshipped: 2025-10-17\nlisted: 2026-01-01\n${SEO}`),
         'ledgerq'
       )
     );
@@ -288,7 +327,7 @@ describe('collection rules', () => {
 
   it('rejects Related links to unlisted works', () => {
     const draftLink = work(
-      'name: sift\ntagline: t\nsite: https://s.dev\nshipped: 2026-01-01\nlisted: 2026-01-01',
+      `name: sift\ntagline: t\nsite: https://s.dev\nshipped: 2026-01-01\nlisted: 2026-01-01\n${SEO}`,
       'S.\n\n## Why it exists\n\nW.\n\n## Related\n\n[d](/work/draft/)'
     );
     const works = new Map([['sift', parseWork(draftLink, 'sift')]]);
@@ -311,11 +350,13 @@ describe('rendering', () => {
     renderPage(w, { slug: w.slug, group }, { works: new Map([[w.slug, w]]), ...opts });
 
   it('escapes content in rows and pages', () => {
-    const w = parseWork(work('name: a&b\ntagline: "<x>"\nsite: https://a.dev'), 'ab');
+    const snippet = '"<x>" and enough other words to stand as the snippet in a search result.';
+    const front = `name: a&b\ntagline: "<x>"\nsite: https://a.dev\ndescription: ${snippet}\ntags: a, b, c`;
+    const w = parseWork(work(front), 'ab');
     const index = renderIndex(parseIndex('use\n  ab'), new Map([['ab', w]]));
     expect(index).toContain('a&amp;b');
     expect(index).not.toContain('<x>');
-    expect(pageFor(w)).toContain('content="&quot;&lt;x&gt;&quot; A synopsis."');
+    expect(pageFor(w)).toContain('content="&quot;&lt;x&gt;&quot; and enough other words');
   });
 
   it('gives every side the same row anatomy; build rows link the verb to source', () => {
@@ -369,7 +410,7 @@ describe('rendering', () => {
     const page = pageFor(parseWork(SIFT, 'sift'));
     expect(page).toContain('<link rel="canonical" href="https://1mb.dev/work/sift/" />');
     expect(page).toContain(
-      '<meta property="og:description" content="Ranked by depth. A synopsis." />'
+      '<meta property="og:description" content="A description long enough to stand as the snippet shown in a search result." />'
     );
   });
 
@@ -414,29 +455,30 @@ describe('rendering', () => {
       url: 'https://sift.1mb.dev',
       name: 'sift',
       description: 'Ranked by depth.',
+      keywords: 'one, two, three',
       creator: { '@type': 'Organization', '@id': 'https://1mb.dev/#org', name: '1mb' },
       datePublished: '2026-02-22',
     });
     expect(live.isPartOf['@id']).toBe('https://1mb.dev/#website');
     expect(live.breadcrumb.itemListElement[1].item).toBe('https://1mb.dev/work/sift/');
 
-    const lib = parseWork(work('name: q\ntagline: t\nsource: https://github.com/x/q'), 'q');
+    const lib = parseWork(work(`name: q\ntagline: t\nsource: https://github.com/x/q\n${SEO}`), 'q');
     expect(ld(lib, 'build').about.codeRepository).toBe('https://github.com/x/q');
   });
 
-  it('builds the search snippet from whole sentences, within 160 chars', () => {
-    const long = 'Word '.repeat(20).trim() + '.';
-    const w = parseWork(
-      work(
-        'name: a\ntagline: Short tag.\nsite: https://a.dev',
-        `One [link](https://x.dev) here. ${long} Third.\n\n## Why it exists\n\nW.`
-      ),
-      'a'
-    );
-    const d = metaDescription(w);
-    expect(d.startsWith('Short tag. One link here.')).toBe(true);
-    expect(d.length).toBeLessThanOrEqual(160);
-    expect(d.endsWith('.')).toBe(true);
+  it('carries the authored description and tags into page, data and feed', () => {
+    const w = parseWork(SIFT, 'sift');
+    const page = pageFor(w);
+    const snippet = 'A description long enough to stand as the snippet shown in a search result.';
+    expect(page).toContain(`<meta name="description" content="${snippet}" />`);
+    expect(page).toContain(`<meta property="og:description" content="${snippet}" />`);
+    expect(page).toContain('<meta name="keywords" content="one, two, three" />');
+    const data = JSON.parse(workJsonLd(w, 'use'));
+    expect(data.description).toBe(snippet);
+    expect(data.about.keywords).toBe('one, two, three');
+    const feed = renderFeed([{ slug: 'sift', group: 'use' }], new Map([['sift', w]]), 'x');
+    expect(feed).toContain(`<summary>${snippet}</summary>`);
+    expect(feed).toContain('<category term="two" />');
   });
 
   it('titles a page by what the work is', () => {
@@ -451,7 +493,7 @@ describe('rendering', () => {
     const q = (listed) =>
       parseWork(
         work(
-          `name: q&a\ntagline: t\nsource: https://g.dev/q\nshipped: 2025-01-01\nlisted: ${listed}`
+          `name: q&a\ntagline: t\nsource: https://g.dev/q\nshipped: 2025-01-01\nlisted: ${listed}\n${SEO}`
         ),
         'q'
       );
@@ -476,7 +518,7 @@ describe('rendering', () => {
   });
 
   it('keeps a script block intact when copy contains "</"', () => {
-    const w = parseWork(work('name: a\ntagline: x </script> y\nsite: https://a.dev'), 'a');
+    const w = parseWork(work(`name: a\ntagline: x </script> y\nsite: https://a.dev\n${SEO}`), 'a');
     expect(workJsonLd(w, 'use')).not.toContain('</script>');
   });
 

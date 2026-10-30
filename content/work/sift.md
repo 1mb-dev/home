@@ -1,6 +1,8 @@
 ---
 name: sift
 tagline: Hacker News, ranked by depth.
+description: Hacker News, ranked by depth. Ten to twelve discussions a day, picked for the quality of the thread, not the count of votes.
+tags: hacker news, curated reading, developer news
 site: https://sift.1mb.dev
 shipped: 2026-02-22
 listed: 2026-10-30
