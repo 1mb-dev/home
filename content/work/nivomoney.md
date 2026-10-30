@@ -10,8 +10,6 @@ listed: 2026-10-30
 
 Nine Go services. A double-entry ledger. React on the front.
 
-It ran live. Now it is a record: what was built, and how.
-
 ## Why it exists
 
 Money moves through plumbing nobody sees. Ledgers, idempotency, reconciliation.

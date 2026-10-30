@@ -58,6 +58,16 @@ export function assertNoEmDash(text, file) {
   if (i !== -1) throw new ContentError(file, i + 1, 'em-dash in copy; rewrite the sentence');
 }
 
+// Time words go stale on a page that is never re-dated (DESIGN.md, Voice). Code spans are exempt.
+const RELATIVE_TIME = /\b(currently|now|recently|today|latest|these days)\b/i;
+
+function assertNoRelativeTime(text, file, line) {
+  const hit = RELATIVE_TIME.exec(text.replace(/`[^`]*`/g, ''));
+  if (hit) {
+    throw new ContentError(file, line, `"${hit[1]}" goes stale; state what is true without it`);
+  }
+}
+
 // What the site serves as text, so the em-dash scan reaches it. Anything else under docs/ must be
 // binary (work.test.js checks), or a new text type would pass the scan unread.
 const TEXT = /\.(html|css|js|json|xml|txt|svg|webmanifest)$/;
@@ -147,6 +157,7 @@ export function parseWork(text, slug, file = `content/work/${slug}.md`) {
       throw new ContentError(file, line, `${key} must be a date, YYYY-MM-DD`);
     }
     if (key === 'listed') listedLine = line;
+    if (key === 'tagline') assertNoRelativeTime(value, file, line);
     if (BOOL_KEYS.has(key)) {
       if (value !== 'true' && value !== 'false') {
         throw new ContentError(file, line, `${key} must be true or false`);
@@ -214,6 +225,7 @@ export function parseWork(text, slug, file = `content/work/${slug}.md`) {
     if (/^\s*([-*+]\s|>|\||\d+\.\s|!\[)/.test(raw)) {
       throw new ContentError(file, line, 'unsupported markup (lists, quotes, tables, images)');
     }
+    assertNoRelativeTime(raw, file, line);
 
     if (section === 'related') {
       const link = /^\[([^\]]+)\]\(([^)\s]+)\)$/.exec(raw.trim());

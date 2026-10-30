@@ -22,7 +22,7 @@
     <id>https://1mb.dev/work/nivomoney/</id>
     <published>2026-10-30T00:00:00Z</published>
     <updated>2026-10-30T00:00:00Z</updated>
-    <summary>A neobank, opened up to be read. Nine Go services. A double-entry ledger. React on the front. It ran live. Now it is a record: what was built, and how.</summary>
+    <summary>A neobank, opened up to be read. Nine Go services. A double-entry ledger. React on the front.</summary>
   </entry>
   <entry>
     <title>ledgerq: A durable queue that lives on one disk</title>

@@ -103,6 +103,20 @@ describe('parseWork', () => {
     expect(same.listed).toBe('2025-06-01');
   });
 
+  it('rejects time words that go stale, at their line, outside code', () => {
+    expect(() => parseWork(work('name: a\ntagline: Currently a queue'), 'a')).toThrow(
+      ':3 "Currently" goes stale'
+    );
+    expect(() => parseWork(work('name: a\ntagline: t', 'S.\n\nNow it is a record.'), 'a')).toThrow(
+      ':8 "Now" goes stale'
+    );
+    const fine = work(
+      'name: a\ntagline: Known to snow',
+      'Nowhere else. Run `now`.\n\n## Why it exists\n\nW.'
+    );
+    expect(parseWork(fine, 'a').synopsis[0].text).toBe('Nowhere else. Run `now`.');
+  });
+
   it('keeps a tagline to one sentence', () => {
     expect(() => parseWork(work('name: a\ntagline: One. Two.'), 'a')).toThrow(
       'tagline must be one sentence'
