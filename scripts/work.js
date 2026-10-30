@@ -47,6 +47,14 @@ export function assertNoEmDash(text, file) {
   if (i !== -1) throw new ContentError(file, i + 1, 'em-dash in copy; rewrite the sentence');
 }
 
+// What the site serves as text, so the em-dash scan reaches it. Anything else under docs/ must be
+// binary (work.test.js checks), or a new text type would pass the scan unread.
+const TEXT = /\.(html|css|js|json|xml|txt|svg|webmanifest)$/;
+
+export function isText(name) {
+  return TEXT.test(name);
+}
+
 export function esc(value) {
   return String(value)
     .replace(/&/g, '&amp;')

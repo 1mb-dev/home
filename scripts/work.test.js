@@ -1,8 +1,10 @@
+import { readdirSync } from 'fs';
 import { describe, it, expect } from 'vitest';
 import {
   actions,
   checkDurable,
   esc,
+  isText,
   parseIndex,
   parseWork,
   renderColophon,
@@ -346,5 +348,21 @@ describe('rendering', () => {
     expect(esc(`<a href="x" onclick='y'>&`)).toBe(
       '&lt;a href=&quot;x&quot; onclick=&#39;y&#39;&gt;&amp;'
     );
+  });
+});
+
+describe('em-dash scan coverage', () => {
+  it('reads every file under docs/ that is not binary', () => {
+    const binary = /\.(png|ico|woff2|jpg|webp)$/;
+    const unread = readdirSync('docs', { recursive: true, withFileTypes: true })
+      .filter((e) => e.isFile() && !e.name.startsWith('.') && e.name !== 'CNAME' && !isText(e.name) && !binary.test(e.name))
+      .map((e) => e.name);
+    expect(unread).toEqual([]);
+  });
+
+  it('skips binary assets', () => {
+    expect(isText('og-image.png')).toBe(false);
+    expect(isText('site.webmanifest')).toBe(true);
+    expect(isText('security.txt')).toBe(true);
   });
 });

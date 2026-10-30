@@ -19,6 +19,7 @@ import * as prettier from 'prettier';
 import {
   ContentError,
   assertNoEmDash,
+  isText,
   checkDurable,
   parseIndex,
   parseWork,
@@ -46,6 +47,14 @@ function replaceBlock(html, name, content, file) {
   return `${html.slice(0, i)}${start}\n${content}\n${html.slice(j)}`;
 }
 
+function* textFiles(dir) {
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const path = join(dir, entry.name);
+    if (entry.isDirectory()) yield* textFiles(path);
+    else if (isText(entry.name)) yield path;
+  }
+}
+
 // Every file gen writes passes through here, so the em-dash ban covers hand-written pages too.
 async function format(source, filepath) {
   const options = await prettier.resolveConfig(filepath);
@@ -66,9 +75,9 @@ async function main() {
   }
   validateCollection(entries, works);
 
-  for (const name of readdirSync(join(DOCS, 'assets', 'js'))) {
-    const path = join(DOCS, 'assets', 'js', name);
-    assertNoEmDash(readFileSync(path, 'utf8'), `docs/assets/js/${name}`);
+  // Hand-written files too (manifest, txt, CSS, SW, SVG): the rule covers every string the site serves.
+  for (const path of textFiles(DOCS)) {
+    assertNoEmDash(readFileSync(path, 'utf8'), path.slice(ROOT.length + 1));
   }
 
   const sitemapPath = join(DOCS, 'sitemap.xml');
