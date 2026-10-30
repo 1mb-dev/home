@@ -1,6 +1,6 @@
 # 1mb Design Language
 
-**Version:** 0.7.1
+**Version:** 0.7.2
 **Last updated:** 2026-10-30
 **Source of truth for values:** `docs/assets/css/style.css` (tokens on `:root`). This file holds the why.
 
@@ -144,7 +144,7 @@ What every page carries, and why. `scripts/work.js` renders it for work pages; t
 - **Crawling:** our own `robots.txt`, open to every crawler, AI included (`Content-Signal: search=yes, ai-input=yes, ai-train=yes`). It must be the file served: Cloudflare's managed robots.txt stays off. The sitemap lists the root and every published work; `build.js` adds `<lastmod>` at deploy from the git log of each page's content file, so the date is real or absent, never guessed. The 404 is `noindex`; GitHub Pages serves it with a real 404 status.
 - **CSP (meta):** `script-src 'self'`, no inline script or style, `object-src 'none'`, `base-uri 'none'`, `form-action 'none'`; the root alone may `connect-src` the counter API.
 - **Icons:** `1mb` outlined from Space Grotesk 700 into SVG paths, so every client draws the same mark. SVG plus PNG at 16, 32, 180 (touch), 192, 512 and a 512 maskable (mark inside the 80% safe zone), and `/favicon.ico` for clients that ask blindly. Regenerate with `npm run icons`, never by hand.
-- **Feeds:** `/feed.xml`, Atom, one entry per listed work, newest first (by `shipped:` until `listed:` lands with the curation workflow); advertised on every page and linked from the colophon. The root also advertises the log's RSS.
+- **Feeds:** `/feed.xml`, Atom, one entry per listed work, newest listing first (by `listed:`, then `shipped:`); advertised on every page and linked from the colophon. The root also advertises the log's RSS.
 - **Security contact:** `/.well-known/security.txt`: `security@1mb.dev` and GitHub private vulnerability reporting on the home repo; `Expires` stamped a year out at each deploy.
 - **Same tab, `rel="me"`** on the GitHub link, `humans.txt` as `rel="author"`.
 
@@ -188,7 +188,7 @@ Labels inside notes (`why it exists`, `what it taught`, `related`) share the sid
 
 ## Content format
 
-`content/index.txt` decides what is listed, in which side, in what order. `content/work/{slug}.md` holds one work: flat front matter (`name`, `tagline`, `site`, `source`, `docs`, `retired`, `maintained`, `shipped`), then the synopsis, `## Why it exists`, optional `## What it taught` and `## Related`. Inline: links, `*emphasis*`, `` `code` ``. Anything else fails the build with file and line.
+`content/index.txt` decides what is listed, in which side, in what order. `content/work/{slug}.md` holds one work: flat front matter (`name`, `tagline`, `site`, `source`, `docs`, `retired`, `maintained`, `shipped`, `listed`), then the synopsis, `## Why it exists`, optional `## What it taught` and `## Related`. Inline: links, `*emphasis*`, `` `code` ``. Anything else fails the build with file and line.
 
 To add a work: write `content/work/{slug}.md`, check it reads well as a draft, list the slug in `content/index.txt`, run `npm run gen`, commit `content/` and `docs/` together. CI fails when `docs/` is stale.
 
@@ -196,7 +196,7 @@ A file not listed in `index.txt` is a draft. Works enter the index one at a time
 
 Within a side, the work most useful to a reader with no context comes first; retired and unmaintained works come last. No side launches or stays at a single row: one row reads as a stub.
 
-`shipped: YYYY-MM-DD` is required for a listed work: its go-live date, hand-picked during curation. It is editorial, so `gen` stays deterministic. Current values are first-commit placeholders. Planned with the curation workflow: a `listed:` date (the day a work joins the index) that dates the feed instead, in place before the first new work is listed; and `npm run evidence -- <slug>`, which proposes a go-live date from tags, releases, deployments and certificates for the owner to confirm. The launch works are dated by hand; the script is built before the eighth work is listed.
+A listed work needs two dates, both hand-picked during curation. `shipped: YYYY-MM-DD` is its go-live date. `listed: YYYY-MM-DD` is the day it joins the index; it dates the feed, so a work listed today never enters months old. It may not precede `shipped`. Both are editorial, so `gen` stays deterministic. Current values are placeholders: `shipped` is the first commit, `listed` the day the field landed. Planned with the curation workflow: `npm run evidence -- <slug>`, which proposes a go-live date from tags, releases, deployments and certificates for the owner to confirm. The launch works are dated by hand; the script is built before the eighth work is listed.
 
 ## Regenerating
 
@@ -258,7 +258,6 @@ Every generated file has one script. Edit the source, run the script, commit bot
 | 2026-10-29 | Web presence baseline (see section)                                                    | Owner: what we overlook matters more than what we remember                                                |
 | 2026-10-29 | Descriptive titles, 70-char cap                                                        | Owner: fewer words do not help discovery                                                                  |
 | 2026-10-29 | Own robots.txt, open to AI crawlers                                                    | Owner: more allowing; the policy lives in git                                                             |
-| 2026-10-29 | `shipped:` dates the Atom feed                                                         | Placeholders until curation picks each go-live date                                                       |
 | 2026-10-29 | Icons outlined from Space Grotesk, regenerated by script                               | The old SVG used the system font and the 512 was an upscale                                               |
 | 2026-10-29 | Colophon in two lines: credit and toggle, then © and links                             | Owner: credit and switch first, links second                                                              |
 | 2026-10-29 | Colophon grid: links aligned under the credit, © year last                             | Owner sketch; the year is a sign-off, so it reads last rather than sitting alone under the toggle         |
@@ -269,6 +268,7 @@ Every generated file has one script. Edit the source, run the script, commit bot
 | 2026-10-30 | Sign-off at v0.6.0: scaling and order rules, accessible names, superseded rows removed | Four lenses reviewed in parallel; the design reopens only for a new owner reason                          |
 | 2026-10-30 | Counter line drops `{t} today`                                                         | Owner agreed: a second number in the periphery asks for attention, against quiet by default               |
 | 2026-10-30 | No side pages; side ids now; `gen` links the bridge past the trigger                   | A cap is a featured slot, side pages duplicate the index forever; `/#build` gives a side an address today |
+| 2026-10-30 | `listed:` dates the Atom feed; `shipped:` stays the go-live date                       | A work listed today never enters the feed months old                                                      |
 
 ## Evolving this
 

@@ -3,6 +3,7 @@ name: sift
 tagline: Hacker News, ranked by depth.
 site: https://sift.1mb.dev
 shipped: 2026-02-22
+listed: 2026-10-30
 ---
 
 Ten to twelve discussions a day. Picked for the quality of the thread, not the count of votes.

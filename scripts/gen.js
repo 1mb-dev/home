@@ -9,7 +9,7 @@
  *   docs/404.html            blocks between <!-- gen:{masthead,colophon}:start/end -->
  *   docs/work/{slug}/        one page per listed work (directory rebuilt each run)
  *   docs/sitemap.xml
- *   docs/feed.xml            Atom feed of listed works by ship date
+ *   docs/feed.xml            Atom feed of listed works by listing date
  */
 
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'fs';

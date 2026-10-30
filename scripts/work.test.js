@@ -25,7 +25,7 @@ const work = (front, body = 'A synopsis.\n\n## Why it exists\n\nA reason.') =>
   `---\n${front}\n---\n\n${body}\n`;
 
 const SIFT = work(
-  'name: sift\ntagline: Ranked by depth.\nsite: https://sift.1mb.dev\nshipped: 2026-02-22'
+  'name: sift\ntagline: Ranked by depth.\nsite: https://sift.1mb.dev\nshipped: 2026-02-22\nlisted: 2026-03-01'
 );
 
 describe('parseIndex', () => {
@@ -74,7 +74,7 @@ describe('parseWork', () => {
     expect(() => parseWork(work('name: a\nname: b'), 'a')).toThrow(':3 duplicate key "name"');
   });
 
-  it('requires a real calendar date for shipped', () => {
+  it('requires real calendar dates for shipped and listed', () => {
     expect(parseWork(work('name: a\ntagline: t\nshipped: 2024-02-29'), 'a').shipped).toBe(
       '2024-02-29'
     );
@@ -87,6 +87,20 @@ describe('parseWork', () => {
     expect(() => parseWork(work('name: a\ntagline: t\nshipped: Oct 2025'), 'a')).toThrow(
       'shipped must be a date'
     );
+    expect(() => parseWork(work('name: a\ntagline: t\nlisted: 2025-02-30'), 'a')).toThrow(
+      ':4 listed must be a date'
+    );
+  });
+
+  it('rejects a listing before the work went live, at the listed line', () => {
+    expect(() =>
+      parseWork(work('name: a\ntagline: t\nlisted: 2025-01-01\nshipped: 2025-06-01'), 'a')
+    ).toThrow(':4 listed must not precede shipped');
+    const same = parseWork(
+      work('name: a\ntagline: t\nshipped: 2025-06-01\nlisted: 2025-06-01'),
+      'a'
+    );
+    expect(same.listed).toBe('2025-06-01');
   });
 
   it('keeps a tagline to one sentence', () => {
@@ -231,12 +245,23 @@ describe('collection rules', () => {
       'ledgerq',
       parseWork(work('name: ledgerq\ntagline: q\nshipped: 2025-10-17'), 'ledgerq')
     );
+    expect(() => validateCollection(entries, works)).toThrow(
+      'listed works need "listed: YYYY-MM-DD"'
+    );
+
+    works.set(
+      'ledgerq',
+      parseWork(
+        work('name: ledgerq\ntagline: q\nshipped: 2025-10-17\nlisted: 2026-01-01'),
+        'ledgerq'
+      )
+    );
     expect(() => validateCollection(entries, works)).toThrow('group "build" needs source or docs');
   });
 
   it('rejects Related links to unlisted works', () => {
     const draftLink = work(
-      'name: sift\ntagline: t\nsite: https://s.dev\nshipped: 2026-01-01',
+      'name: sift\ntagline: t\nsite: https://s.dev\nshipped: 2026-01-01\nlisted: 2026-01-01',
       'S.\n\n## Why it exists\n\nW.\n\n## Related\n\n[d](/work/draft/)'
     );
     const works = new Map([['sift', parseWork(draftLink, 'sift')]]);
@@ -395,19 +420,32 @@ describe('rendering', () => {
     );
   });
 
-  it('lists works in the feed newest ship date first, escaped', () => {
+  it('lists works in the feed newest listing first, escaped', () => {
+    const q = (listed) =>
+      parseWork(
+        work(
+          `name: q&a\ntagline: t\nsource: https://g.dev/q\nshipped: 2025-01-01\nlisted: ${listed}`
+        ),
+        'q'
+      );
+    const index = parseIndex('use\n  sift\nbuild\n  q');
+    // q went live a year before sift but joined the index after it: q leads, dated by its listing.
     const works = new Map([
       ['sift', parseWork(SIFT, 'sift')],
-      [
-        'q',
-        parseWork(work('name: q&a\ntagline: t\nsource: https://g.dev/q\nshipped: 2025-01-01'), 'q'),
-      ],
+      ['q', q('2026-04-01')],
     ]);
-    const feed = renderFeed(parseIndex('use\n  sift\nbuild\n  q'), works, 'About <1mb>.');
-    expect(feed.indexOf('/work/sift/')).toBeLessThan(feed.indexOf('/work/q/'));
-    expect(feed).toContain('<updated>2026-02-22T00:00:00Z</updated>\n  <author>');
+    const feed = renderFeed(index, works, 'About <1mb>.');
+    expect(feed.indexOf('/work/q/')).toBeLessThan(feed.indexOf('/work/sift/'));
+    expect(feed).toContain('<updated>2026-04-01T00:00:00Z</updated>\n  <author>');
+    expect(feed).toContain('<published>2026-04-01T00:00:00Z</published>');
+    expect(feed).not.toContain('2025-01-01T');
     expect(feed).toContain('<title>q&amp;a: t</title>');
     expect(feed).toContain('<subtitle>About &lt;1mb&gt;.</subtitle>');
+
+    // Listed the same day (the launch): the newer work leads.
+    works.set('q', q('2026-03-01'));
+    const tied = renderFeed(index, works, 'About <1mb>.');
+    expect(tied.indexOf('/work/sift/')).toBeLessThan(tied.indexOf('/work/q/'));
   });
 
   it('keeps a script block intact when copy contains "</"', () => {

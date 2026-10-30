@@ -24,9 +24,11 @@ const KEYS = new Set([
   'retired',
   'maintained',
   'shipped',
+  'listed',
 ]);
 const URL_KEYS = new Set(['site', 'source', 'docs']);
 const BOOL_KEYS = new Set(['retired', 'maintained']);
+const DATE_KEYS = new Set(['shipped', 'listed']);
 
 // Body sections, in the only order they may appear. Synopsis is the text before the first heading.
 const SECTIONS = [
@@ -111,6 +113,7 @@ export function parseIndex(text, file = 'content/index.txt') {
 
 /**
  * content/work/{slug}.md -> { slug, name, tagline, site?, source?, docs?, retired, maintained,
+ *                             shipped?, listed?,
  *                             synopsis: [para], why: [para], taught: [para], related: [link] }
  * Paragraphs are kept as { text, line } so inline errors can point at the source line.
  */
@@ -126,6 +129,7 @@ export function parseWork(text, slug, file = `content/work/${slug}.md`) {
   work.related = [];
 
   const seen = new Set();
+  let listedLine;
   let i = 1;
   for (; i < lines.length && lines[i] !== '---'; i++) {
     const line = i + 1;
@@ -138,9 +142,10 @@ export function parseWork(text, slug, file = `content/work/${slug}.md`) {
     if (URL_KEYS.has(key) && !/^https:\/\/[^\s]+$/.test(value)) {
       throw new ContentError(file, line, `${key} must be an https:// URL`);
     }
-    if (key === 'shipped' && !isDate(value)) {
-      throw new ContentError(file, line, 'shipped must be a date, YYYY-MM-DD');
+    if (DATE_KEYS.has(key) && !isDate(value)) {
+      throw new ContentError(file, line, `${key} must be a date, YYYY-MM-DD`);
     }
+    if (key === 'listed') listedLine = line;
     if (BOOL_KEYS.has(key)) {
       if (value !== 'true' && value !== 'false') {
         throw new ContentError(file, line, `${key} must be true or false`);
@@ -152,6 +157,9 @@ export function parseWork(text, slug, file = `content/work/${slug}.md`) {
   }
   if (i >= lines.length) throw new ContentError(file, 1, 'front matter is not closed with "---"');
 
+  if (work.listed && work.shipped && work.listed < work.shipped) {
+    throw new ContentError(file, listedLine, 'listed must not precede shipped');
+  }
   if (!work.name) throw new ContentError(file, 1, 'missing "name"');
   if (!work.tagline) throw new ContentError(file, 1, 'missing "tagline"');
   if (/[.!?]\s/.test(work.tagline)) {
@@ -300,6 +308,9 @@ export function validateCollection(entries, works) {
     }
     if (!work.shipped) {
       throw new ContentError(file, 1, 'listed works need "shipped: YYYY-MM-DD"');
+    }
+    if (!work.listed) {
+      throw new ContentError(file, 1, 'listed works need "listed: YYYY-MM-DD"');
     }
     if (!primaryAction(work, entry.group)) {
       const needs = entry.group === 'build' ? 'source or docs' : 'site';
@@ -657,13 +668,18 @@ ${renderColophon()}
 }
 
 /**
- * Atom feed of listed works, newest ship date first. Dates are editorial (content `shipped:`),
- * so the feed is deterministic and never claims a change that did not happen.
+ * Atom feed of listed works, newest listing first; each entry is dated by its `listed:` day.
+ * Dates are editorial, so the feed is deterministic and never claims a change that did not happen.
  */
 export function renderFeed(entries, works, description) {
   const listed = entries
     .map((e) => works.get(e.slug))
-    .sort((a, b) => b.shipped.localeCompare(a.shipped) || a.name.localeCompare(b.name));
+    .sort(
+      (a, b) =>
+        b.listed.localeCompare(a.listed) ||
+        b.shipped.localeCompare(a.shipped) ||
+        a.name.localeCompare(b.name)
+    );
   const stamp = (d) => `${d}T00:00:00Z`;
   const items = listed
     .map(
@@ -671,8 +687,8 @@ export function renderFeed(entries, works, description) {
     <title>${esc(workHeadline(w))}</title>
     <link href="${workUrl(w.slug)}" />
     <id>${workUrl(w.slug)}</id>
-    <published>${stamp(w.shipped)}</published>
-    <updated>${stamp(w.shipped)}</updated>
+    <published>${stamp(w.listed)}</published>
+    <updated>${stamp(w.listed)}</updated>
     <summary>${esc(metaDescription(w))}</summary>
   </entry>`
     )
@@ -684,7 +700,7 @@ export function renderFeed(entries, works, description) {
   <link href="${SITE}/feed.xml" rel="self" />
   <link href="${SITE}/" />
   <id>${SITE}/</id>
-  <updated>${stamp(listed[0]?.shipped ?? '2026-01-01')}</updated>
+  <updated>${stamp(listed[0]?.listed ?? '2026-01-01')}</updated>
   <author><name>1mb</name></author>
   <icon>${SITE}/favicon.ico</icon>
 ${items}
