@@ -24,18 +24,13 @@
   }
   let isErrorState = false;
 
-  function formatCount(count, today) {
-    if (count === 0) return 'no one yet';
-    let text = count.toLocaleString() + ' in';
-    if (today > 0) {
-      text += ', ' + today.toLocaleString() + ' today';
-    }
-    return text;
+  function formatCount(count) {
+    return count === 0 ? 'no one yet' : count.toLocaleString() + ' in';
   }
 
   // The proof line stays hidden until there is a count to show; on failure it never appears.
-  function showCount(count, today) {
-    countEl.textContent = formatCount(count, today);
+  function showCount(count) {
+    countEl.textContent = formatCount(count);
     proof.hidden = false;
   }
 
@@ -45,7 +40,7 @@
       const res = await fetch(API_URL);
       if (!res.ok) throw new Error(res.status);
       const data = await res.json();
-      showCount(data.count, data.today);
+      showCount(data.count);
     } catch (_e) {
       // Count unavailable: say nothing rather than show a placeholder.
     }
@@ -84,7 +79,7 @@
       if (!res.ok) throw new Error(res.status);
       const data = await res.json();
 
-      showCount(data.count, data.today);
+      showCount(data.count);
       markAsVoted();
     } catch (_e) {
       setErrorState();

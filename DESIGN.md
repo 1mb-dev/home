@@ -66,7 +66,7 @@ Same structure on every page: root, work pages, 404. `scripts/gen.js` writes the
 
 **Interface labels** are lowercase in the source: `count me in`, `you're in`, `try again`, `open`, `read`, `get`, `source`, `docs`, `previous`, `next`, `all work`, `github`, `log`, `feed`, `back to 1mb`.
 
-**The counter speaks in the same word as its button:** `count me in`, then `you're in`; the line beneath reads `{n} in`, `{n} in, {t} today`, or `no one yet`. While counting, the button shows `...` and is named `counting` for screen readers.
+**The counter speaks in the same word as its button:** `count me in`, then `you're in`; the line beneath reads `{n} in`, or `no one yet`. While counting, the button shows `...` and is named `counting` for screen readers.
 
 **Status is sentences, never badges:**
 
@@ -266,6 +266,7 @@ Every generated file has one script. Edit the source, run the script, commit bot
 | 2026-10-29 | `.sequence-all` renamed `.all-work`; also on the 404                                   | The 404 needed a second way out; one name for one link                                            |
 | 2026-10-29 | Invitation \"Work this way too?\"; counter \"{n} in\"; 404 \"The rest is still here.\" | Copy review: \"resonates\" was a tell, \"joined by\" claimed a join that had not happened         |
 | 2026-10-30 | Watermark drift restored, 8px at most (was 15)                                         | Owner: the movement was part of the signature; kept subtler than the original parallax            |
+| 2026-10-30 | Counter line drops `{t} today`                                                         | Panel, owner agreed: a second number in the periphery is the pulse D2 rejected                    |
 
 ## Evolving this
 
