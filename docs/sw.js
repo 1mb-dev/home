@@ -14,7 +14,6 @@ const STATIC_ASSETS = [
   '/assets/js/counter.js',
   '/assets/js/sw-register.js',
   '/assets/images/favicon.svg',
-  '/assets/images/logo.svg',
 ];
 
 const FONT_ASSETS = [
