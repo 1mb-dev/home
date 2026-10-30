@@ -1,6 +1,6 @@
 # 1mb Design Language
 
-**Version:** 0.7.11
+**Version:** 0.7.12
 **Last updated:** 2026-10-30
 **Source of truth for values:** `docs/assets/css/style.css` (tokens on `:root`). This file holds the why.
 
@@ -77,7 +77,7 @@ Same structure on every page: root, work pages, 404. `scripts/gen.js` writes the
 | Why it exists  | The problem specific to this work                                             |
 | What it taught | What the owner learned, or one point from the work's record they approve      |
 
-The first thing a stranger would check goes on the page, not in the linked docs: what a queue does in a crash, what a service keeps and for how long. A behaviour is stated only as far as it was run: "after a hard kill", not "after a crash", if power loss was never tested. The synopsis carries no status and no author. Status lives in front matter, and the body never restates it. A page carries at most one contrast line ("not X, but Y") and borrows no run of fragments from another listed work. Before listing, the owner checks every claim, and a stranger with no context can follow the page.
+The first thing a stranger would check goes on the page, not in the linked docs: what a queue does in a crash, what a service keeps and for how long. A behaviour is stated only as far as it was run: "after a hard kill", not "after a crash", if power loss was never tested. The synopsis carries no status and no author. Status lives in front matter, and the body never restates it. A page carries at most one contrast line ("not X, but Y") and borrows no run of fragments from another listed work. Before listing, every claim is checked at its source, the owner rules on any that could not be verified, and a stranger with no context can follow the page.
 
 **Interface labels** are lowercase in the source: `count me in`, `you're in`, `try again`, `open`, `read`, `get`, `source`, `docs`, `previous`, `next`, `all work`, `github`, `log`, `feed`, `back to 1mb`.
 
