@@ -454,7 +454,7 @@ describe('rendering', () => {
       '@type': 'WebApplication',
       url: 'https://sift.1mb.dev',
       name: 'sift',
-      description: 'Ranked by depth.',
+      description: 'A description long enough to stand as the snippet shown in a search result.',
       keywords: 'one, two, three',
       creator: { '@type': 'Organization', '@id': 'https://1mb.dev/#org', name: '1mb' },
       datePublished: '2026-02-22',
@@ -464,6 +464,13 @@ describe('rendering', () => {
 
     const lib = parseWork(work(`name: q\ntagline: t\nsource: https://github.com/x/q\n${SEO}`), 'q');
     expect(ld(lib, 'build').about.codeRepository).toBe('https://github.com/x/q');
+    expect(ld(lib, 'build').about).not.toHaveProperty('programmingLanguage');
+
+    const front = `name: q\ntagline: t\nsource: https://github.com/x/q\ndocs: https://d.dev/q\nlanguage: Go\n${SEO}`;
+    const documented = ld(parseWork(work(front), 'q'), 'build').about;
+    expect(documented.programmingLanguage).toBe('Go');
+    expect(documented.sameAs).toBe('https://d.dev/q');
+    expect(documented).not.toHaveProperty('url');
   });
 
   it('carries the authored description and tags into page, data and feed', () => {

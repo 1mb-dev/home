@@ -23,6 +23,7 @@ const KEYS = new Set([
   'site',
   'source',
   'docs',
+  'language',
   'retired',
   'maintained',
   'shipped',
@@ -142,7 +143,7 @@ function parseTags(value, file, line) {
 }
 
 /**
- * content/work/{slug}.md -> { slug, name, tagline, site?, source?, docs?, retired, maintained,
+ * content/work/{slug}.md -> { slug, name, tagline, site?, source?, docs?, language?, retired, maintained,
  *                             shipped?, listed?, description?, tags?,
  *                             synopsis: [para], why: [para], taught: [para], related: [link] }
  * Paragraphs are kept as { text, line } so inline errors can point at the source line.
@@ -512,17 +513,21 @@ export function workJsonLd(work, group) {
   const thing = {
     use: { '@type': 'WebApplication', url: work.site },
     read: { '@type': 'CreativeWork', url: work.site },
-    build: { '@type': 'SoftwareSourceCode', codeRepository: work.source },
+    build: {
+      '@type': 'SoftwareSourceCode',
+      codeRepository: work.source,
+      programmingLanguage: work.language,
+    },
   }[group];
   const about = {
     ...thing,
     name: work.name,
-    description: work.tagline,
+    description: work.description,
     keywords: work.tags.join(', '),
     creator: org,
   };
   if (work.shipped) about.datePublished = work.shipped;
-  if (group === 'build' && work.docs) about.url = work.docs;
+  if (group === 'build' && work.docs) about.sameAs = work.docs;
   if (group !== 'build' && work.source) about.sameAs = work.source;
   for (const key of Object.keys(about)) if (about[key] === undefined) delete about[key];
 
