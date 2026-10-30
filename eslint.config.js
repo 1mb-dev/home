@@ -1,60 +1,31 @@
 import js from '@eslint/js';
+import globals from 'globals';
 
 export default [
+  { ignores: ['todos/', '.claude/', 'workers/.wrangler/'] },
   js.configs.recommended,
   {
-    files: ['docs/assets/js/*.js'],
-    languageOptions: {
-      ecmaVersion: 2022,
-      sourceType: 'script',
-      globals: {
-        window: 'readonly',
-        document: 'readonly',
-        localStorage: 'readonly',
-        navigator: 'readonly',
-        fetch: 'readonly',
-        requestAnimationFrame: 'readonly',
-        cancelAnimationFrame: 'readonly',
-        self: 'readonly',
-        caches: 'readonly',
-        Response: 'readonly',
-        URL: 'readonly',
-      },
-    },
+    languageOptions: { ecmaVersion: 2022, sourceType: 'module' },
+    // Style (quotes, semicolons) is Prettier's job
     rules: {
       'no-unused-vars': ['error', { argsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' }],
-      'no-console': 'off',
-      semi: ['error', 'always'],
-      quotes: ['error', 'single', { avoidEscape: true }],
     },
+  },
+  {
+    files: ['docs/assets/js/*.js'],
+    languageOptions: { sourceType: 'script', globals: globals.browser },
   },
   {
     files: ['docs/sw.js'],
-    languageOptions: {
-      ecmaVersion: 2022,
-      sourceType: 'script',
-      globals: {
-        self: 'readonly',
-        caches: 'readonly',
-        fetch: 'readonly',
-        Response: 'readonly',
-        URL: 'readonly',
-        Promise: 'readonly',
-      },
-    },
+    languageOptions: { sourceType: 'script', globals: globals.serviceworker },
   },
   {
-    files: ['workers/*.test.js'],
-    languageOptions: {
-      ecmaVersion: 2022,
-      sourceType: 'module',
-      globals: {
-        describe: 'readonly',
-        it: 'readonly',
-        expect: 'readonly',
-        beforeAll: 'readonly',
-        afterEach: 'readonly',
-      },
-    },
+    files: ['scripts/**/*.{js,mjs}', '*.config.js'],
+    languageOptions: { globals: globals.node },
+  },
+  {
+    // Workers runtime: service-worker globals (fetch, Request, Response, crypto)
+    files: ['workers/*.js'],
+    languageOptions: { globals: { ...globals.serviceworker, console: 'readonly' } },
   },
 ];

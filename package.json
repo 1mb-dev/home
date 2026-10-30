@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build.js",
-    "lint": "eslint docs/assets/js/*.js",
-    "lint:fix": "eslint docs/assets/js/*.js --fix",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
     "validate:html": "html-validate 'docs/**/*.html'",
@@ -23,7 +23,9 @@
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.23.0",
+    "@eslint/js": "^9.39.5",
     "eslint": "^9.39.5",
+    "globals": "^17.13.0",
     "html-validate": "^11.17.0",
     "prettier": "^3.9.10",
     "sharp": "^0.35.5",
