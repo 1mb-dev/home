@@ -1,6 +1,6 @@
 # 1mb Design Language
 
-**Version:** 0.7.0
+**Version:** 0.7.1
 **Last updated:** 2026-10-30
 **Source of truth for values:** `docs/assets/css/style.css` (tokens on `:root`). This file holds the why.
 
@@ -62,7 +62,7 @@ Same structure on every page: root, work pages, 404. `scripts/gen.js` writes the
 
 **No em-dashes.** Not in copy, titles, metadata or interface strings. Use a full stop, a comma, a colon or a middle dot (`sift · 1mb`). The build enforces it: `parseWork` rejects a content file containing one, and `gen` refuses to write a page or script that does.
 
-**Every piece of copy gets two passes before it ships:** the author runs `/pb-handcraft` (which runs `/pb-voice`) on it, then a reviewer from the huddle panel (Sam by default) reviews it against this section. New copy, edited copy and interface strings alike.
+**Every piece of copy gets two passes before it ships:** the author's own pass for tells and bloat, then a reviewer's pass against this section. New copy, edited copy and interface strings alike.
 
 **Interface labels** are lowercase in the source: `count me in`, `you're in`, `try again`, `open`, `read`, `get`, `source`, `docs`, `previous`, `next`, `all work`, `github`, `log`, `feed`, `back to 1mb`.
 
@@ -230,45 +230,45 @@ Every generated file has one script. Edit the source, run the script, commit bot
 
 ## Decision log
 
-| Date       | Decision                                                                                     | Rationale                                                                                                            |
-| ---------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| 2026-10-29 | The record as the organising metaphor                                                        | One-man-band is a musical idea; a track listing is a native, quiet index                                             |
-| 2026-10-29 | Sides = use / read / build with                                                              | Named for the reader's first action, not the technology                                                              |
-| 2026-10-29 | Dotted leaders between title and verb                                                        | The sleeve's device; ties name to action without arrows or columns                                                   |
-| 2026-10-29 | Status as sentences; upkeep only when stated                                                 | Editorial, never derived; silence for live work and private source                                                   |
-| 2026-10-29 | Manifesto becomes the headline; invitation in full ink                                       | The page had no headline and spoke to the reader in an aside                                                         |
-| 2026-10-29 | Bridge line "Use it. Read it. Build with it."                                                | Nothing on the cover said the work follows                                                                           |
-| 2026-10-29 | Shared masthead and colophon generated for every page                                        | Predictable navigation; one template cannot drift                                                                    |
-| 2026-10-29 | Counter skeleton and ✓ glyph removed                                                         | A loading state was the cover's last impression; the label carries state                                             |
-| 2026-10-29 | "one-man-band" kept out of visible copy                                                      | Owner direction: the name lives in titles and metadata                                                               |
-| 2026-10-29 | Capstone `1mb` restored above the manifesto (56px)                                           | Owner: the cover needs an anchor                                                                                     |
-| 2026-10-29 | Nav bar removed; mark alone, top centre, on inner pages                                      | Owner: mark + `work` read as ugly; the mark is the one constant                                                      |
-| 2026-10-29 | Theme toggle moved to the colophon                                                           | Out of the reading path, same place on every page                                                                    |
-| 2026-10-29 | Sequence as labelled blocks with taglines                                                    | Owner: arrowed names were cramped; a tagline gives a reason to go                                                    |
-| 2026-10-29 | Em-dashes banned, enforced by the build                                                      | Owner rule; an AI tell in this register                                                                              |
-| 2026-10-29 | Copy passes `/pb-handcraft` then a panel reviewer                                            | Owner rule; every string, not only long copy                                                                         |
-| 2026-10-29 | Manifesto 32px under the 56px capstone                                                       | At 24 it read as a caption under a logo                                                                              |
-| 2026-10-29 | `--watermark` token: 4% light, 6% dark                                                       | Same visual weight in both themes; both keep muted text above AA                                                     |
-| 2026-10-29 | Separator in muted ink                                                                       | At border colour it was 1.2:1 and read as dust                                                                       |
-| 2026-10-29 | Year stamped at deploy by `build.js`                                                         | `gen` stays deterministic; the page never shows a stale year after a deploy                                          |
-| 2026-10-29 | Links open in the same tab                                                                   | Reader control; Back works; no warning needed                                                                        |
-| 2026-10-29 | No italic; credit in roman                                                                   | Inter ships no italic, so the browser faked one; a third type treatment nobody named                                 |
-| 2026-10-29 | One 64px gap above the colophon, owned by the colophon                                       | Index and work pages ended at different distances                                                                    |
-| 2026-10-29 | Count line all muted                                                                         | The button is the cover's focal point after the manifesto; the count is periphery                                    |
-| 2026-10-29 | Web presence baseline (see section)                                                          | Owner: what we overlook matters more than what we remember                                                           |
-| 2026-10-29 | Descriptive titles, 70-char cap                                                              | Owner: fewer words do not help discovery                                                                             |
-| 2026-10-29 | Own robots.txt, open to AI crawlers                                                          | Owner: more allowing; the policy lives in git                                                                        |
-| 2026-10-29 | `shipped:` dates the Atom feed                                                               | Placeholders until curation picks each go-live date                                                                  |
-| 2026-10-29 | Icons outlined from Space Grotesk, regenerated by script                                     | The old SVG used the system font and the 512 was an upscale                                                          |
-| 2026-10-29 | Colophon in two lines: credit and toggle, then © and links                                   | Owner: credit and switch first, links second                                                                         |
-| 2026-10-29 | Colophon grid: links aligned under the credit, © year last                                   | Owner sketch; the year is a sign-off, so it reads last rather than sitting alone under the toggle                    |
-| 2026-10-29 | Watermark removed from the index                                                             | Owner: one `1` on the home page; two read as repetition                                                              |
-| 2026-10-29 | `.sequence-all` renamed `.all-work`; also on the 404                                         | The 404 needed a second way out; one name for one link                                                               |
-| 2026-10-29 | Invitation "Work this way too?"; counter "{n} in"; 404 "The rest is still here."             | Copy review: "resonates" was a tell, "joined by" claimed a join that had not happened                                |
-| 2026-10-30 | Watermark drift restored, 8px at most (was 15)                                               | Owner: the movement was part of the signature; kept subtler than the original parallax                               |
-| 2026-10-30 | Panel sign-off at v0.6.0: scaling and order rules, accessible names, superseded rows removed | Four lenses in parallel, Elena closing; the design reopens only for a new owner reason                               |
-| 2026-10-30 | Counter line drops `{t} today`                                                               | Panel, owner agreed: a second number in the periphery is the pulse D2 rejected                                       |
-| 2026-10-30 | No side pages; side ids now; `gen` links the bridge past the trigger                         | Re-huddle: a cap is a featured slot, side pages duplicate the index forever; `/#build` gives a side an address today |
+| Date       | Decision                                                                               | Rationale                                                                                                 |
+| ---------- | -------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| 2026-10-29 | The record as the organising metaphor                                                  | One-man-band is a musical idea; a track listing is a native, quiet index                                  |
+| 2026-10-29 | Sides = use / read / build with                                                        | Named for the reader's first action, not the technology                                                   |
+| 2026-10-29 | Dotted leaders between title and verb                                                  | The sleeve's device; ties name to action without arrows or columns                                        |
+| 2026-10-29 | Status as sentences; upkeep only when stated                                           | Editorial, never derived; silence for live work and private source                                        |
+| 2026-10-29 | Manifesto becomes the headline; invitation in full ink                                 | The page had no headline and spoke to the reader in an aside                                              |
+| 2026-10-29 | Bridge line "Use it. Read it. Build with it."                                          | Nothing on the cover said the work follows                                                                |
+| 2026-10-29 | Shared masthead and colophon generated for every page                                  | Predictable navigation; one template cannot drift                                                         |
+| 2026-10-29 | Counter skeleton and ✓ glyph removed                                                   | A loading state was the cover's last impression; the label carries state                                  |
+| 2026-10-29 | "one-man-band" kept out of visible copy                                                | Owner direction: the name lives in titles and metadata                                                    |
+| 2026-10-29 | Capstone `1mb` restored above the manifesto (56px)                                     | Owner: the cover needs an anchor                                                                          |
+| 2026-10-29 | Nav bar removed; mark alone, top centre, on inner pages                                | Owner: mark + `work` read as ugly; the mark is the one constant                                           |
+| 2026-10-29 | Theme toggle moved to the colophon                                                     | Out of the reading path, same place on every page                                                         |
+| 2026-10-29 | Sequence as labelled blocks with taglines                                              | Owner: arrowed names were cramped; a tagline gives a reason to go                                         |
+| 2026-10-29 | Em-dashes banned, enforced by the build                                                | Owner rule; an AI tell in this register                                                                   |
+| 2026-10-29 | Copy gets an author pass, then a reviewer's pass                                       | Owner rule; every string, not only long copy                                                              |
+| 2026-10-29 | Manifesto 32px under the 56px capstone                                                 | At 24 it read as a caption under a logo                                                                   |
+| 2026-10-29 | `--watermark` token: 4% light, 6% dark                                                 | Same visual weight in both themes; both keep muted text above AA                                          |
+| 2026-10-29 | Separator in muted ink                                                                 | At border colour it was 1.2:1 and read as dust                                                            |
+| 2026-10-29 | Year stamped at deploy by `build.js`                                                   | `gen` stays deterministic; the page never shows a stale year after a deploy                               |
+| 2026-10-29 | Links open in the same tab                                                             | Reader control; Back works; no warning needed                                                             |
+| 2026-10-29 | No italic; credit in roman                                                             | Inter ships no italic, so the browser faked one; a third type treatment nobody named                      |
+| 2026-10-29 | One 64px gap above the colophon, owned by the colophon                                 | Index and work pages ended at different distances                                                         |
+| 2026-10-29 | Count line all muted                                                                   | The button is the cover's focal point after the manifesto; the count is periphery                         |
+| 2026-10-29 | Web presence baseline (see section)                                                    | Owner: what we overlook matters more than what we remember                                                |
+| 2026-10-29 | Descriptive titles, 70-char cap                                                        | Owner: fewer words do not help discovery                                                                  |
+| 2026-10-29 | Own robots.txt, open to AI crawlers                                                    | Owner: more allowing; the policy lives in git                                                             |
+| 2026-10-29 | `shipped:` dates the Atom feed                                                         | Placeholders until curation picks each go-live date                                                       |
+| 2026-10-29 | Icons outlined from Space Grotesk, regenerated by script                               | The old SVG used the system font and the 512 was an upscale                                               |
+| 2026-10-29 | Colophon in two lines: credit and toggle, then © and links                             | Owner: credit and switch first, links second                                                              |
+| 2026-10-29 | Colophon grid: links aligned under the credit, © year last                             | Owner sketch; the year is a sign-off, so it reads last rather than sitting alone under the toggle         |
+| 2026-10-29 | Watermark removed from the index                                                       | Owner: one `1` on the home page; two read as repetition                                                   |
+| 2026-10-29 | `.sequence-all` renamed `.all-work`; also on the 404                                   | The 404 needed a second way out; one name for one link                                                    |
+| 2026-10-29 | Invitation "Work this way too?"; counter "{n} in"; 404 "The rest is still here."       | Copy review: "resonates" was a tell, "joined by" claimed a join that had not happened                     |
+| 2026-10-30 | Watermark drift restored, 8px at most (was 15)                                         | Owner: the movement was part of the signature; kept subtler than the original parallax                    |
+| 2026-10-30 | Sign-off at v0.6.0: scaling and order rules, accessible names, superseded rows removed | Four lenses reviewed in parallel; the design reopens only for a new owner reason                          |
+| 2026-10-30 | Counter line drops `{t} today`                                                         | Owner agreed: a second number in the periphery asks for attention, against quiet by default               |
+| 2026-10-30 | No side pages; side ids now; `gen` links the bridge past the trigger                   | A cap is a featured slot, side pages duplicate the index forever; `/#build` gives a side an address today |
 
 ## Evolving this
 
