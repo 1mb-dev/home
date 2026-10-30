@@ -14,6 +14,7 @@ export default [
         navigator: 'readonly',
         fetch: 'readonly',
         requestAnimationFrame: 'readonly',
+        cancelAnimationFrame: 'readonly',
         self: 'readonly',
         caches: 'readonly',
         Response: 'readonly',

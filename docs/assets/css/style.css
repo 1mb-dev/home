@@ -114,7 +114,7 @@ body {
 }
 
 /* Watermark: the numeral behind each content section ('0' on the 404). Opacity is per theme:
-   above 4% in light, muted text over it drops below AA. */
+   above 4% in light, muted text over it drops below AA. watermark.js sets --drift-*. */
 .hero::before,
 .page-work main::before,
 .page-404::before {
@@ -122,7 +122,8 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(calc(-50% + var(--drift-x, 0px)), calc(-50% + var(--drift-y, 0px)));
+  transition: transform 0.4s ease-out;
   font-family: var(--font-display);
   font-size: clamp(320px, 50vw, 480px);
   font-weight: 700;
@@ -344,7 +345,10 @@ article {
   }
 
   .action,
-  .theme-toggle {
+  .theme-toggle,
+  .hero::before,
+  .page-work main::before,
+  .page-404::before {
     transition: none;
   }
 }

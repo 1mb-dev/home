@@ -596,6 +596,7 @@ ${prev || next ? `<nav class="sequence" aria-label="More work">\n${neighbour(pre
 </main>
 ${renderColophon()}
 <script src="/assets/js/sw-register.js"></script>
+<script src="/assets/js/watermark.js"></script>
 </body>
 </html>
 `;

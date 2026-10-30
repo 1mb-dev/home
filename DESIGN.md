@@ -30,7 +30,7 @@ Every work page stands alone for a reader with no context. The row's name goes t
 | **Sequence**    | Previous and next work, each with its tagline, in index order                                       | Work pages      |
 | **Credit**      | `1mb ·` \| "All the hats. One head." \| toggle; beneath the credit: `github`, `log`, `feed`, © year | Every page      |
 
-**The watermark `1` is the signature.** A semi-visible presence (the `--watermark` token: 4% ink light, 6% dark) behind the cover and behind the notes on each work page. One per page: the index has none, so the cover's `1` stays the home page's only one. The 404 carries a `0` the same way. Refine it; never remove or demote it.
+**The watermark `1` is the signature.** A semi-visible presence (the `--watermark` token: 4% ink light, 6% dark) behind the cover and behind the notes on each work page. One per page: the index has none, so the cover's `1` stays the home page's only one. The 404 carries a `0` the same way. On a fine pointer it drifts up to 8px against the cursor and eases home when the cursor leaves. Refine it; never remove or demote it.
 
 **The capstone anchors the cover.** `1mb` in the display face at 56px tops the root. Inner pages carry the same mark, small, top centre: the one constant at the top of every page.
 
@@ -42,7 +42,7 @@ Numbering is for the index only. It follows `content/index.txt` order and change
 2. **Typography is the interface.** Two faces, one ink, one paper. No icons, images, colour accents or illustrations carry meaning.
 3. **Quiet by default.** Live work shows no status. Private source shows nothing. One filled control per page.
 4. **Predictable.** Every page ends the same way, and the top is always the mark, large on the cover and small elsewhere. Things are where they were on the last page.
-5. **Readable without script.** HTML first; JavaScript adds the counter, theme and offline, nothing else.
+5. **Readable without script.** HTML first; JavaScript adds the counter, theme, offline and the watermark's drift, nothing else.
 6. **Every element earns its place.** If deleting it loses the reader nothing, it goes.
 
 ## Navigation
@@ -117,7 +117,8 @@ No accent colour. Monochrome is the brand.
 | Counter, error  | Button reads `try again`, outlined                                                           |
 | Counter loading | Nothing. The proof line stays hidden until there is a count; on failure it never appears     |
 | No JavaScript   | Theme toggle and counter proof absent; everything else intact                                |
-| Reduced motion  | Transitions off; the watermark is static anyway                                              |
+| Reduced motion  | Transitions off; the watermark stays still                                                   |
+| Touch           | The watermark stays still: no hover, no drift                                                |
 
 ## Accessibility
 
@@ -159,7 +160,7 @@ Checklist (owner, outside the repo):
 | Theme toggle | `.theme-toggle`                                       | The one glyph control (☀/☾), in the colophon                                     |
 | Hero         | `.hero`                                               | The cover; capped height                                                         |
 | Manifesto    | `.manifesto`                                          | "All the hats. One head." under the capstone                                     |
-| Watermark    | `::before` on `.hero`, `.page-work main`, `.page-404` | The numeral behind each content section, at `--watermark`                        |
+| Watermark    | `::before` on `.hero`, `.page-work main`, `.page-404` | The numeral behind each content section, at `--watermark`; drifts by `--drift-*` |
 | Separator    | `.separator`                                          | `· · ·` in muted ink, the cover's one divider                                    |
 | Bridge       | `.work-title`                                         | The line that opens the index                                                    |
 | Side         | `.side`                                               | A group heading: tracked, muted                                                  |
@@ -177,7 +178,7 @@ Labels inside notes (`why it exists`, `what it taught`, `related`) share the sid
 - No pills, badges, coloured status, or traffic lights.
 - No icons or emoji in content. The theme toggle's ☀/☾ is the one glyph control.
 - No screenshots, hero images, or per-work artwork. One shared social image.
-- No motion beyond a 0.2s opacity or colour change on hover. No parallax. No loading skeletons.
+- No motion beyond a 0.2s opacity or colour change on hover, and the watermark's drift. No scroll effects. No loading skeletons.
 - No hover-only information. No arrows; labels and underlines are the affordance.
 - No `target="_blank"`. Links open in the same tab.
 - No fixed or floating controls. Everything scrolls with the page.
@@ -264,6 +265,7 @@ Every generated file has one script. Edit the source, run the script, commit bot
 | 2026-10-29 | Watermark removed from the index                                                       | Owner: one `1` on the home page; two read as repetition                                           |
 | 2026-10-29 | `.sequence-all` renamed `.all-work`; also on the 404                                   | The 404 needed a second way out; one name for one link                                            |
 | 2026-10-29 | Invitation \"Work this way too?\"; counter \"{n} in\"; 404 \"The rest is still here.\" | Copy review: \"resonates\" was a tell, \"joined by\" claimed a join that had not happened         |
+| 2026-10-30 | Watermark drift restored, 8px at most (was 15)                                         | Owner: the movement was part of the signature; kept subtler than the original parallax            |
 
 ## Evolving this
 

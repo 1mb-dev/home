@@ -13,6 +13,7 @@ const STATIC_ASSETS = [
   '/assets/js/theme.js',
   '/assets/js/counter.js',
   '/assets/js/sw-register.js',
+  '/assets/js/watermark.js',
   '/assets/images/favicon.svg',
 ];
 
