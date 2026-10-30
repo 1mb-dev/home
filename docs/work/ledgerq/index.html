@@ -120,6 +120,10 @@
             27 with <code>AutoSync</code>, which puts each one on disk before it returns. Reads run
             at about 80 a second.
           </p>
+          <p>
+            After a hard kill the log reopens at its last complete entry. Buffered writes can be
+            lost; <code>AutoSync</code> prevents that.
+          </p>
           <h2>why it exists</h2>
           <p>
             Kafka and RabbitMQ need separate processes and network setup. In-memory channels lose
@@ -141,6 +145,15 @@
           <a class="action" href="https://github.com/1mb-dev/ledgerq">get ledgerq</a>
           <a href="https://pkg.go.dev/github.com/1mb-dev/ledgerq/pkg/ledgerq">docs</a>
         </p>
+        <h2>related</h2>
+        <ul class="related">
+          <li>
+            <a
+              href="https://github.com/1mb-dev/ledgerq/blob/main/docs/ARCHITECTURE.md#recovery-and-durability"
+              >Recovery and durability</a
+            >
+          </li>
+        </ul>
       </article>
       <nav class="sequence" aria-label="more work">
         <a class="sequence-item sequence-prev" href="/work/nivomoney/" rel="prev">
