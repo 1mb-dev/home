@@ -1,6 +1,6 @@
 # 1mb Design Language
 
-**Version:** 0.7.2
+**Version:** 0.7.3
 **Last updated:** 2026-10-30
 **Source of truth for values:** `docs/assets/css/style.css` (tokens on `:root`). This file holds the why.
 
@@ -65,6 +65,17 @@ Same structure on every page: root, work pages, 404. `scripts/gen.js` writes the
 **No time words.** `currently`, `now`, `recently`, `today`, `latest` and `these days` go stale on a page nobody re-dates. `parseWork` rejects them outside code spans; the status sentence already says what is running.
 
 **Every piece of copy gets two passes before it ships:** the author's own pass for tells and bloat, then a reviewer's pass against this section. New copy, edited copy and interface strings alike.
+
+**Work copy, field by field.** The reviewer's pass checks each work against this.
+
+| Field          | Says                                                                          |
+| -------------- | ----------------------------------------------------------------------------- |
+| Tagline        | What the work is, not what it is like, in one sentence. Aim for 36 characters |
+| Synopsis       | What it does, with a number or a name. No status, no author                   |
+| Why it exists  | The problem specific to this work                                             |
+| What it taught | Only what the owner learned; without that, the section is left out            |
+
+Status lives in front matter, and the body never restates it. A page carries at most one contrast line ("not X, but Y") and borrows no run of fragments from another listed work. The owner has checked every claim, and a stranger with no context can follow the page.
 
 **Interface labels** are lowercase in the source: `count me in`, `you're in`, `try again`, `open`, `read`, `get`, `source`, `docs`, `previous`, `next`, `all work`, `github`, `log`, `feed`, `back to 1mb`.
 
@@ -273,6 +284,7 @@ Every generated file has one script. Edit the source, run the script, commit bot
 | 2026-10-30 | `listed:` dates the Atom feed; `shipped:` stays the go-live date                       | A work listed today never enters the feed months old                                                      |
 | 2026-10-30 | Time words rejected in copy                                                            | A page is never re-dated; the status sentence carries what is running                                     |
 | 2026-10-30 | No evidence script; `shipped:` is a sensible date                                      | Owner: no cost to getting it wrong, so a log date or a hand pick is enough                                |
+| 2026-10-30 | Work-copy checklist lives in Voice                                                     | The reviewer reads Voice; the list had lived outside the repo                                             |
 
 ## Evolving this
 
