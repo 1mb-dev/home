@@ -1,6 +1,6 @@
 # 1mb Design Language
 
-**Version:** 0.7.4
+**Version:** 0.7.5
 **Last updated:** 2026-10-30
 **Source of truth for values:** `docs/assets/css/style.css` (tokens on `:root`). This file holds the why.
 
@@ -62,7 +62,7 @@ Same structure on every page: root, work pages, 404. `scripts/gen.js` writes the
 
 **No em-dashes.** Not in copy, titles, metadata or interface strings. Use a full stop, a comma, a colon or a middle dot (`sift · 1mb`). The build enforces it: `parseWork` rejects a content file containing one, and `gen` refuses to write a page or script that does.
 
-**No time words.** `currently`, `now`, `recently`, `today`, `latest` and `these days` go stale on a page nobody re-dates. `parseWork` rejects them outside code spans and link targets; the status sentence already says what is running.
+**No time words.** `currently`, `now`, `recently`, `today`, `latest` and `these days` go stale on a page nobody re-dates. `parseWork` rejects them outside code spans and link targets. Status comes from front matter, and a live site says nothing.
 
 **Every piece of copy gets two passes before it ships:** the author's own pass for tells and bloat, then a reviewer's pass against this section. New copy, edited copy and interface strings alike.
 
@@ -75,7 +75,7 @@ Same structure on every page: root, work pages, 404. `scripts/gen.js` writes the
 | Why it exists  | The problem specific to this work                                             |
 | What it taught | Only what the owner learned; without that, the section is left out            |
 
-Status lives in front matter, and the body never restates it. A page carries at most one contrast line ("not X, but Y") and borrows no run of fragments from another listed work. The owner has checked every claim, and a stranger with no context can follow the page.
+Status lives in front matter, and the body never restates it. A page carries at most one contrast line ("not X, but Y") and borrows no run of fragments from another listed work. Before listing, the owner checks every claim, and a stranger with no context can follow the page.
 
 **Interface labels** are lowercase in the source: `count me in`, `you're in`, `try again`, `open`, `read`, `get`, `source`, `docs`, `previous`, `next`, `all work`, `github`, `log`, `feed`, `back to 1mb`.
 
@@ -209,7 +209,7 @@ A file not listed in `index.txt` is a draft. Works enter the index one at a time
 
 Within a side, the work most useful to a reader with no context comes first; retired and unmaintained works come last. No side launches or stays at a single row: one row reads as a stub.
 
-A listed work needs two dates, both hand-picked during curation. `shipped: YYYY-MM-DD` is its go-live date. `listed: YYYY-MM-DD` is the day it joins the index; it dates the feed, so a work listed today never enters months old. It may not precede `shipped`. Both are editorial, so `gen` stays deterministic. Current values are placeholders: `shipped` is the first commit, `listed` the day the field landed. `shipped` is a sensible date, not a proven one: the first release or tag, the first commit, or the owner's own pick. The commit that lists the work says which.
+A listed work needs two dates, both hand-picked during curation. `shipped: YYYY-MM-DD` is its go-live date. `listed: YYYY-MM-DD` is the day it joins the index; it dates the feed, so a work listed today never enters the feed months old. It may not precede `shipped`. Both are editorial, so `gen` stays deterministic. Current values are placeholders: `shipped` is the first commit, `listed` the day the field landed. `shipped` is a sensible date, not a proven one: the first release or tag, the first commit, or the owner's own pick. The commit that lists the work says which.
 
 ## Regenerating
 
@@ -282,7 +282,7 @@ Every generated file has one script. Edit the source, run the script, commit bot
 | 2026-10-30 | Counter line drops `{t} today`                                                         | Owner agreed: a second number in the periphery asks for attention, against quiet by default               |
 | 2026-10-30 | No side pages; side ids now; `gen` links the bridge past the trigger                   | A cap is a featured slot, side pages duplicate the index forever; `/#build` gives a side an address today |
 | 2026-10-30 | `listed:` dates the Atom feed; `shipped:` stays the go-live date                       | A work listed today never enters the feed months old                                                      |
-| 2026-10-30 | Time words rejected in copy                                                            | A page is never re-dated; the status sentence carries what is running                                     |
+| 2026-10-30 | Time words rejected in copy                                                            | A page is never re-dated; status comes from front matter                                                  |
 | 2026-10-30 | No evidence script; `shipped:` is a sensible date                                      | Owner: no cost to getting it wrong, so a log date or a hand pick is enough                                |
 | 2026-10-30 | Work-copy checklist lives in Voice                                                     | The reviewer reads Voice; the list had lived outside the repo                                             |
 | 2026-10-30 | "Ends with weight" means a checkable fact                                              | Owner: the checklist said fact, the register said weight; samples ended on maxims                         |
