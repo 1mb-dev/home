@@ -1,6 +1,6 @@
 # 1mb Design Language
 
-**Version:** 0.7.3
+**Version:** 0.7.4
 **Last updated:** 2026-10-30
 **Source of truth for values:** `docs/assets/css/style.css` (tokens on `:root`). This file holds the why.
 
@@ -58,7 +58,7 @@ Same structure on every page: root, work pages, 404. `scripts/gen.js` writes the
 
 ## Voice
 
-1MB register: short sentences, no I or we, ends with weight. Copy describes the work and the problem, never the author. The name "one-man-band" lives in page titles and metadata; the visible page does not repeat it.
+1MB register: short sentences, no I or we, ends with weight: the last line lands on a fact a stranger can check, not a maxim. Copy describes the work and the problem, never the author. The name "one-man-band" lives in page titles and metadata; the visible page does not repeat it.
 
 **No em-dashes.** Not in copy, titles, metadata or interface strings. Use a full stop, a comma, a colon or a middle dot (`sift · 1mb`). The build enforces it: `parseWork` rejects a content file containing one, and `gen` refuses to write a page or script that does.
 
@@ -285,6 +285,7 @@ Every generated file has one script. Edit the source, run the script, commit bot
 | 2026-10-30 | Time words rejected in copy                                                            | A page is never re-dated; the status sentence carries what is running                                     |
 | 2026-10-30 | No evidence script; `shipped:` is a sensible date                                      | Owner: no cost to getting it wrong, so a log date or a hand pick is enough                                |
 | 2026-10-30 | Work-copy checklist lives in Voice                                                     | The reviewer reads Voice; the list had lived outside the repo                                             |
+| 2026-10-30 | "Ends with weight" means a checkable fact                                              | Owner: the checklist said fact, the register said weight; samples ended on maxims                         |
 
 ## Evolving this
 
