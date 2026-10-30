@@ -44,12 +44,19 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch: network-first for pages and API, stale-while-revalidate for fonts, cache-first for static
+// Fetch: network-first for pages, CSS and JS; stale-while-revalidate for fonts; cache-first for the rest
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
+  // Cross-origin (the counter API): straight to the network. A failure must reach counter.js
+  // as a failure; a stand-in response would read as a count, or as a vote that never landed.
+  if (url.origin !== self.location.origin) return;
+
   // Network-first for pages: work status must not lag a deploy. Visited pages stay readable offline.
-  if (event.request.mode === 'navigate') {
+  // CSS and JS too: the old worker serves the first view after a deploy, and a cached stylesheet
+  // under new HTML breaks any renamed class.
+  const isPage = event.request.mode === 'navigate';
+  if (isPage || /\.(css|js)$/.test(url.pathname)) {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
@@ -59,20 +66,11 @@ self.addEventListener('fetch', (event) => {
           }
           return response;
         })
-        .catch(() => caches.match(event.request).then((cached) => cached || caches.match('/')))
-    );
-    return;
-  }
-
-  // Network-first for counter API
-  if (url.hostname.includes('workers.dev')) {
-    event.respondWith(
-      fetch(event.request).catch(
-        () =>
-          new Response(JSON.stringify({ count: 0, offline: true }), {
-            headers: { 'Content-Type': 'application/json' },
-          })
-      )
+        .catch(() =>
+          caches
+            .match(event.request)
+            .then((cached) => cached || (isPage ? caches.match('/') : Response.error()))
+        )
     );
     return;
   }
