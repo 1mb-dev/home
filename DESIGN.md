@@ -198,7 +198,7 @@ A file not listed in `index.txt` is a draft. Works enter the index one at a time
 
 Within a side, the work most useful to a reader with no context comes first; retired and unmaintained works come last. No side launches or stays at a single row: one row reads as a stub.
 
-A listed work needs two dates, both hand-picked during curation. `shipped: YYYY-MM-DD` is its go-live date. `listed: YYYY-MM-DD` is the day it joins the index; it dates the feed, so a work listed today never enters months old. It may not precede `shipped`. Both are editorial, so `gen` stays deterministic. Current values are placeholders: `shipped` is the first commit, `listed` the day the field landed. Planned with the curation workflow: `npm run evidence -- <slug>`, which proposes a go-live date from tags, releases, deployments and certificates for the owner to confirm. The launch works are dated by hand; the script is built before the eighth work is listed.
+A listed work needs two dates, both hand-picked during curation. `shipped: YYYY-MM-DD` is its go-live date. `listed: YYYY-MM-DD` is the day it joins the index; it dates the feed, so a work listed today never enters months old. It may not precede `shipped`. Both are editorial, so `gen` stays deterministic. Current values are placeholders: `shipped` is the first commit, `listed` the day the field landed. `shipped` is a sensible date, not a proven one: the first release or tag, the first commit, or the owner's own pick. The commit that lists the work says which.
 
 ## Regenerating
 
@@ -272,6 +272,7 @@ Every generated file has one script. Edit the source, run the script, commit bot
 | 2026-10-30 | No side pages; side ids now; `gen` links the bridge past the trigger                   | A cap is a featured slot, side pages duplicate the index forever; `/#build` gives a side an address today |
 | 2026-10-30 | `listed:` dates the Atom feed; `shipped:` stays the go-live date                       | A work listed today never enters the feed months old                                                      |
 | 2026-10-30 | Time words rejected in copy                                                            | A page is never re-dated; the status sentence carries what is running                                     |
+| 2026-10-30 | No evidence script; `shipped:` is a sensible date                                      | Owner: no cost to getting it wrong, so a log date or a hand pick is enough                                |
 
 ## Evolving this
 
