@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ledgerq: A durable queue that lives on one disk · 1mb</title>
+    <title>ledgerq: A message queue in a directory · 1mb</title>
     <meta
       name="description"
-      content="A Go message queue in a directory: embedded, one process, one consumer, and no dependencies beyond the standard library."
+      content="An embedded Go message queue: a persistent, disk-backed log in a directory. No broker, one process, one read position, zero dependencies."
     />
     <meta name="keywords" content="message queue, go, embedded, disk-backed, zero dependencies" />
     <meta name="author" content="1mb" />
@@ -20,10 +20,10 @@
     <link rel="manifest" href="/site.webmanifest" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://1mb.dev/work/ledgerq/" />
-    <meta property="og:title" content="ledgerq: A durable queue that lives on one disk · 1mb" />
+    <meta property="og:title" content="ledgerq: A message queue in a directory · 1mb" />
     <meta
       property="og:description"
-      content="A Go message queue in a directory: embedded, one process, one consumer, and no dependencies beyond the standard library."
+      content="An embedded Go message queue: a persistent, disk-backed log in a directory. No broker, one process, one read position, zero dependencies."
     />
     <meta property="og:image" content="https://1mb.dev/assets/images/og-image.png" />
     <meta property="og:image:width" content="1200" />
@@ -55,8 +55,8 @@
         "@context": "https://schema.org",
         "@type": "WebPage",
         "url": "https://1mb.dev/work/ledgerq/",
-        "name": "ledgerq: A durable queue that lives on one disk · 1mb",
-        "description": "A Go message queue in a directory: embedded, one process, one consumer, and no dependencies beyond the standard library.",
+        "name": "ledgerq: A message queue in a directory · 1mb",
+        "description": "An embedded Go message queue: a persistent, disk-backed log in a directory. No broker, one process, one read position, zero dependencies.",
         "isPartOf": {
           "@type": "WebSite",
           "@id": "https://1mb.dev/#website",
@@ -71,8 +71,9 @@
         "about": {
           "@type": "SoftwareSourceCode",
           "codeRepository": "https://github.com/1mb-dev/ledgerq",
+          "programmingLanguage": "Go",
           "name": "ledgerq",
-          "description": "A Go message queue in a directory: embedded, one process, one consumer, and no dependencies beyond the standard library.",
+          "description": "An embedded Go message queue: a persistent, disk-backed log in a directory. No broker, one process, one read position, zero dependencies.",
           "keywords": "message queue, go, embedded, disk-backed, zero dependencies",
           "creator": {
             "@type": "Organization",
@@ -108,22 +109,32 @@
       <article class="notes">
         <p class="notes-side">build with</p>
         <h1>ledgerq</h1>
-        <p class="notes-tagline">A durable queue that lives on one disk.</p>
+        <p class="notes-tagline">A message queue in a directory.</p>
         <div class="notes-body">
-          <p>Messages go to an append-only log and survive a crash.</p>
-          <p>No network. No cluster. Nothing beyond Go&#39;s standard library.</p>
+          <p>
+            A Go library. Give it a path and messages go to an append-only log on disk, with no
+            broker to run.
+          </p>
+          <p>
+            One process, one read position. On an i5 laptop: about 200,000 writes a second buffered,
+            27 with <code>AutoSync</code>, which puts each one on disk before it returns. Reads run
+            at about 80 a second.
+          </p>
           <h2>why it exists</h2>
           <p>
-            Not every queue needs a cluster. A CLI tool, an edge device, a desktop app: each needs
-            tasks that outlive a restart.
+            Kafka and RabbitMQ need separate processes and network setup. In-memory channels lose
+            their data when the process exits. A database queue adds a dependency and polling.
           </p>
-          <p>Running Kafka for that is ceremony.</p>
+          <p>
+            Background tasks that outlive a restart, edge devices and CI runners need a queue with
+            none of those costs.
+          </p>
           <h2>what it taught</h2>
           <p>
-            Feature-complete at <code>v1.4.0</code>, on purpose. It does one job and stopped
-            growing.
+            Three features were refused for what they would bring in. Consumer groups need
+            networking, transactions need two-phase commit, an HTTP API adds a dependency.
           </p>
-          <p>Knowing when it is done is part of the design.</p>
+          <p><code>go.mod</code> has no <code>require</code>.</p>
         </div>
         <p class="notes-status">Source is public.</p>
         <p class="notes-next">

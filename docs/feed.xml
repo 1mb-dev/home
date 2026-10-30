@@ -33,12 +33,12 @@
     <category term="fintech" />
   </entry>
   <entry>
-    <title>ledgerq: A durable queue that lives on one disk</title>
+    <title>ledgerq: A message queue in a directory</title>
     <link href="https://1mb.dev/work/ledgerq/" />
     <id>https://1mb.dev/work/ledgerq/</id>
     <published>2026-10-30T00:00:00Z</published>
     <updated>2026-10-30T00:00:00Z</updated>
-    <summary>A Go message queue in a directory: embedded, one process, one consumer, and no dependencies beyond the standard library.</summary>
+    <summary>An embedded Go message queue: a persistent, disk-backed log in a directory. No broker, one process, one read position, zero dependencies.</summary>
     <category term="message queue" />
     <category term="go" />
     <category term="embedded" />

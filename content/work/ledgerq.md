@@ -1,26 +1,27 @@
 ---
 name: ledgerq
-tagline: A durable queue that lives on one disk.
-description: A Go message queue in a directory: embedded, one process, one consumer, and no dependencies beyond the standard library.
+tagline: A message queue in a directory.
+description: An embedded Go message queue: a persistent, disk-backed log in a directory. No broker, one process, one read position, zero dependencies.
 tags: message queue, go, embedded, disk-backed, zero dependencies
 source: https://github.com/1mb-dev/ledgerq
 docs: https://pkg.go.dev/github.com/1mb-dev/ledgerq/pkg/ledgerq
+language: Go
 shipped: 2025-10-17
 listed: 2026-10-30
 ---
 
-Messages go to an append-only log and survive a crash.
+A Go library. Give it a path and messages go to an append-only log on disk, with no broker to run.
 
-No network. No cluster. Nothing beyond Go's standard library.
+One process, one read position. On an i5 laptop: about 200,000 writes a second buffered, 27 with `AutoSync`, which puts each one on disk before it returns. Reads run at about 80 a second.
 
 ## Why it exists
 
-Not every queue needs a cluster. A CLI tool, an edge device, a desktop app: each needs tasks that outlive a restart.
+Kafka and RabbitMQ need separate processes and network setup. In-memory channels lose their data when the process exits. A database queue adds a dependency and polling.
 
-Running Kafka for that is ceremony.
+Background tasks that outlive a restart, edge devices and CI runners need a queue with none of those costs.
 
 ## What it taught
 
-Feature-complete at `v1.4.0`, on purpose. It does one job and stopped growing.
+Three features were refused for what they would bring in. Consumer groups need networking, transactions need two-phase commit, an HTTP API adds a dependency.
 
-Knowing when it is done is part of the design.
+`go.mod` has no `require`.
