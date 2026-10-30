@@ -13,5 +13,6 @@ fi
 
 "$VENV/bin/python" -I "$ROOT/scripts/icons/outline.py" \
   "$ROOT/docs/assets/fonts/space-grotesk-700-latin.woff2" \
+  "$ROOT/docs/assets/fonts/inter-latin.woff2" \
   "$ROOT/docs/assets/images"
 node "$ROOT/scripts/icons/render.mjs"

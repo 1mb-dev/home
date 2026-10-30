@@ -1,6 +1,6 @@
 # 1mb Design Language
 
-**Version:** 0.7.6
+**Version:** 0.7.7
 **Last updated:** 2026-10-30
 **Source of truth for values:** `docs/assets/css/style.css` (tokens on `:root`). This file holds the why.
 
@@ -156,7 +156,7 @@ What every page carries, and why. `scripts/work.js` renders it for work pages; t
 - **Structured data:** one entity graph. Root: `WebSite` (`#website`) published by `Organization` (`#org`, `sameAs` GitHub and the log). Work pages: `WebPage` with `isPartOf #website`, `publisher #org`, a `BreadcrumbList`, and `about` typed by side: `WebApplication` (use), `CreativeWork` (read), `SoftwareSourceCode` (build). `codeRepository` and `sameAs` appear only for public source. No ratings, no dates: nothing invented.
 - **Crawling:** our own `robots.txt`, open to every crawler, AI included (`Content-Signal: search=yes, ai-input=yes, ai-train=yes`). It must be the file served: Cloudflare's managed robots.txt stays off. The sitemap lists the root and every published work; `build.js` adds `<lastmod>` at deploy from the git log of each page's content file, so the date is real or absent, never guessed. The 404 is `noindex`; Cloudflare Pages serves it with a real 404 status.
 - **Headers:** `docs/_headers` is the one place for them. CSP: `script-src 'self'`, no inline script or style, `object-src 'none'`, `base-uri 'none'`, `form-action 'none'`, `frame-ancestors 'none'`; the root alone may `connect-src` the counter API. HSTS without `includeSubDomains`, while `{slug}.1mb.dev` is open. `nosniff` everywhere.
-- **Icons:** `1mb` outlined from Space Grotesk 700 into SVG paths, so every client draws the same mark. SVG plus PNG at 16, 32, 180 (touch), 192, 512 and a 512 maskable (mark inside the 80% safe zone), and `/favicon.ico` for clients that ask blindly. Regenerate with `npm run icons`, never by hand.
+- **Icons:** `1mb` outlined from Space Grotesk 700 into SVG paths, so every client draws the same mark. SVG plus PNG at 16, 32, 180 (touch), 192, 512 and a 512 maskable (mark inside the 80% safe zone), and `/favicon.ico` for clients that ask blindly. The share image comes from the same script, outlined at 1200x630: mark, `one-man-band`, the manifesto, the watermark at 6%. Regenerate with `npm run icons`, never by hand.
 - **Feeds:** `/feed.xml`, Atom, one entry per listed work, newest listing first (by `listed:`, then `shipped:`); advertised on every page and linked from the colophon. The root also advertises the log's RSS.
 - **Security contact:** `/.well-known/security.txt`: `security@1mb.dev` and GitHub private vulnerability reporting on the home repo; `Expires` stamped a year out at each deploy.
 - **Same tab, `rel="me"`** on the GitHub link, `humans.txt` as `rel="author"`.

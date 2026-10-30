@@ -25,6 +25,10 @@ for (const [svg, png, size] of jobs) {
     .toFile(join(IMAGES, png));
 }
 
+await sharp(readFileSync(join(IMAGES, 'og-image.svg')))
+  .png({ palette: true, compressionLevel: 9 })
+  .toFile(join(IMAGES, 'og-image.png'));
+
 // ICO holding the 16 and 32 PNGs as-is: the form every current browser and feed reader accepts.
 const sizes = [16, 32];
 const pngs = sizes.map((n) => readFileSync(join(IMAGES, `favicon-${n}.png`)));
@@ -44,4 +48,4 @@ pngs.forEach((png, i) => {
 });
 writeFileSync(join(ROOT, 'docs', 'favicon.ico'), Buffer.concat([header, ...pngs]));
 
-console.log(`✓ ${jobs.length} PNGs and favicon.ico`);
+console.log(`✓ ${jobs.length} PNGs, og-image and favicon.ico`);
