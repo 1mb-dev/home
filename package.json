@@ -13,7 +13,6 @@
     "validate:html": "html-validate 'docs/**/*.html'",
     "validate:css": "stylelint docs/assets/css/*.css",
     "validate": "npm run lint && npm run format && npm run validate:html && npm run validate:css",
-    "ci": "npm run validate && npm run build",
     "test": "vitest run",
     "test:watch": "vitest",
     "worker:dev": "wrangler dev --config workers/wrangler.toml",
