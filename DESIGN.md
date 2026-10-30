@@ -1,6 +1,6 @@
 # 1mb Design Language
 
-**Version:** 0.7.7
+**Version:** 0.7.8
 **Last updated:** 2026-10-30
 **Source of truth for values:** `docs/assets/css/style.css` (tokens on `:root`). This file holds the why.
 
@@ -73,7 +73,7 @@ Same structure on every page: root, work pages, 404. `scripts/gen.js` writes the
 | Tagline        | What the work is, not what it is like, in one sentence. Aim for 36 characters |
 | Synopsis       | What it does, with a number or a name. No status, no author                   |
 | Why it exists  | The problem specific to this work                                             |
-| What it taught | Only what the owner learned; without that, the section is left out            |
+| What it taught | What the owner learned, or one point from the work's record they approve      |
 
 Status lives in front matter, and the body never restates it. A page carries at most one contrast line ("not X, but Y") and borrows no run of fragments from another listed work. Before listing, the owner checks every claim, and a stranger with no context can follow the page.
 
@@ -287,6 +287,7 @@ Every generated file has one script. Edit the source, run the script, commit bot
 | 2026-10-30 | Work-copy checklist lives in Voice                                                     | The reviewer reads Voice; the list had lived outside the repo                                             |
 | 2026-10-30 | "Ends with weight" means a checkable fact                                              | Owner: the checklist said fact, the register said weight; samples ended on maxims                         |
 | 2026-10-30 | Cloudflare Pages, headers in `_headers`                                                | One CSP instead of three hand copies, and `frame-ancestors`, which a meta tag cannot carry                |
+| 2026-10-30 | "What it taught" may be curated from the work's record                                 | Owner: a section is not left out only because the owner did not write it; the owner still approves it     |
 
 ## Evolving this
 
