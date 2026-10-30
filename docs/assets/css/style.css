@@ -336,7 +336,6 @@ article {
   isolation: isolate;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 }
 
 .page-404 .masthead,
