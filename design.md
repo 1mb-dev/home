@@ -26,7 +26,7 @@ Every work page stands alone for that reader. A row's name goes to the 1mb page;
 
 **The watermark `1` is the signature.** It sits behind the cover and behind the notes on each work page. One per page: the index has none, so the cover's `1` stays the home page's only one. The 404 carries a `0`. On a fine pointer it drifts up to 8px against the cursor and eases home. Reduced motion and touch keep it still. Refine it; never remove or demote it.
 
-**The capstone anchors the cover.** `1mb` tops the root. Inner pages carry the same mark, small, top centre: the one constant at the top of every page.
+**The capstone anchors the cover.** `1mb` tops the root. Inner pages carry the same mark, small, top centre: the one constant at the top of every page. There it stays while the page scrolls beneath it, so a reader who arrived by a link keeps the way home. The root is home, so its capstone leaves with the cover.
 
 Numbering is for the index only. It follows the index order and changes when that order changes, so it never appears on a work page or in a URL.
 
@@ -87,10 +87,10 @@ Upkeep is an editorial claim: it appears only when a content file states it.
 - No pills, badges, coloured status, or traffic lights.
 - No icons or emoji in content. The theme toggle's ☀/☾ is the one glyph control.
 - No screenshots, hero images, or per-work artwork. One shared social image.
-- No motion beyond a 0.2s opacity or colour change on hover, and the watermark's drift. No scroll effects. No loading skeletons.
+- No motion beyond a 0.2s opacity or colour change on hover, and the watermark's drift. No scroll effects, beyond the line that marks the edge of the mark's band once it has pinned. No loading skeletons.
 - No hover-only information. No arrows; labels and underlines are the affordance.
 - No `target="_blank"`. A forced new tab breaks Back.
-- No fixed or floating controls. Everything scrolls with the page.
+- No fixed or floating controls, except the mark on inner pages: it stays at the top, and nothing sits beside it. On a short screen it scrolls with the page too.
 - No centred lists. Centre the cover, left-align anything scanned.
 - No featured slots, counts, stars, dates or activity pulled from GitHub.
 - No infinite lists, no "explore", no exclamation marks.

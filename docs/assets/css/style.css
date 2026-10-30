@@ -338,7 +338,6 @@ article {
   flex-direction: column;
 }
 
-.page-404 .masthead,
 .page-404 .colophon {
   width: 100%;
 }
@@ -551,6 +550,44 @@ article {
 .page-work main {
   text-align: left;
   padding: var(--space-8) 0 0;
+}
+
+/* The mark stays on inner pages: it rides up 24px, then pins in a 54px band. Above main's stacking
+   context, opaque, full-bleed over body's padding. Short screens keep it in flow: the band would
+   take 14% of a landscape phone. */
+@media (height > 500px) {
+  html:has(.masthead) {
+    scroll-padding-top: var(--space-8);
+  }
+
+  .masthead {
+    position: sticky;
+    top: calc(-1 * var(--space-3));
+    z-index: 2;
+    margin: 0 calc(-1 * var(--space-4));
+    padding: var(--space-4) var(--space-4) var(--space-1);
+    background: var(--bg);
+    border-bottom: 1px solid transparent;
+  }
+
+  .page-work main {
+    padding-top: calc(var(--space-8) - var(--space-1) - 1px);
+  }
+
+  /* The line marks the band's edge only once pinned: at rest it reads as an app header. */
+  @supports (animation-timeline: scroll()) {
+    .masthead {
+      animation: masthead-edge linear both;
+      animation-timeline: scroll();
+      animation-range: 0 var(--space-3);
+    }
+  }
+}
+
+@keyframes masthead-edge {
+  to {
+    border-bottom-color: var(--border);
+  }
 }
 
 .notes-side {
@@ -775,6 +812,11 @@ article {
 
   .description {
     color: var(--fg);
+  }
+
+  .masthead {
+    position: static;
+    border: 0;
   }
 
   /* Browsers drop backgrounds by default, which would leave the fill's paper-coloured label. */
