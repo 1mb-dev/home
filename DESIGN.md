@@ -62,7 +62,7 @@ Same structure on every page: root, work pages, 404. `scripts/gen.js` writes the
 
 **No em-dashes.** Not in copy, titles, metadata or interface strings. Use a full stop, a comma, a colon or a middle dot (`sift · 1mb`). The build enforces it: `parseWork` rejects a content file containing one, and `gen` refuses to write a page or script that does.
 
-**No time words.** `currently`, `now`, `recently`, `today`, `latest` and `these days` go stale on a page nobody re-dates. `parseWork` rejects them outside code spans; the status sentence already says what is running.
+**No time words.** `currently`, `now`, `recently`, `today`, `latest` and `these days` go stale on a page nobody re-dates. `parseWork` rejects them outside code spans and link targets; the status sentence already says what is running.
 
 **Every piece of copy gets two passes before it ships:** the author's own pass for tells and bloat, then a reviewer's pass against this section. New copy, edited copy and interface strings alike.
 

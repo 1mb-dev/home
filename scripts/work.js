@@ -58,11 +58,12 @@ export function assertNoEmDash(text, file) {
   if (i !== -1) throw new ContentError(file, i + 1, 'em-dash in copy; rewrite the sentence');
 }
 
-// Time words go stale on a page that is never re-dated (DESIGN.md, Voice). Code spans are exempt.
+// Time words go stale on a page that is never re-dated (DESIGN.md, Voice). Code spans and link
+// targets are exempt: `/releases/latest` is an address, not a claim.
 const RELATIVE_TIME = /\b(currently|now|recently|today|latest|these days)\b/i;
 
 function assertNoRelativeTime(text, file, line) {
-  const hit = RELATIVE_TIME.exec(text.replace(/`[^`]*`/g, ''));
+  const hit = RELATIVE_TIME.exec(text.replace(/`[^`]*`|\]\([^)]*\)/g, ''));
   if (hit) {
     throw new ContentError(file, line, `"${hit[1]}" goes stale; state what is true without it`);
   }

@@ -115,6 +115,14 @@ describe('parseWork', () => {
       'Nowhere else. Run `now`.\n\n## Why it exists\n\nW.'
     );
     expect(parseWork(fine, 'a').synopsis[0].text).toBe('Nowhere else. Run `now`.');
+    const linked = work(
+      'name: a\ntagline: t',
+      'See [the docs](https://a.dev/releases/latest).\n\n## Why it exists\n\nW.'
+    );
+    expect(parseWork(linked, 'a').synopsis).toHaveLength(1);
+    expect(() =>
+      parseWork(work('name: a\ntagline: t', 'See [the latest](https://a.dev/).'), 'a')
+    ).toThrow(':6 "latest" goes stale');
   });
 
   it('keeps a tagline to one sentence', () => {
