@@ -492,12 +492,7 @@ describe('em-dash scan coverage', () => {
     const binary = /\.(png|ico|woff2|jpg|webp)$/;
     const unread = readdirSync('docs', { recursive: true, withFileTypes: true })
       .filter(
-        (e) =>
-          e.isFile() &&
-          !e.name.startsWith('.') &&
-          e.name !== 'CNAME' &&
-          !isText(e.name) &&
-          !binary.test(e.name)
+        (e) => e.isFile() && !e.name.startsWith('.') && !isText(e.name) && !binary.test(e.name)
       )
       .map((e) => e.name);
     expect(unread).toEqual([]);
@@ -507,5 +502,6 @@ describe('em-dash scan coverage', () => {
     expect(isText('og-image.png')).toBe(false);
     expect(isText('site.webmanifest')).toBe(true);
     expect(isText('security.txt')).toBe(true);
+    expect(isText('_headers')).toBe(true);
   });
 });

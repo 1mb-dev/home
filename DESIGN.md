@@ -1,6 +1,6 @@
 # 1mb Design Language
 
-**Version:** 0.7.5
+**Version:** 0.7.6
 **Last updated:** 2026-10-30
 **Source of truth for values:** `docs/assets/css/style.css` (tokens on `:root`). This file holds the why.
 
@@ -154,8 +154,8 @@ What every page carries, and why. `scripts/work.js` renders it for work pages; t
 - **Canonical:** self, absolute, trailing slash; matches `og:url`.
 - **Open Graph:** type, url, title, description, the one shared image with width, height and alt, site name, locale. `twitter:card` only; X falls back to OG.
 - **Structured data:** one entity graph. Root: `WebSite` (`#website`) published by `Organization` (`#org`, `sameAs` GitHub and the log). Work pages: `WebPage` with `isPartOf #website`, `publisher #org`, a `BreadcrumbList`, and `about` typed by side: `WebApplication` (use), `CreativeWork` (read), `SoftwareSourceCode` (build). `codeRepository` and `sameAs` appear only for public source. No ratings, no dates: nothing invented.
-- **Crawling:** our own `robots.txt`, open to every crawler, AI included (`Content-Signal: search=yes, ai-input=yes, ai-train=yes`). It must be the file served: Cloudflare's managed robots.txt stays off. The sitemap lists the root and every published work; `build.js` adds `<lastmod>` at deploy from the git log of each page's content file, so the date is real or absent, never guessed. The 404 is `noindex`; GitHub Pages serves it with a real 404 status.
-- **CSP (meta):** `script-src 'self'`, no inline script or style, `object-src 'none'`, `base-uri 'none'`, `form-action 'none'`; the root alone may `connect-src` the counter API.
+- **Crawling:** our own `robots.txt`, open to every crawler, AI included (`Content-Signal: search=yes, ai-input=yes, ai-train=yes`). It must be the file served: Cloudflare's managed robots.txt stays off. The sitemap lists the root and every published work; `build.js` adds `<lastmod>` at deploy from the git log of each page's content file, so the date is real or absent, never guessed. The 404 is `noindex`; Cloudflare Pages serves it with a real 404 status.
+- **Headers:** `docs/_headers` is the one place for them. CSP: `script-src 'self'`, no inline script or style, `object-src 'none'`, `base-uri 'none'`, `form-action 'none'`, `frame-ancestors 'none'`; the root alone may `connect-src` the counter API. HSTS without `includeSubDomains`, while `{slug}.1mb.dev` is open. `nosniff` everywhere.
 - **Icons:** `1mb` outlined from Space Grotesk 700 into SVG paths, so every client draws the same mark. SVG plus PNG at 16, 32, 180 (touch), 192, 512 and a 512 maskable (mark inside the 80% safe zone), and `/favicon.ico` for clients that ask blindly. Regenerate with `npm run icons`, never by hand.
 - **Feeds:** `/feed.xml`, Atom, one entry per listed work, newest listing first (by `listed:`, then `shipped:`); advertised on every page and linked from the colophon. The root also advertises the log's RSS.
 - **Security contact:** `/.well-known/security.txt`: `security@1mb.dev` and GitHub private vulnerability reporting on the home repo; `Expires` stamped a year out at each deploy.
@@ -286,6 +286,7 @@ Every generated file has one script. Edit the source, run the script, commit bot
 | 2026-10-30 | No evidence script; `shipped:` is a sensible date                                      | Owner: no cost to getting it wrong, so a log date or a hand pick is enough                                |
 | 2026-10-30 | Work-copy checklist lives in Voice                                                     | The reviewer reads Voice; the list had lived outside the repo                                             |
 | 2026-10-30 | "Ends with weight" means a checkable fact                                              | Owner: the checklist said fact, the register said weight; samples ended on maxims                         |
+| 2026-10-30 | Cloudflare Pages, headers in `_headers`                                                | One CSP instead of three hand copies, and `frame-ancestors`, which a meta tag cannot carry                |
 
 ## Evolving this
 

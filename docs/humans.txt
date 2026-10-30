@@ -14,7 +14,7 @@ Everyone who counts themselves in.
 
 Standards: HTML5, CSS3, Vanilla JS
 Software: Zed, Vim, GitHub, Cloudflare
-Hosting: GitHub Pages
+Hosting: Cloudflare Pages
 API: Cloudflare Workers + Upstash Redis
 
 /* PHILOSOPHY */
