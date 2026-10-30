@@ -403,7 +403,7 @@ export function renderColophon() {
   return `<footer class="colophon">
 <p class="colophon-home"><a href="/">1mb</a> ·</p>
 <p class="colophon-credit">All the hats. One head.</p>
-<button type="button" id="theme-toggle" class="theme-toggle" aria-label="Dark theme" aria-pressed="false" hidden>
+<button type="button" id="theme-toggle" class="theme-toggle" aria-label="dark theme" aria-pressed="false" hidden>
 <span class="icon-sun" aria-hidden="true">☀</span>
 <span class="icon-moon" aria-hidden="true">☾</span>
 </button>
@@ -599,7 +599,7 @@ ${rest.map((a) => `<a href="${esc(a.href)}">${a.label}</a>`).join('\n')}
 </p>
 ${section('related')}
 </article>
-${prev || next ? `<nav class="sequence" aria-label="More work">\n${neighbour(prev, 'prev')}\n${neighbour(next, 'next')}\n</nav>` : ''}
+${prev || next ? `<nav class="sequence" aria-label="more work">\n${neighbour(prev, 'prev')}\n${neighbour(next, 'next')}\n</nav>` : ''}
 <p class="all-work"><a href="/#work">all work</a></p>
 </main>
 ${renderColophon()}

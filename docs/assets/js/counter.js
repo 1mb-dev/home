@@ -101,7 +101,6 @@
     button.textContent = "you're in";
     button.disabled = true;
     button.classList.add('voted');
-    button.setAttribute('aria-pressed', 'true');
   }
 
   // Init
@@ -109,9 +108,6 @@
     button.textContent = "you're in";
     button.disabled = true;
     button.classList.add('voted');
-    button.setAttribute('aria-pressed', 'true');
-  } else {
-    button.setAttribute('aria-pressed', 'false');
   }
 
   button.addEventListener('click', vote);
