@@ -120,6 +120,11 @@ describe('parseWork', () => {
     expect(() => parseWork(work('name: a\ntagline: t\nsite: http://a.dev'), 'a')).toThrow(
       'site must be an https:// URL'
     );
+    const padded = parseWork(
+      work('name: a\ntagline: t\nsite: https://a.dev \nshipped: 2025-01-01 '),
+      'a'
+    );
+    expect([padded.site, padded.shipped]).toEqual(['https://a.dev', '2025-01-01']);
     expect(() => parseWork(work('name: a\ntagline: t\nretired: yes'), 'a')).toThrow(
       'retired must be true or false'
     );

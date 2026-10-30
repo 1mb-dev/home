@@ -135,7 +135,8 @@ export function parseWork(text, slug, file = `content/work/${slug}.md`) {
     const line = i + 1;
     const match = /^([a-z]+): (.+)$/.exec(lines[i]);
     if (!match) throw new ContentError(file, line, 'expected "key: value"');
-    const [, key, value] = match;
+    const key = match[1];
+    const value = match[2].trim();
     if (!KEYS.has(key)) throw new ContentError(file, line, `unknown key "${key}"`);
     if (seen.has(key)) throw new ContentError(file, line, `duplicate key "${key}"`);
     seen.add(key);
@@ -152,7 +153,7 @@ export function parseWork(text, slug, file = `content/work/${slug}.md`) {
       }
       work[key] = value === 'true';
     } else {
-      work[key] = value.trim();
+      work[key] = value;
     }
   }
   if (i >= lines.length) throw new ContentError(file, 1, 'front matter is not closed with "---"');
