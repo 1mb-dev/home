@@ -22,7 +22,7 @@ nivomoney was built to go there: the core systems of a bank, small enough to fol
 
 ## What it taught
 
-nivomoney set out to show how a bank's parts fit: where service boundaries fall, how a double-entry ledger works, what moving money across services asks for.
+The source lays out a bank's parts: where service boundaries fall, how a double-entry ledger works, what moving money across services asks for.
 
 A balance rule belongs in the database. Postgres refuses to post an entry of 100 against 90.
 
