@@ -18,6 +18,7 @@ import {
   statusLines,
   validateCollection,
   renderFeed,
+  renderLlms,
   workJsonLd,
 } from './work.js';
 
@@ -629,6 +630,26 @@ describe('rendering', () => {
     works.set('q', q('2026-03-01'));
     const tied = renderFeed(index, works, 'About <1mb>.');
     expect(tied.indexOf('/work/sift/')).toBeLessThan(tied.indexOf('/work/q/'));
+  });
+
+  it('writes llms.txt by side in index order, from the copy the pages carry', () => {
+    const entry = (slug) =>
+      parseWork(
+        work(
+          `name: ${slug}\ntagline: t\nsource: https://g.dev/${slug}\nshipped: 2025-01-01\nlisted: 2026-03-01\n${SEO}`
+        ),
+        slug
+      );
+    const index = parseIndex('use\n  b\n  a\nread\n  d\nbuild\n  c');
+    const works = new Map(['a', 'b', 'c', 'd'].map((slug) => [slug, entry(slug)]));
+    const llms = renderLlms(index, works, 'About 1mb.');
+    const description = works.get('b').description;
+    expect(llms.startsWith('# 1mb\n\n> About 1mb.\n\n## use\n\n')).toBe(true);
+    expect(llms).toContain(`- [b](https://1mb.dev/work/b/): ${description}\n- [a](`);
+    expect(llms).toContain('\n\n## read\n\n- [d](');
+    expect(
+      llms.endsWith(`\n\n## build with\n\n- [c](https://1mb.dev/work/c/): ${description}\n`)
+    ).toBe(true);
   });
 
   it('keeps a script block intact when copy contains "</"', () => {
