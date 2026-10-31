@@ -22,7 +22,7 @@ log puts short notes on a site with neither.
 
 ## What it taught
 
-log set out to show that a blog needs no platform: a folder of text files and one binary are enough.
+A blog needs no platform: a folder of text files and one binary are enough.
 
 The site is the proof. The folder is `articles/` in the source.
 
