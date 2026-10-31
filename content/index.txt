@@ -4,6 +4,7 @@
 
 use
   sift
+  gist
 read
   log
   nivomoney

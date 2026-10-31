@@ -22,6 +22,19 @@
     <category term="markdown blog" />
   </entry>
   <entry>
+    <title>gist: App specs for AI coding assistants</title>
+    <link href="https://1mb.dev/work/gist/" />
+    <id>https://1mb.dev/work/gist/</id>
+    <published>2026-10-30T00:00:00Z</published>
+    <updated>2026-10-30T00:00:00Z</updated>
+    <summary>An app spec generator for AI coding assistants: describe an app idea, answer a few questions, download a markdown spec to start from. No account.</summary>
+    <category term="app spec" />
+    <category term="spec generator" />
+    <category term="ai coding" />
+    <category term="markdown" />
+    <category term="app idea" />
+  </entry>
+  <entry>
     <title>sift: Hacker News threads, scored by code</title>
     <link href="https://1mb.dev/work/sift/" />
     <id>https://1mb.dev/work/sift/</id>

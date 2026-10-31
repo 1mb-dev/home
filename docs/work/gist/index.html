@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>gist: App specs for AI coding assistants · 1mb</title>
+    <meta
+      name="description"
+      content="An app spec generator for AI coding assistants: describe an app idea, answer a few questions, download a markdown spec to start from. No account."
+    />
+    <meta name="keywords" content="app spec, spec generator, ai coding, markdown, app idea" />
+    <meta name="author" content="1mb" />
+    <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://1mb.dev/work/gist/" />
+    <meta property="og:title" content="gist: App specs for AI coding assistants · 1mb" />
+    <meta
+      property="og:description"
+      content="An app spec generator for AI coding assistants: describe an app idea, answer a few questions, download a markdown spec to start from. No account."
+    />
+    <meta property="og:image" content="https://1mb.dev/assets/images/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="1mb, one-man-band. All the hats. One head." />
+    <meta property="og:site_name" content="1mb" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href="https://1mb.dev/work/gist/" />
+    <link rel="alternate" type="application/atom+xml" title="1mb: work" href="/feed.xml" />
+    <link
+      rel="preload"
+      href="/assets/fonts/inter-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/assets/fonts/space-grotesk-700-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <script src="/assets/js/theme.js"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "url": "https://1mb.dev/work/gist/",
+        "name": "gist: App specs for AI coding assistants · 1mb",
+        "description": "An app spec generator for AI coding assistants: describe an app idea, answer a few questions, download a markdown spec to start from. No account.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "@id": "https://1mb.dev/#website",
+          "name": "1mb",
+          "url": "https://1mb.dev/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://1mb.dev/#org",
+          "name": "1mb"
+        },
+        "about": {
+          "@type": "WebApplication",
+          "url": "https://gist.1mb.dev",
+          "name": "gist",
+          "description": "An app spec generator for AI coding assistants: describe an app idea, answer a few questions, download a markdown spec to start from. No account.",
+          "keywords": "app spec, spec generator, ai coding, markdown, app idea",
+          "creator": {
+            "@type": "Organization",
+            "@id": "https://1mb.dev/#org",
+            "name": "1mb"
+          },
+          "datePublished": "2026-02-23",
+          "sameAs": "https://github.com/1mb-dev/gistapp"
+        },
+        "breadcrumb": {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "1mb",
+              "item": "https://1mb.dev/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "gist",
+              "item": "https://1mb.dev/work/gist/"
+            }
+          ]
+        }
+      }
+    </script>
+  </head>
+  <body class="page-work">
+    <header class="masthead"><a class="mark" href="/">1mb</a></header>
+    <main>
+      <article class="notes">
+        <p class="notes-side">use</p>
+        <h1>gist</h1>
+        <p class="notes-tagline">App specs for AI coding assistants.</p>
+        <div class="notes-body">
+          <p>
+            Describe an app idea, answer questions about its data, scale, hosting and design, and
+            download a markdown spec for an AI coding assistant. It is a better starting point, not
+            a full build spec. The build iterates from there.
+          </p>
+          <p>
+            A personal single-page app gets plain HTML, CSS and JS with no build step. A public site
+            with hourly data gets a Worker, KV and cron. Each spec has an implementation order with
+            checkpoints, and a suggested prompt.
+          </p>
+          <p>Answers stay in the browser. A share link keeps the spec on the server for 90 days.</p>
+          <h2>why it exists</h2>
+          <p>
+            An AI coding assistant starts from what it is told. An app idea leaves out free-tier
+            limits, caching and CORS proxies, and most people with an idea do not know to state
+            them.
+          </p>
+          <p>gist asks the questions and writes the constraints down.</p>
+          <h2>what it taught</h2>
+          <p>
+            A small idea gets a small spec. gist starts at minimal and scales up only on specific
+            answers.
+          </p>
+          <p>The rules are in <code>src/lib/complexity.ts</code>.</p>
+        </div>
+        <p class="notes-status">Source is public.</p>
+        <p class="notes-next">
+          <a class="action" href="https://gist.1mb.dev">open gist</a>
+          <a href="https://github.com/1mb-dev/gistapp">source</a>
+        </p>
+        <h2>related</h2>
+        <ul class="related">
+          <li><a href="https://gist.1mb.dev/privacy">Privacy</a></li>
+        </ul>
+      </article>
+      <nav class="sequence" aria-label="more work">
+        <a class="sequence-item sequence-prev" href="/work/sift/" rel="prev">
+          <span class="sequence-label">previous</span>
+          <span class="sequence-name">sift</span>
+          <span class="sequence-tagline">Hacker News threads, scored by code.</span>
+        </a>
+        <a class="sequence-item sequence-next" href="/work/log/" rel="next">
+          <span class="sequence-label">next</span>
+          <span class="sequence-name">log</span>
+          <span class="sequence-tagline">Short notes on building solo.</span>
+        </a>
+      </nav>
+      <p class="all-work"><a href="/#work">all work</a></p>
+    </main>
+    <footer class="colophon">
+      <p class="colophon-home"><a href="/">1mb</a> ·</p>
+      <p class="colophon-credit">All the hats. One head.</p>
+      <button
+        type="button"
+        id="theme-toggle"
+        class="theme-toggle"
+        aria-label="dark theme"
+        aria-pressed="false"
+        hidden
+      >
+        <span class="icon-sun" aria-hidden="true">☀</span>
+        <span class="icon-moon" aria-hidden="true">☾</span>
+      </button>
+      <p class="colophon-meta">
+        <a href="https://github.com/1mb-dev" rel="me">github</a>
+        <a href="https://log.1mb.dev">log</a>
+        <a href="/feed.xml">feed</a>
+        <span>© <span class="year">2026</span></span>
+      </p>
+    </footer>
+    <script src="/assets/js/sw-register.js"></script>
+    <script src="/assets/js/watermark.js"></script>
+  </body>
+</html>
