@@ -41,6 +41,8 @@ Numbering is for the index only. It follows the index order and changes when tha
 
 ## Voice
 
+A listing is the work's showcase: why it was built, what it set out to show. Not a pitch, not an audit. Why it exists and What it taught carry the page, with the work or the problem as their subject.
+
 Short sentences. No I or we. Copy describes the work and the problem, never the maker. The last line lands on a fact a stranger can check, not a maxim. The name "one-man-band" lives in page titles and metadata; the visible page does not repeat it.
 
 **No em-dashes.** Not in copy, titles, metadata or interface strings. Use a full stop, a comma, a colon or a middle dot (`sift · 1mb`). The build (`npm run gen`) rejects them.
@@ -55,12 +57,14 @@ Copy is checked against this section before it ships: new copy, edited copy and 
 | Description    | The search result: the category a searcher types, and the limit. 70 to 160    |
 | Tags           | Three to six lowercase words a searcher would use. Never padding              |
 | Synopsis       | What it does, with a number or a name. Then its limits and what it costs      |
-| Why it exists  | The problem specific to this work                                             |
-| What it taught | What the maker learned, or a point from the work's record the maker approved  |
+| Why it exists  | What the work was built to do, and the problem it answers                     |
+| What it taught | What the work set out to show, or a point from its record the owner approves  |
 
-The first thing a stranger would check goes on the page, not in the linked docs: what a queue does in a crash, what a service keeps and for how long.
+The first thing a stranger would check goes on the page when its absence would mislead, not in the linked docs: what a queue does in a crash, what a service keeps and for how long.
 
 A behaviour is stated only as far as it was run: "after a hard kill", not "after a crash", if power loss was never tested.
+
+A limit is what a reader needs to decide. A work's known faults do not get a list: one line where the page would otherwise mislead, and no more.
 
 A page carries at most one contrast line ("not X, but Y") and borrows no run of fragments from another listed work.
 
