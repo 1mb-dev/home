@@ -16,7 +16,6 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "worker:dev": "wrangler dev --config workers/wrangler.toml",
-    "worker:deploy": "wrangler deploy --config workers/wrangler.toml",
     "worker:tail": "wrangler tail --config workers/wrangler.toml",
     "gen": "node scripts/gen.js",
     "icons": "sh scripts/icons/build.sh"

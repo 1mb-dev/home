@@ -1,8 +1,8 @@
 # Rules stack, and a header set twice joins with a comma: two CSPs would both enforce.
 # The root detaches the shared CSP before setting its own.
 # static.cloudflareinsights.com: Cloudflare injects its analytics beacon, which reports to /cdn-cgi/rum.
-# Its versioned path changes, so the host, not a path. Its inline challenge script stays blocked:
-# the ray differs per request, so no hash fits, and only 'unsafe-inline' would allow it.
+# The host, so a change to the beacon's URL layout does not block it. Cloudflare's inline challenge
+# script stays blocked: the ray differs per request, so no hash fits, and only 'unsafe-inline' would allow it.
 /*
   Content-Security-Policy: default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self'; font-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
   Strict-Transport-Security: max-age=31536000

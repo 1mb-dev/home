@@ -17,4 +17,4 @@ enabled = true
 # UPSTASH_REDIS_REST_TOKEN
 
 # Production: https://counter.1mb.dev, bound once in the dashboard.
-# No routes here: they would give the CI token zone rights over 1mb.dev.
+# No routes here: the CI token would need zone rights over 1mb.dev.

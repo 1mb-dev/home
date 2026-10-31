@@ -29,7 +29,6 @@ npx wrangler secret put UPSTASH_REDIS_REST_TOKEN --config workers/wrangler.toml
 
 ```bash
 npm run worker:dev      # local development server
-npm run worker:deploy   # deploy to production
 npm run worker:tail     # view live logs
 ```
 
