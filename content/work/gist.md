@@ -30,3 +30,4 @@ The rules are in `src/lib/complexity.ts`.
 ## Related
 
 [Privacy](https://gist.1mb.dev/privacy)
+[aipolicy, the rules for assistants in the repo](/work/aipolicy/)
