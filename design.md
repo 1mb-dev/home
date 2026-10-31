@@ -51,14 +51,14 @@ Short sentences. No I or we. Copy describes the work and the problem, never the 
 
 Copy is checked against this section before it ships: new copy, edited copy and interface strings alike.
 
-| Field          | Says                                                                          |
-| -------------- | ----------------------------------------------------------------------------- |
-| Tagline        | What the work is, not what it is like, in one sentence. Aim for 36 characters |
-| Description    | The search result: the category a searcher types, and the limit. 70 to 160    |
-| Tags           | Three to six lowercase words a searcher would use. Never padding              |
-| Synopsis       | What it does, with a number or a name. Then its limits and what it costs      |
-| Why it exists  | What the work was built to do, and the problem it answers                     |
-| What it taught | What the work set out to show, or a point from its record the owner approves  |
+| Field          | Says                                                                                            |
+| -------------- | ----------------------------------------------------------------------------------------------- |
+| Tagline        | What the work is, not what it is like, in one sentence. Aim for 36 characters                   |
+| Description    | The search result: the category a searcher types, and the limit. 70 to 160                      |
+| Tags           | Three to six lowercase words a searcher would use. Never padding                                |
+| Synopsis       | What it does, with a number or a name. Then a limit only where the page would otherwise mislead |
+| Why it exists  | What the work was built to do, and the problem it answers                                       |
+| What it taught | What the work set out to show, or a point from its record the owner approves                    |
 
 The first thing a stranger would check goes on the page when its absence would mislead, not in the linked docs: what a queue does in a crash, what a service keeps and for how long.
 
@@ -120,7 +120,7 @@ The index grows in place. Never paginate, collapse, filter, pin headings or drop
 
 The manifesto holds one line down to a 320px screen. Its size gives way before its line does.
 
-One `h1` per page. Focus order matches visual order. Without JavaScript the theme toggle and the counter's proof go missing, and nothing else. The proof's line keeps its height either way, so the count arrives without moving the cover.
+One `h1` per page. Focus order matches visual order. Without JavaScript the theme toggle goes missing, the counter's proof shows no count, and the count button does nothing. The proof's line keeps its height either way, so the count arrives without moving the cover.
 
 ## Considered, not taken
 
