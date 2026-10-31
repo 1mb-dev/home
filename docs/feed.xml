@@ -5,15 +5,15 @@
   <link href="https://1mb.dev/feed.xml" rel="self" />
   <link href="https://1mb.dev/" />
   <id>https://1mb.dev/</id>
-  <updated>2026-10-30T00:00:00Z</updated>
+  <updated>2026-10-31T00:00:00Z</updated>
   <author><name>1mb</name></author>
   <icon>https://1mb.dev/favicon.ico</icon>
   <entry>
     <title>ekam: Essays on Advaita Vedanta as design</title>
     <link href="https://1mb.dev/work/ekam/" />
     <id>https://1mb.dev/work/ekam/</id>
-    <published>2026-10-30T00:00:00Z</published>
-    <updated>2026-10-30T00:00:00Z</updated>
+    <published>2026-10-31T00:00:00Z</published>
+    <updated>2026-10-31T00:00:00Z</updated>
     <summary>Twelve essays on Advaita Vedanta and software engineering: debugging, state, abstraction, failure. Each says where its mapping stops.</summary>
     <category term="advaita vedanta" />
     <category term="upanishads" />
@@ -25,8 +25,8 @@
     <title>shim: A Claude Code proxy that logs its edits</title>
     <link href="https://1mb.dev/work/shim/" />
     <id>https://1mb.dev/work/shim/</id>
-    <published>2026-10-30T00:00:00Z</published>
-    <updated>2026-10-30T00:00:00Z</updated>
+    <published>2026-10-31T00:00:00Z</published>
+    <updated>2026-10-31T00:00:00Z</updated>
     <summary>A local proxy that runs Claude Code on DeepSeek, OpenAI, OpenRouter or Ollama, logging its rewrites and measuring every request. One Go binary.</summary>
     <category term="claude code" />
     <category term="llm proxy" />
@@ -39,8 +39,8 @@
     <title>log: Short notes on building solo</title>
     <link href="https://1mb.dev/work/log/" />
     <id>https://1mb.dev/work/log/</id>
-    <published>2026-10-30T00:00:00Z</published>
-    <updated>2026-10-30T00:00:00Z</updated>
+    <published>2026-10-31T00:00:00Z</published>
+    <updated>2026-10-31T00:00:00Z</updated>
     <summary>A blog of short notes and essays on solo software work: shipping, maintenance, dependencies. Markdown in git, one Go binary, no database.</summary>
     <category term="blog" />
     <category term="solo developer" />
@@ -51,8 +51,8 @@
     <title>cleartalk: Coaching cards for hard conversations</title>
     <link href="https://1mb.dev/work/cleartalk/" />
     <id>https://1mb.dev/work/cleartalk/</id>
-    <published>2026-10-30T00:00:00Z</published>
-    <updated>2026-10-30T00:00:00Z</updated>
+    <published>2026-10-31T00:00:00Z</published>
+    <updated>2026-10-31T00:00:00Z</updated>
     <summary>Prep for hard conversations, at work or otherwise: profile someone&#39;s communication style, pick a situation, read a coaching card. Stays in the browser.</summary>
     <category term="difficult conversations" />
     <category term="giving feedback" />
@@ -64,8 +64,8 @@
     <title>aipolicy: A repository&#39;s AI policy, as files</title>
     <link href="https://1mb.dev/work/aipolicy/" />
     <id>https://1mb.dev/work/aipolicy/</id>
-    <published>2026-10-30T00:00:00Z</published>
-    <updated>2026-10-30T00:00:00Z</updated>
+    <published>2026-10-31T00:00:00Z</published>
+    <updated>2026-10-31T00:00:00Z</updated>
     <summary>An AI policy generator for a repository: pick a preset, set the rules for contributors, download AI_POLICY.md, AGENTS.md and more. No install, no sign-up.</summary>
     <category term="ai policy" />
     <category term="agents.md" />
@@ -76,8 +76,8 @@
     <title>gist: App specs for AI coding assistants</title>
     <link href="https://1mb.dev/work/gist/" />
     <id>https://1mb.dev/work/gist/</id>
-    <published>2026-10-30T00:00:00Z</published>
-    <updated>2026-10-30T00:00:00Z</updated>
+    <published>2026-10-31T00:00:00Z</published>
+    <updated>2026-10-31T00:00:00Z</updated>
     <summary>An app spec generator for AI coding assistants: describe an app idea, answer a few questions, download a markdown spec to start from. No account.</summary>
     <category term="app spec" />
     <category term="spec generator" />
@@ -89,8 +89,8 @@
     <title>sift: Hacker News threads, scored by code</title>
     <link href="https://1mb.dev/work/sift/" />
     <id>https://1mb.dev/work/sift/</id>
-    <published>2026-10-30T00:00:00Z</published>
-    <updated>2026-10-30T00:00:00Z</updated>
+    <published>2026-10-31T00:00:00Z</published>
+    <updated>2026-10-31T00:00:00Z</updated>
     <summary>Hacker News discussions picked by a scoring script with no editor: up to 12 threads, several runs a day, one per domain. No account, no archive.</summary>
     <category term="hacker news" />
     <category term="digest" />
@@ -102,8 +102,8 @@
     <title>drift: Always-on radio in six moods</title>
     <link href="https://1mb.dev/work/drift/" />
     <id>https://1mb.dev/work/drift/</id>
-    <published>2026-10-30T00:00:00Z</published>
-    <updated>2026-10-30T00:00:00Z</updated>
+    <published>2026-10-31T00:00:00Z</published>
+    <updated>2026-10-31T00:00:00Z</updated>
     <summary>Always-on mood radio: focus music, ambient, lo-fi, funk and more, by mood or by album, with lyrics where a track has them. No account, no cookies.</summary>
     <category term="mood radio" />
     <category term="lofi radio" />
@@ -115,8 +115,8 @@
     <title>playbook: A book on how teams ship</title>
     <link href="https://1mb.dev/work/playbook/" />
     <id>https://1mb.dev/work/playbook/</id>
-    <published>2026-10-30T00:00:00Z</published>
-    <updated>2026-10-30T00:00:00Z</updated>
+    <published>2026-10-31T00:00:00Z</published>
+    <updated>2026-10-31T00:00:00Z</updated>
     <summary>A short book of engineering principles for software teams: collaboration, design rules, code review, adoption. Five chapters, about thirty minutes.</summary>
     <category term="engineering principles" />
     <category term="software teams" />
@@ -128,8 +128,8 @@
     <title>nivomoney: A neobank, opened up to be read</title>
     <link href="https://1mb.dev/work/nivomoney/" />
     <id>https://1mb.dev/work/nivomoney/</id>
-    <published>2026-10-30T00:00:00Z</published>
-    <updated>2026-10-30T00:00:00Z</updated>
+    <published>2026-10-31T00:00:00Z</published>
+    <updated>2026-10-31T00:00:00Z</updated>
     <summary>Neobank demo source: Go microservices, a double-entry ledger in Postgres, React apps, ADRs. Synthetic data, no real money.</summary>
     <category term="neobank" />
     <category term="double-entry ledger" />
@@ -141,8 +141,8 @@
     <title>ledgerq: A message queue in a directory</title>
     <link href="https://1mb.dev/work/ledgerq/" />
     <id>https://1mb.dev/work/ledgerq/</id>
-    <published>2026-10-30T00:00:00Z</published>
-    <updated>2026-10-30T00:00:00Z</updated>
+    <published>2026-10-31T00:00:00Z</published>
+    <updated>2026-10-31T00:00:00Z</updated>
     <summary>An embedded Go message queue: a persistent, disk-backed log in a directory. No broker, one process, one read position, zero dependencies.</summary>
     <category term="message queue" />
     <category term="go" />
@@ -154,8 +154,8 @@
     <title>markgo: A blog engine in one Go binary</title>
     <link href="https://1mb.dev/work/markgo/" />
     <id>https://1mb.dev/work/markgo/</id>
-    <published>2026-10-30T00:00:00Z</published>
-    <updated>2026-10-30T00:00:00Z</updated>
+    <published>2026-10-31T00:00:00Z</published>
+    <updated>2026-10-31T00:00:00Z</updated>
     <summary>A flat-file Go blog engine: markdown files in a directory, a web compose form, one binary with embedded assets. No database, no build step.</summary>
     <category term="blog engine" />
     <category term="go" />

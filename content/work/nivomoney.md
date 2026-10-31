@@ -7,7 +7,7 @@ site: https://nivomoney.1mb.dev
 source: https://github.com/1mb-dev/nivomoney
 retired: true
 shipped: 2025-11-21
-listed: 2026-10-30
+listed: 2026-10-31
 ---
 
 A neobank demo in Go: identity, wallets, transactions, risk and a double-entry ledger, each its own service, with React apps on the front. All data is synthetic.

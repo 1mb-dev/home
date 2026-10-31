@@ -7,7 +7,7 @@ source: https://github.com/1mb-dev/shim
 docs: https://shim.1mb.dev
 language: Go
 shipped: 2026-05-25
-listed: 2026-10-30
+listed: 2026-10-31
 ---
 
 One Go binary on `127.0.0.1:8082`. Point Claude Code at it with `ANTHROPIC_BASE_URL` and its calls go to DeepSeek, OpenAI, OpenRouter or Ollama, or pass through to Anthropic. With the proxy up, `shim run` starts Claude Code pointed at it.

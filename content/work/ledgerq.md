@@ -7,7 +7,7 @@ source: https://github.com/1mb-dev/ledgerq
 docs: https://pkg.go.dev/github.com/1mb-dev/ledgerq/pkg/ledgerq
 language: Go
 shipped: 2025-10-17
-listed: 2026-10-30
+listed: 2026-10-31
 ---
 
 A Go library. Give it a path and messages go to an append-only log on disk, with no broker to run.

@@ -5,7 +5,7 @@ description: Hacker News discussions picked by a scoring script with no editor: 
 tags: hacker news, digest, discussions, comments, rss
 site: https://sift.1mb.dev
 shipped: 2026-02-22
-listed: 2026-10-30
+listed: 2026-10-31
 ---
 
 A digest of Hacker News discussions. Code scores each thread, mostly from its comments, and lists up to twelve, one per domain, with no editor.

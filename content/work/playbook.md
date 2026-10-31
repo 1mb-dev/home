@@ -5,7 +5,7 @@ description: A short book of engineering principles for software teams: collabor
 tags: engineering principles, software teams, code review, design rules, collaboration
 site: https://playbook.1mb.dev
 shipped: 2026-01-11
-listed: 2026-10-30
+listed: 2026-10-31
 ---
 
 A book of engineering principles for software teams, in five chapters: how a team thinks, what it builds toward, how a day runs, how review works and how to start. About thirty minutes cover to cover.

@@ -5,7 +5,7 @@ description: Twelve essays on Advaita Vedanta and software engineering: debuggin
 tags: advaita vedanta, upanishads, essays, software engineering, debugging
 site: https://ekam.1mb.dev
 shipped: 2026-07-03
-listed: 2026-10-30
+listed: 2026-10-31
 ---
 
 Twelve essays that read Advaita Vedanta as software design. Debugging is neti neti, the Upanishadic method of negation. A wrong abstraction is adhyasa, a snake seen on a rope.

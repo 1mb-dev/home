@@ -8,7 +8,7 @@ docs: https://github.com/1mb-dev/markgo/blob/main/docs/GETTING-STARTED.md
 language: Go
 maintained: true
 shipped: 2025-09-04
-listed: 2026-10-30
+listed: 2026-10-31
 ---
 
 Posts are markdown files in a directory. `markgo serve` puts them on the web with search and feeds, from one binary with its web assets embedded.

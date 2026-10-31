@@ -6,7 +6,7 @@ tags: ai policy, agents.md, claude.md, policy generator
 site: https://aipolicy.1mb.dev
 source: https://github.com/1mb-dev/aipolicy
 shipped: 2026-03-21
-listed: 2026-10-30
+listed: 2026-10-31
 ---
 
 An AI policy generator for a repository. Pick a preset and get `AI_POLICY.md`, `AGENTS.md`, `CLAUDE.md` and the Copilot and Cursor files, written from one set of choices. No install, no sign-up.

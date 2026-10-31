@@ -6,7 +6,7 @@ tags: app spec, spec generator, ai coding, markdown, app idea
 site: https://gist.1mb.dev
 source: https://github.com/1mb-dev/gistapp
 shipped: 2026-02-23
-listed: 2026-10-30
+listed: 2026-10-31
 ---
 
 Describe an app idea, answer questions about its data, scale, hosting and design, and download a markdown spec for an AI coding assistant. It is a better starting point, not a full build spec. The build iterates from there.

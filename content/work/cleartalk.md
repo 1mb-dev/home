@@ -6,7 +6,7 @@ tags: difficult conversations, giving feedback, communication styles, cross-team
 site: https://cleartalk.1mb.dev
 source: https://github.com/1mb-dev/cleartalk
 shipped: 2026-03-24
-listed: 2026-10-30
+listed: 2026-10-31
 ---
 
 Preparation for a hard conversation, at work or otherwise. Answer 8 questions about how the other person communicates, pick a situation, and read a card on how to shape the conversation with them.

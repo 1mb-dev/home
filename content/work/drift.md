@@ -7,7 +7,7 @@ site: https://drift.1mb.dev
 source: https://github.com/1mb-dev/driftfm
 docs: https://1mb-dev.github.io/driftfm/
 shipped: 2026-02-02
-listed: 2026-10-30
+listed: 2026-10-31
 ---
 
 Mood radio. Pick a mood and it plays: Focus for deep work, Calm to wind down, Late Night for lo-fi, Energize, Groove or Storm.

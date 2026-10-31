@@ -7,7 +7,7 @@ site: https://log.1mb.dev
 source: https://github.com/1mb-dev/log
 maintained: true
 shipped: 2026-05-15
-listed: 2026-10-30
+listed: 2026-10-31
 ---
 
 A blog of notes, links and essays on shipping, maintenance, dependencies and open source. Most posts run under a hundred words.
