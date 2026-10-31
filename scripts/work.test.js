@@ -1,4 +1,4 @@
-import { readdirSync } from 'fs';
+import { existsSync, readdirSync, readFileSync } from 'fs';
 import { describe, it, expect } from 'vitest';
 import {
   actions,
@@ -652,5 +652,20 @@ describe('em-dash scan coverage', () => {
     expect(isText('site.webmanifest')).toBe(true);
     expect(isText('security.txt')).toBe(true);
     expect(isText('_headers')).toBe(true);
+  });
+});
+
+describe('service worker precache', () => {
+  const lists = readFileSync('docs/sw.js', 'utf8').match(/_ASSETS = \[[^\]]*\]/g);
+  const urls = lists.flatMap((list) => list.match(/'[^']+'/g)).map((u) => u.slice(1, -1));
+
+  it('lists only files that exist: one miss fails the install', () => {
+    expect(urls.length).toBeGreaterThan(5);
+    const missing = urls.filter((u) => !existsSync(`docs${u === '/' ? '/index.html' : u}`));
+    expect(missing).toEqual([]);
+  });
+
+  it('lists no .html path: Pages redirects them, and a redirected response cannot serve a page', () => {
+    expect(urls.filter((u) => u.endsWith('.html'))).toEqual([]);
   });
 });

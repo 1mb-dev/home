@@ -6,8 +6,6 @@
 const CACHE_NAME = '1mb-dev';
 const STATIC_ASSETS = [
   '/',
-  '/index.html',
-  '/404.html',
   '/site.webmanifest',
   '/assets/css/style.css',
   '/assets/js/theme.js',
