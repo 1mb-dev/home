@@ -99,6 +99,19 @@
     <category term="self-hosted" />
   </entry>
   <entry>
+    <title>playbook: A book on how teams ship</title>
+    <link href="https://1mb.dev/work/playbook/" />
+    <id>https://1mb.dev/work/playbook/</id>
+    <published>2026-10-30T00:00:00Z</published>
+    <updated>2026-10-30T00:00:00Z</updated>
+    <summary>A short book of engineering principles for software teams: collaboration, design rules, code review, adoption. Five chapters, about thirty minutes.</summary>
+    <category term="engineering principles" />
+    <category term="software teams" />
+    <category term="code review" />
+    <category term="design rules" />
+    <category term="collaboration" />
+  </entry>
+  <entry>
     <title>nivomoney: A neobank, opened up to be read</title>
     <link href="https://1mb.dev/work/nivomoney/" />
     <id>https://1mb.dev/work/nivomoney/</id>
