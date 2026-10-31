@@ -60,4 +60,18 @@
     <category term="disk-backed" />
     <category term="zero dependencies" />
   </entry>
+  <entry>
+    <title>markgo: A blog engine in one Go binary</title>
+    <link href="https://1mb.dev/work/markgo/" />
+    <id>https://1mb.dev/work/markgo/</id>
+    <published>2026-10-30T00:00:00Z</published>
+    <updated>2026-10-30T00:00:00Z</updated>
+    <summary>A flat-file Go blog engine: markdown files in a directory, a web compose form, one binary with embedded assets. No database, no build step.</summary>
+    <category term="blog engine" />
+    <category term="go" />
+    <category term="markdown" />
+    <category term="flat-file" />
+    <category term="single binary" />
+    <category term="no database" />
+  </entry>
 </feed>

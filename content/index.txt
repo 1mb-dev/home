@@ -8,4 +8,5 @@ read
   log
   nivomoney
 build
+  markgo
   ledgerq
