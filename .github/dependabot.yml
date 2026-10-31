@@ -18,8 +18,9 @@ updates:
         update-types:
           - 'minor'
           - 'patch'
-    # Major-bump hold: eslint 10 (with @eslint/js), stylelint 17.
-    # vitest moves only with @cloudflare/vitest-pool-workers' peer range (^4.1 at 0.18-0.23).
+    # Major-bump hold: eslint 10 (with @eslint/js), stylelint 17. eslint 10 clears no audit finding:
+    # the five dev-only moderates are minimatch <11, and it still sits on 10.
+    # vitest moves only with @cloudflare/vitest-plugin's peer range (^4.1 or ^5 at 1.4).
     ignore:
       - dependency-name: 'eslint'
         update-types: ['version-update:semver-major']
