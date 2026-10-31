@@ -27,7 +27,7 @@
     <id>https://1mb.dev/work/nivomoney/</id>
     <published>2026-10-30T00:00:00Z</published>
     <updated>2026-10-30T00:00:00Z</updated>
-    <summary>A neobank, opened up to be read. Nine Go services, a double-entry ledger and React on the front, with the whole system on show.</summary>
+    <summary>Neobank demo source: Go microservices, a double-entry ledger in Postgres, React apps, ADRs. Synthetic data, no real money.</summary>
     <category term="neobank" />
     <category term="double-entry ledger" />
     <category term="go" />

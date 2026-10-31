@@ -6,7 +6,7 @@
     <title>nivomoney: A neobank, opened up to be read · 1mb</title>
     <meta
       name="description"
-      content="A neobank, opened up to be read. Nine Go services, a double-entry ledger and React on the front, with the whole system on show."
+      content="Neobank demo source: Go microservices, a double-entry ledger in Postgres, React apps, ADRs. Synthetic data, no real money."
     />
     <meta name="keywords" content="neobank, double-entry ledger, go, microservices, fintech" />
     <meta name="author" content="1mb" />
@@ -23,7 +23,7 @@
     <meta property="og:title" content="nivomoney: A neobank, opened up to be read · 1mb" />
     <meta
       property="og:description"
-      content="A neobank, opened up to be read. Nine Go services, a double-entry ledger and React on the front, with the whole system on show."
+      content="Neobank demo source: Go microservices, a double-entry ledger in Postgres, React apps, ADRs. Synthetic data, no real money."
     />
     <meta property="og:image" content="https://1mb.dev/assets/images/og-image.png" />
     <meta property="og:image:width" content="1200" />
@@ -56,7 +56,7 @@
         "@type": "WebPage",
         "url": "https://1mb.dev/work/nivomoney/",
         "name": "nivomoney: A neobank, opened up to be read · 1mb",
-        "description": "A neobank, opened up to be read. Nine Go services, a double-entry ledger and React on the front, with the whole system on show.",
+        "description": "Neobank demo source: Go microservices, a double-entry ledger in Postgres, React apps, ADRs. Synthetic data, no real money.",
         "isPartOf": {
           "@type": "WebSite",
           "@id": "https://1mb.dev/#website",
@@ -72,7 +72,7 @@
           "@type": "CreativeWork",
           "url": "https://www.nivomoney.com",
           "name": "nivomoney",
-          "description": "A neobank, opened up to be read. Nine Go services, a double-entry ledger and React on the front, with the whole system on show.",
+          "description": "Neobank demo source: Go microservices, a double-entry ledger in Postgres, React apps, ADRs. Synthetic data, no real money.",
           "keywords": "neobank, double-entry ledger, go, microservices, fintech",
           "creator": {
             "@type": "Organization",
@@ -110,10 +110,29 @@
         <h1>nivomoney</h1>
         <p class="notes-tagline">A neobank, opened up to be read.</p>
         <div class="notes-body">
-          <p>Nine Go services. A double-entry ledger. React on the front.</p>
+          <p>
+            A neobank demo in Go: identity, wallets, transactions, risk and a double-entry ledger,
+            each its own service, with React apps on the front. All data is synthetic.
+          </p>
+          <p>Eight services and a gateway. Decisions are written up as ADRs.</p>
           <h2>why it exists</h2>
-          <p>Money moves through plumbing nobody sees. Ledgers, idempotency, reconciliation.</p>
-          <p>Tutorials stop before the hard parts. A whole system, opened up, does not.</p>
+          <p>
+            Tutorials stop at one service and one database. Money integrity, audit trails and fraud
+            limits sit past that point.
+          </p>
+          <p>
+            nivomoney was built to go there: the core systems of a bank, small enough to follow.
+          </p>
+          <h2>what it taught</h2>
+          <p>
+            nivomoney set out to show how a bank&#39;s parts fit: where service boundaries fall, how
+            a double-entry ledger works, what moving money across services asks for.
+          </p>
+          <p>
+            A balance rule belongs in the database. Postgres refuses to post an entry of 100 against
+            90.
+          </p>
+          <p>The wiring from transfers to that ledger is where the demo stopped.</p>
         </div>
         <p class="notes-status">
           No longer running. The write-up stays at nivomoney.com. Source is public.
@@ -122,6 +141,12 @@
           <a class="action" href="https://www.nivomoney.com">read nivomoney</a>
           <a href="https://github.com/1mb-dev/nivomoney">source</a>
         </p>
+        <h2>related</h2>
+        <ul class="related">
+          <li>
+            <a href="https://www.nivomoney.com/adr/001-double-entry-ledger">Why double entry</a>
+          </li>
+        </ul>
       </article>
       <nav class="sequence" aria-label="more work">
         <a class="sequence-item sequence-prev" href="/work/sift/" rel="prev">
