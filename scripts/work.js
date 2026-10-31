@@ -770,7 +770,10 @@ export function renderLlms(entries, works, description) {
     const rows = entries
       .filter((e) => e.group === group)
       .map((e) => works.get(e.slug))
-      .map((w) => `- [${w.name}](${workUrl(w.slug)}): ${w.description}`);
+      .map((w) => {
+        const state = rowState(w);
+        return `- [${w.name}](${workUrl(w.slug)}): ${state ? `${state}. ` : ''}${w.description}`;
+      });
     return `## ${GROUPS[group].label}\n\n${rows.join('\n')}`;
   });
   return `# 1mb\n\n> ${description}\n\n${sides.join('\n\n')}\n`;

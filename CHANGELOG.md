@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- `llms.txt` marks a retired or unmaintained work
+
+### Removed
+
+- `npm run worker:deploy`: the worker deploys from CI
+
 ## [2.0.1] - 2026-11-01
 
 ### Added
