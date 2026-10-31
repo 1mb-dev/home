@@ -242,10 +242,12 @@ article {
   border: 1px solid var(--border);
 }
 
+/* min-height: an empty line has none, and the count arrives after the cover is drawn. */
 .counter-proof {
   font-size: var(--text-sm);
   color: var(--muted);
   margin-top: var(--space-3);
+  min-height: 1lh;
 }
 
 /* ========================================

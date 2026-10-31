@@ -11,9 +11,8 @@
   const counter = document.getElementById('counter');
   const countEl = document.getElementById('count');
   const button = document.getElementById('count-btn');
-  const proof = countEl && countEl.closest('.counter-proof');
 
-  if (!counter || !countEl || !button || !proof) return;
+  if (!counter || !countEl || !button) return;
 
   // Check if user already voted (client-side memory). Storage can throw; treat that as not voted.
   let hasVotedLocally = false;
@@ -28,10 +27,9 @@
     return count === 0 ? 'no one yet' : count.toLocaleString() + ' in';
   }
 
-  // The proof line stays hidden until there is a count to show; on failure it never appears.
+  // The proof line stays empty until there is a count to show; on failure it never fills.
   function showCount(count) {
     countEl.textContent = formatCount(count);
-    proof.hidden = false;
   }
 
   // Fetch current count

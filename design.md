@@ -114,7 +114,7 @@ Short work pages end where the notes end. Nothing pushes the credit down.
 
 The index grows in place. Never paginate, collapse, filter, pin headings or drop taglines. Each side has an address (`/#build`). When a side passes 12 rows or the index reaches 16 works, the bridge's three sentences link to their sides. A home page past 8 viewports at 1280×800 is a decision, never an automatic change.
 
-One `h1` per page. Focus order matches visual order. Without JavaScript the theme toggle and the counter's proof go missing, and nothing else.
+One `h1` per page. Focus order matches visual order. Without JavaScript the theme toggle and the counter's proof go missing, and nothing else. The proof's line keeps its height either way, so the count arrives without moving the cover.
 
 ## Considered, not taken
 
