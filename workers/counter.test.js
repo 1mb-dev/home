@@ -92,14 +92,8 @@ describe('GET /', () => {
 
 describe('POST /', () => {
   it('increments count and daily on first vote', async () => {
-    // GET voted:<hash> -> null, INCR count -> 1, INCR daily -> 1, EXPIRE daily -> 1, SET voted:<hash> -> OK
-    mockRedisSequence([
-      { result: null },
-      { result: 1 },
-      { result: 1 },
-      { result: 1 },
-      { result: 'OK' },
-    ]);
+    // SET voted:<hash> NX -> OK, INCR count -> 1, INCR daily -> 1, EXPIRE daily -> 1
+    mockRedisSequence([{ result: 'OK' }, { result: 1 }, { result: 1 }, { result: 1 }]);
 
     const request = new Request('http://localhost/', {
       method: 'POST',
@@ -117,8 +111,8 @@ describe('POST /', () => {
   });
 
   it('returns existing count when rate-limited', async () => {
-    // GET voted:<hash> -> "1" (already voted), MGET count + daily -> ["5", "2"]
-    mockRedisSequence([{ result: '1' }, { result: ['5', '2'] }]);
+    // SET voted:<hash> NX -> null (already voted), MGET count + daily -> ["5", "2"]
+    mockRedisSequence([{ result: null }, { result: ['5', '2'] }]);
 
     const request = new Request('http://localhost/', {
       method: 'POST',
@@ -132,6 +126,59 @@ describe('POST /', () => {
     expect(body.today).toBe(2);
     expect(body.voted).toBe(true);
     expect(body.message).toBe('Already counted');
+  });
+
+  it('claims the vote atomically before counting', async () => {
+    mockRedisSequence([{ result: 'OK' }, { result: 1 }, { result: 1 }, { result: 1 }]);
+
+    const request = new Request('http://localhost/', {
+      method: 'POST',
+      headers: { 'CF-Connecting-IP': '1.2.3.4' },
+    });
+    await worker.fetch(request, env, { waitUntil() {} });
+
+    const commands = globalThis.fetch.mock.calls.map(([, init]) => JSON.parse(init.body));
+    expect(commands[0]).toEqual(['SET', expect.stringMatching(/^voted:/), '1', 'NX', 'EX', 86400]);
+    expect(commands[1]).toEqual(['INCR', 'count']);
+  });
+
+  it('counts one vote from parallel requests by one IP', async () => {
+    let voted = false;
+    let count = 0;
+    globalThis.fetch.mockImplementation(async (_url, init) => {
+      const args = JSON.parse(init.body);
+      const [command] = args;
+      let result = null;
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      if (command === 'GET') {
+        result = voted ? '1' : null;
+      } else if (command === 'SET') {
+        result = args.includes('NX') && voted ? null : 'OK';
+        voted = true;
+      } else if (command === 'INCR') {
+        count += 1;
+        result = count;
+      } else if (command === 'MGET') {
+        result = [String(count), '1'];
+      } else {
+        result = 1;
+      }
+      return new Response(JSON.stringify({ result }), { status: 200 });
+    });
+
+    const post = () =>
+      worker.fetch(
+        new Request('http://localhost/', {
+          method: 'POST',
+          headers: { 'CF-Connecting-IP': '1.2.3.4' },
+        }),
+        env,
+        { waitUntil() {} }
+      );
+    await Promise.all(Array.from({ length: 20 }, post));
+
+    // One vote is two INCRs: the total and the day.
+    expect(count).toBe(2);
   });
 
   it('hashes IP for privacy (does not store raw IP)', async () => {

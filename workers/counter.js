@@ -96,13 +96,14 @@ async function handlePost(request, env) {
   const ipHash = await hashIP(ip);
   const rateLimitKey = `voted:${ipHash}`;
 
-  // Check if already voted (within 24h)
-  const hasVoted = await redis(env, ['GET', rateLimitKey]);
+  // Claim the vote before counting: a check followed by a later write lets parallel requests
+  // from one IP all through. A failed INCR after the claim loses that vote; it cannot double it.
+  const claimed = await redis(env, ['SET', rateLimitKey, '1', 'NX', 'EX', 86400]);
 
   const today = new Date().toISOString().slice(0, 10);
   const dailyKey = `daily:${today}`;
 
-  if (hasVoted) {
+  if (!claimed) {
     const [count, todayCount] = await redis(env, ['MGET', 'count', dailyKey]);
     log('info', 'vote.rate_limited', { count: parseInt(count) || 0 });
     return {
@@ -121,9 +122,6 @@ async function handlePost(request, env) {
   } catch (e) {
     log('warn', 'expire.failed', { key: dailyKey, error: e.message });
   }
-
-  // Mark IP as voted (expires in 24 hours = 86400 seconds)
-  await redis(env, ['SET', rateLimitKey, '1', 'EX', 86400]);
 
   log('info', 'vote.new', { count: parseInt(count), today: parseInt(todayCount) });
   return { count: parseInt(count), today: parseInt(todayCount), voted: true, message: 'Counted' };
