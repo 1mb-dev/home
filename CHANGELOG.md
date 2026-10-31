@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [2.0.1] - 2026-11-01
+
+### Added
+
+- `llms.txt`, generated with the rest of the site
+
+### Changed
+
+- Deploys run on a release tag or a manual run, not on a merge
+- Counter API moves to `counter.1mb.dev`
+- Tests run on `@cloudflare/vitest-plugin`, which takes the dev audit from 13 findings to 5 moderate
+
+### Security
+
+- Tests run without the deploy token, and the build job installs nothing
+- Release tags cannot be moved or deleted
+
 ## [2.0.0] - 2026-10-31
 
 ### Added
