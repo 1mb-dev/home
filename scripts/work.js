@@ -266,6 +266,7 @@ export function parseWork(text, slug, file = `content/work/${slug}.md`) {
       const link = /^\[([^\]]+)\]\(([^)\s]+)\)$/.exec(raw.trim());
       if (!link) throw new ContentError(file, line, 'each Related line must be one [text](url)');
       checkHref(link[2], file, line);
+      plain(link[1], file, line);
       work.related.push({ text: link[1], href: link[2], line });
       continue;
     }
@@ -307,9 +308,13 @@ function isDate(value) {
 }
 
 function checkHref(href, file, line) {
-  if (/^https:\/\/[^\s]+$/.test(href)) return;
+  if (/^https:\/\/[^\s()]+$/.test(href)) return;
   if (/^\/work\/[a-z0-9-]+\/$/.test(href)) return;
-  throw new ContentError(file, line, `link must be https:// or /work/{slug}/: "${href}"`);
+  throw new ContentError(
+    file,
+    line,
+    `link must be https:// or /work/{slug}/, with parentheses encoded as %28 %29: "${href}"`
+  );
 }
 
 /**
@@ -326,7 +331,7 @@ export function renderInline(text, file = '?', line = 0) {
       out += `<code>${esc(m[1])}</code>`;
     } else {
       checkHref(m[3], file, line);
-      out += `<a href="${esc(m[3])}">${esc(m[2])}</a>`;
+      out += `<a href="${esc(m[3])}">${plain(m[2], file, line)}</a>`;
     }
     last = token.lastIndex;
   }

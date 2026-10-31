@@ -241,6 +241,30 @@ describe('renderInline', () => {
     );
     expect(() => renderInline('[x](http://a.dev)')).toThrow('link must be');
   });
+
+  it('rejects parentheses in a link target, and says how to encode them', () => {
+    expect(() => renderInline('[x](https://a.dev/foo_(bar))', 'f.md', 4)).toThrow('%28 %29');
+    expect(renderInline('[x](https://a.dev/foo_%28bar%29)')).toContain('foo_%28bar%29');
+  });
+
+  it.each(['[`x`](https://a.dev)', '[*x*](https://a.dev)', '[a_b](https://a.dev)'])(
+    'rejects markup in link text: %s',
+    (text) => {
+      expect(() => renderInline(text, 'f.md', 4)).toThrow('f.md:4 unsupported markup');
+    }
+  );
+
+  it.each(['[`x`](/work/a/)', '[*x*](/work/a/)', '[<b>](https://a.dev)'])(
+    'rejects markup in Related link text: %s',
+    (link) => {
+      expect(() =>
+        parseWork(
+          work('name: a\ntagline: t', `S.\n\n## Why it exists\n\nW.\n\n## Related\n\n${link}`),
+          'a'
+        )
+      ).toThrow('unsupported markup');
+    }
+  );
 });
 
 describe('status and actions', () => {
