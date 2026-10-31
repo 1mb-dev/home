@@ -391,6 +391,51 @@ describe('collection rules', () => {
     );
   });
 
+  describe('inline /work/ links', () => {
+    const source = (body) =>
+      work(
+        `name: sift\ntagline: t\nsite: https://s.dev\nshipped: 2026-01-01\nlisted: 2026-01-01\n${SEO}`,
+        body
+      );
+    const page = (body) => parseWork(source(body), 'sift');
+    const collect = (body) =>
+      validateCollection(parseIndex('use\n  sift'), new Map([['sift', page(body)]]));
+
+    it.each([
+      ['synopsis', 'See [g](/work/ghost/).\n\n## Why it exists\n\nW.'],
+      ['why', 'S.\n\n## Why it exists\n\nSee [g](/work/ghost/).'],
+      ['taught', 'S.\n\n## Why it exists\n\nW.\n\n## What it taught\n\nSee [g](/work/ghost/).'],
+    ])('rejects an unlisted work in %s', (_section, body) => {
+      expect(() => collect(body)).toThrow('"ghost" is not listed');
+    });
+
+    it('reports the line of the paragraph', () => {
+      const body = 'S.\n\n## Why it exists\n\nW.\n\n## What it taught\n\nSee [g](/work/ghost/).';
+      const line =
+        source(body)
+          .split('\n')
+          .findIndex((l) => l.includes('ghost')) + 1;
+      expect(() => collect(body)).toThrow(`content/work/sift.md:${line} `);
+    });
+
+    it('leaves a listed work and a code span alone', () => {
+      expect(() =>
+        collect('See [s](/work/sift/) and `[g](/work/ghost/)`.\n\n## Why it exists\n\nW.')
+      ).not.toThrow();
+    });
+
+    it.each([
+      ['inline', 'See [g](https://1mb.dev/work/ghost/).\n\n## Why it exists\n\nW.'],
+      ['Related', 'S.\n\n## Why it exists\n\nW.\n\n## Related\n\n[g](https://1mb.dev/work/ghost/)'],
+    ])('rejects the full URL %s', (_where, body) => {
+      expect(() => page(body)).toThrow('link a work as /work/{slug}/');
+    });
+
+    it('still takes a link to the root of the site', () => {
+      expect(() => page('See [r](https://1mb.dev/).\n\n## Why it exists\n\nW.')).not.toThrow();
+    });
+  });
+
   it('never lets a published /work/ page disappear', () => {
     const previous = sitemapLocs(renderSitemap(entries));
     expect(() => checkDurable(previous, entries)).not.toThrow();

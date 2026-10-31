@@ -308,6 +308,9 @@ function isDate(value) {
 }
 
 function checkHref(href, file, line) {
+  if (href.startsWith(`${SITE}/work/`)) {
+    throw new ContentError(file, line, `link a work as /work/{slug}/, so it is checked: "${href}"`);
+  }
   if (/^https:\/\/[^\s()]+$/.test(href)) return;
   if (/^\/work\/[a-z0-9-]+\/$/.test(href)) return;
   throw new ContentError(
@@ -376,15 +379,17 @@ export function validateCollection(entries, works) {
     }
   }
   for (const work of works.values()) {
-    for (const link of work.related) {
-      const slug = /^\/work\/([a-z0-9-]+)\/$/.exec(link.href)?.[1];
+    const check = (slug, line) => {
       if (slug && !listed.has(slug)) {
-        throw new ContentError(
-          `content/work/${work.slug}.md`,
-          link.line,
-          `"${slug}" is not listed`
-        );
+        throw new ContentError(`content/work/${work.slug}.md`, line, `"${slug}" is not listed`);
       }
+    };
+    for (const link of work.related) {
+      check(/^\/work\/([a-z0-9-]+)\/$/.exec(link.href)?.[1], link.line);
+    }
+    for (const p of [...work.synopsis, ...work.why, ...work.taught]) {
+      const prose = p.text.replace(/`[^`]*`/g, '');
+      for (const [, slug] of prose.matchAll(/\]\(\/work\/([a-z0-9-]+)\/\)/g)) check(slug, p.line);
     }
   }
 }
