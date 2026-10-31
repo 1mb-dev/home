@@ -9,6 +9,19 @@
   <author><name>1mb</name></author>
   <icon>https://1mb.dev/favicon.ico</icon>
   <entry>
+    <title>log: Short notes on building solo</title>
+    <link href="https://1mb.dev/work/log/" />
+    <id>https://1mb.dev/work/log/</id>
+    <published>2026-10-30T00:00:00Z</published>
+    <updated>2026-10-30T00:00:00Z</updated>
+    <summary>A blog of short notes and essays on solo software work: shipping, maintenance, dependencies. Markdown in git, one Go binary, no database.</summary>
+    <category term="blog" />
+    <category term="solo developer" />
+    <category term="software maintenance" />
+    <category term="open source" />
+    <category term="markdown blog" />
+  </entry>
+  <entry>
     <title>sift: Hacker News threads, scored by code</title>
     <link href="https://1mb.dev/work/sift/" />
     <id>https://1mb.dev/work/sift/</id>

@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>log: Short notes on building solo · 1mb</title>
+    <meta
+      name="description"
+      content="A blog of short notes and essays on solo software work: shipping, maintenance, dependencies. Markdown in git, one Go binary, no database."
+    />
+    <meta
+      name="keywords"
+      content="blog, solo developer, software maintenance, open source, markdown blog"
+    />
+    <meta name="author" content="1mb" />
+    <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://1mb.dev/work/log/" />
+    <meta property="og:title" content="log: Short notes on building solo · 1mb" />
+    <meta
+      property="og:description"
+      content="A blog of short notes and essays on solo software work: shipping, maintenance, dependencies. Markdown in git, one Go binary, no database."
+    />
+    <meta property="og:image" content="https://1mb.dev/assets/images/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="1mb, one-man-band. All the hats. One head." />
+    <meta property="og:site_name" content="1mb" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href="https://1mb.dev/work/log/" />
+    <link rel="alternate" type="application/atom+xml" title="1mb: work" href="/feed.xml" />
+    <link
+      rel="preload"
+      href="/assets/fonts/inter-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/assets/fonts/space-grotesk-700-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <script src="/assets/js/theme.js"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "url": "https://1mb.dev/work/log/",
+        "name": "log: Short notes on building solo · 1mb",
+        "description": "A blog of short notes and essays on solo software work: shipping, maintenance, dependencies. Markdown in git, one Go binary, no database.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "@id": "https://1mb.dev/#website",
+          "name": "1mb",
+          "url": "https://1mb.dev/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://1mb.dev/#org",
+          "name": "1mb"
+        },
+        "about": {
+          "@type": "CreativeWork",
+          "url": "https://log.1mb.dev",
+          "name": "log",
+          "description": "A blog of short notes and essays on solo software work: shipping, maintenance, dependencies. Markdown in git, one Go binary, no database.",
+          "keywords": "blog, solo developer, software maintenance, open source, markdown blog",
+          "creator": {
+            "@type": "Organization",
+            "@id": "https://1mb.dev/#org",
+            "name": "1mb"
+          },
+          "datePublished": "2026-05-15",
+          "sameAs": "https://github.com/1mb-dev/log"
+        },
+        "breadcrumb": {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "1mb",
+              "item": "https://1mb.dev/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "log",
+              "item": "https://1mb.dev/work/log/"
+            }
+          ]
+        }
+      }
+    </script>
+  </head>
+  <body class="page-work">
+    <header class="masthead"><a class="mark" href="/">1mb</a></header>
+    <main>
+      <article class="notes">
+        <p class="notes-side">read</p>
+        <h1>log</h1>
+        <p class="notes-tagline">Short notes on building solo.</p>
+        <div class="notes-body">
+          <p>
+            A blog of notes, links and essays on shipping, maintenance, dependencies and open
+            source. Most posts run under a hundred words.
+          </p>
+          <p>
+            Each post is a markdown file in git, served by one Go binary, markgo, with no database.
+            The deploy harness is MIT and made to fork. The writing is all rights reserved.
+          </p>
+          <h2>why it exists</h2>
+          <p>
+            A post on a platform sits behind a follower count and an algorithm deciding who reads
+            what.
+          </p>
+          <p>log puts short notes on a site with neither.</p>
+          <h2>what it taught</h2>
+          <p>
+            log set out to show that a blog needs no platform: a folder of text files and one binary
+            are enough.
+          </p>
+          <p>The site is the proof. The folder is <code>articles/</code> in the source.</p>
+        </div>
+        <p class="notes-status">Source is public and kept current.</p>
+        <p class="notes-next">
+          <a class="action" href="https://log.1mb.dev">read log</a>
+          <a href="https://github.com/1mb-dev/log">source</a>
+        </p>
+        <h2>related</h2>
+        <ul class="related">
+          <li><a href="https://log.1mb.dev/p/run-your-own">Run your own</a></li>
+        </ul>
+      </article>
+      <nav class="sequence" aria-label="more work">
+        <a class="sequence-item sequence-prev" href="/work/sift/" rel="prev">
+          <span class="sequence-label">previous</span>
+          <span class="sequence-name">sift</span>
+          <span class="sequence-tagline">Hacker News threads, scored by code.</span>
+        </a>
+        <a class="sequence-item sequence-next" href="/work/nivomoney/" rel="next">
+          <span class="sequence-label">next</span>
+          <span class="sequence-name">nivomoney</span>
+          <span class="sequence-tagline">A neobank, opened up to be read.</span>
+        </a>
+      </nav>
+      <p class="all-work"><a href="/#work">all work</a></p>
+    </main>
+    <footer class="colophon">
+      <p class="colophon-home"><a href="/">1mb</a> ·</p>
+      <p class="colophon-credit">All the hats. One head.</p>
+      <button
+        type="button"
+        id="theme-toggle"
+        class="theme-toggle"
+        aria-label="dark theme"
+        aria-pressed="false"
+        hidden
+      >
+        <span class="icon-sun" aria-hidden="true">☀</span>
+        <span class="icon-moon" aria-hidden="true">☾</span>
+      </button>
+      <p class="colophon-meta">
+        <a href="https://github.com/1mb-dev" rel="me">github</a>
+        <a href="https://log.1mb.dev">log</a>
+        <a href="/feed.xml">feed</a>
+        <span>© <span class="year">2026</span></span>
+      </p>
+    </footer>
+    <script src="/assets/js/sw-register.js"></script>
+    <script src="/assets/js/watermark.js"></script>
+  </body>
+</html>

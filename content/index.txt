@@ -5,6 +5,7 @@
 use
   sift
 read
+  log
   nivomoney
 build
   ledgerq
