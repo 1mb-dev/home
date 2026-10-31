@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sift: Hacker News, ranked by depth · 1mb</title>
+    <title>sift: Hacker News threads, scored by code · 1mb</title>
     <meta
       name="description"
-      content="Hacker News, ranked by depth. Ten to twelve discussions a day, picked for the quality of the thread, not the count of votes."
+      content="Hacker News discussions picked by a scoring script with no editor: up to 12 threads, several runs a day, one per domain. No account, no archive."
     />
-    <meta name="keywords" content="hacker news, curated reading, developer news" />
+    <meta name="keywords" content="hacker news, digest, discussions, comments, rss" />
     <meta name="author" content="1mb" />
     <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
@@ -20,10 +20,10 @@
     <link rel="manifest" href="/site.webmanifest" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://1mb.dev/work/sift/" />
-    <meta property="og:title" content="sift: Hacker News, ranked by depth · 1mb" />
+    <meta property="og:title" content="sift: Hacker News threads, scored by code · 1mb" />
     <meta
       property="og:description"
-      content="Hacker News, ranked by depth. Ten to twelve discussions a day, picked for the quality of the thread, not the count of votes."
+      content="Hacker News discussions picked by a scoring script with no editor: up to 12 threads, several runs a day, one per domain. No account, no archive."
     />
     <meta property="og:image" content="https://1mb.dev/assets/images/og-image.png" />
     <meta property="og:image:width" content="1200" />
@@ -55,8 +55,8 @@
         "@context": "https://schema.org",
         "@type": "WebPage",
         "url": "https://1mb.dev/work/sift/",
-        "name": "sift: Hacker News, ranked by depth · 1mb",
-        "description": "Hacker News, ranked by depth. Ten to twelve discussions a day, picked for the quality of the thread, not the count of votes.",
+        "name": "sift: Hacker News threads, scored by code · 1mb",
+        "description": "Hacker News discussions picked by a scoring script with no editor: up to 12 threads, several runs a day, one per domain. No account, no archive.",
         "isPartOf": {
           "@type": "WebSite",
           "@id": "https://1mb.dev/#website",
@@ -72,8 +72,8 @@
           "@type": "WebApplication",
           "url": "https://sift.1mb.dev",
           "name": "sift",
-          "description": "Hacker News, ranked by depth. Ten to twelve discussions a day, picked for the quality of the thread, not the count of votes.",
-          "keywords": "hacker news, curated reading, developer news",
+          "description": "Hacker News discussions picked by a scoring script with no editor: up to 12 threads, several runs a day, one per domain. No account, no archive.",
+          "keywords": "hacker news, digest, discussions, comments, rss",
           "creator": {
             "@type": "Organization",
             "@id": "https://1mb.dev/#org",
@@ -107,21 +107,42 @@
       <article class="notes">
         <p class="notes-side">use</p>
         <h1>sift</h1>
-        <p class="notes-tagline">Hacker News, ranked by depth.</p>
+        <p class="notes-tagline">Hacker News threads, scored by code.</p>
         <div class="notes-body">
           <p>
-            Ten to twelve discussions a day. Picked for the quality of the thread, not the count of
-            votes.
+            A digest of Hacker News discussions. Code scores each thread, mostly from its comments,
+            and lists up to twelve, one per domain, with no LLM and no editor.
           </p>
-          <p>Practitioners sharing what they built, and what broke.</p>
+          <p>
+            A story needs over 30 comments and over 100 points to enter, or over 50 points for Ask
+            and Show HN, so a quiet thread never does. The list is rebuilt several times a day, and
+            a failed run leaves the last one up.
+          </p>
+          <p>
+            It costs nothing to read or to run. No account, no cookies, no archive: each list
+            replaces the one before. The same list is an RSS feed.
+          </p>
           <h2>why it exists</h2>
-          <p>Front pages reward reaction. The best comments sit in quiet threads.</p>
-          <p>Most feeds are built to keep you scrolling. This one is built to be finished.</p>
+          <p>
+            Hacker News ranks stories by votes. Whether the comments are worth reading is a separate
+            question, and finding out means opening threads one by one.
+          </p>
+          <p>sift answers it with fixed rules, then stops at twelve.</p>
+          <h2>what it taught</h2>
+          <p>
+            sift was built to rank by discussion, but its rule for repeats can outweigh that. A
+            repeat is multiplied by 0.7, a new thread by 1.15.
+          </p>
+          <p>On one run, the twelve picks scored within 12% of each other.</p>
         </div>
 
         <p class="notes-next">
           <a class="action" href="https://sift.1mb.dev">open sift</a>
         </p>
+        <h2>related</h2>
+        <ul class="related">
+          <li><a href="https://sift.1mb.dev/about/">How it works</a></li>
+        </ul>
       </article>
       <nav class="sequence" aria-label="more work">
         <a class="sequence-item sequence-next" href="/work/nivomoney/" rel="next">

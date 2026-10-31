@@ -9,15 +9,17 @@
   <author><name>1mb</name></author>
   <icon>https://1mb.dev/favicon.ico</icon>
   <entry>
-    <title>sift: Hacker News, ranked by depth</title>
+    <title>sift: Hacker News threads, scored by code</title>
     <link href="https://1mb.dev/work/sift/" />
     <id>https://1mb.dev/work/sift/</id>
     <published>2026-10-30T00:00:00Z</published>
     <updated>2026-10-30T00:00:00Z</updated>
-    <summary>Hacker News, ranked by depth. Ten to twelve discussions a day, picked for the quality of the thread, not the count of votes.</summary>
+    <summary>Hacker News discussions picked by a scoring script with no editor: up to 12 threads, several runs a day, one per domain. No account, no archive.</summary>
     <category term="hacker news" />
-    <category term="curated reading" />
-    <category term="developer news" />
+    <category term="digest" />
+    <category term="discussions" />
+    <category term="comments" />
+    <category term="rss" />
   </entry>
   <entry>
     <title>nivomoney: A neobank, opened up to be read</title>
