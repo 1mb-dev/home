@@ -1,6 +1,6 @@
 # Adding a work
 
-`index.txt` decides what is listed, in which side, in what order. `work/{slug}.md` holds one work: flat front matter (`name`, `tagline`, `description`, `tags`, `site`, `source`, `docs`, `language`, `retired`, `maintained`, `shipped`, `listed`), then the synopsis, `## Why it exists`, optional `## What it taught` and `## Related`. Inline: links, `*emphasis*`, `` `code` ``. Anything else fails the build with file and line.
+`index.txt` decides what is listed, in which side, in what order. `work/{slug}.md` holds one work: flat front matter (`name`, `tagline`, `description`, `tags`, `site`, `source`, `docs`, `language`, `retired`, `maintained`, `shipped`, `listed`), then the synopsis, `## Why it exists`, optional `## What it taught` and `## Related`. Inline: links and `` `code` ``. Anything else fails the build with file and line, `*` and `_` included: `snake_case` goes in a code span.
 
 To add a work: write `work/{slug}.md`, check it reads well as a draft, list the slug in `index.txt`, run `npm run gen`, commit `content/` and `docs/` together. CI fails when `docs/` is stale.
 

@@ -210,19 +210,28 @@ describe('parseWork', () => {
     }
   );
 
-  it('allows emphasis at the start of a paragraph', () => {
+  it.each(['*Quiet* on purpose.', '_Quiet_ on purpose.', '2 * 3 * 4', 'snake_case'])(
+    'rejects %s, which has no form on the page',
+    (text) => {
+      expect(() =>
+        parseWork(work('name: a\ntagline: t', `${text}\n\n## Why it exists\n\nW.`), 'a')
+      ).toThrow(':6 unsupported markup');
+    }
+  );
+
+  it('takes the same text in a code span', () => {
     const w = parseWork(
-      work('name: a\ntagline: t', '*Quiet* on purpose.\n\n## Why it exists\n\nW.'),
+      work('name: a\ntagline: t', 'See `*x*` and `snake_case`.\n\n## Why it exists\n\nW.'),
       'a'
     );
-    expect(w.synopsis[0].text).toBe('*Quiet* on purpose.');
+    expect(w.synopsis[0].text).toBe('See `*x*` and `snake_case`.');
   });
 });
 
 describe('renderInline', () => {
-  it('renders links, emphasis and code, escaping everything else', () => {
-    expect(renderInline('Tom & `a<b>` see [x](https://a.dev/?q=1&r=2) *now*')).toBe(
-      'Tom &amp; <code>a&lt;b&gt;</code> see <a href="https://a.dev/?q=1&amp;r=2">x</a> <em>now</em>'
+  it('renders links and code, escaping everything else', () => {
+    expect(renderInline('Tom & `a<b>` see [x](https://a.dev/?q=1&r=2)')).toBe(
+      'Tom &amp; <code>a&lt;b&gt;</code> see <a href="https://a.dev/?q=1&amp;r=2">x</a>'
     );
   });
 

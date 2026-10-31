@@ -313,10 +313,10 @@ function checkHref(href, file, line) {
 }
 
 /**
- * Inline subset: [text](url), *em*, `code`. Everything else is text, escaped.
+ * Inline subset: [text](url), `code`. Everything else is text, escaped.
  */
 export function renderInline(text, file = '?', line = 0) {
-  const token = /`([^`]+)`|\[([^\]]+)\]\(([^)\s]+)\)|\*([^*]+)\*/g;
+  const token = /`([^`]+)`|\[([^\]]+)\]\(([^)\s]+)\)/g;
   let out = '';
   let last = 0;
   let m;
@@ -324,19 +324,18 @@ export function renderInline(text, file = '?', line = 0) {
     out += plain(text.slice(last, m.index), file, line);
     if (m[1] !== undefined) {
       out += `<code>${esc(m[1])}</code>`;
-    } else if (m[2] !== undefined) {
+    } else {
       checkHref(m[3], file, line);
       out += `<a href="${esc(m[3])}">${esc(m[2])}</a>`;
-    } else {
-      out += `<em>${esc(m[4])}</em>`;
     }
     last = token.lastIndex;
   }
   return out + plain(text.slice(last), file, line);
 }
 
+// `_` too: Prettier rewrites *x* to _x_, which would otherwise print literally.
 function plain(text, file, line) {
-  if (/[`*[\]<>]/.test(text)) {
+  if (/[`*_[\]<>]/.test(text)) {
     throw new ContentError(file, line, `unsupported markup in "${text.trim()}"`);
   }
   return esc(text);
