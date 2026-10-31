@@ -57,7 +57,7 @@
   --text-md: 1.125rem; /* 18px */
   --text-lg: 1.25rem; /* 20px */
   --text-xl: 1.5rem; /* 24px */
-  --text-2xl: 2rem; /* 32px */
+  --text-2xl: 1.75rem; /* 28px */
   --text-3xl: 2.5rem; /* 40px */
   --text-4xl: 3.5rem; /* 56px */
 
@@ -172,9 +172,10 @@ article {
   margin-bottom: var(--space-3);
 }
 
+/* One line down to 320px: the line runs 10.34em and the body gutters take 64px. */
 .manifesto {
   font-family: var(--font-display);
-  font-size: var(--text-2xl);
+  font-size: clamp(var(--text-xl), 7.5vw, var(--text-2xl));
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.2;
