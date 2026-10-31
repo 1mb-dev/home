@@ -6,12 +6,11 @@
  * CI-only stamp, not committed. Content generation is scripts/gen.js, which must stay
  * deterministic, so everything that depends on the clock or on history is stamped here:
  *   - commit SHA into the Service Worker cache version (every deploy invalidates the cache)
- *   - current year into the colophon
  *   - sitemap <lastmod> from the git log of each page's content (needs full history in CI)
  *   - security.txt Expires, one year from the deploy
  */
 
-import { readFileSync, readdirSync, realpathSync, writeFileSync } from 'fs';
+import { readFileSync, realpathSync, writeFileSync } from 'fs';
 import { execSync } from 'child_process';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -19,7 +18,7 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 
-// Tests the match, not the output: the year on a page often already is the year being stamped.
+// Tests the match, not the output: a stamp can equal what it replaces.
 export function stamp(text, pattern, replacement, what) {
   if (text.search(pattern) === -1) throw new Error(`${what}: nothing to stamp`);
   return text.replace(pattern, replacement);
@@ -45,27 +44,6 @@ function updateServiceWorker(sha) {
 
   writeFileSync(swPath, content);
   console.log(`✓ Service Worker cache version: 1mb-${sha}`);
-}
-
-// Stamp the current year into every page's colophon
-function updateYear(year) {
-  const pages = readdirSync(join(ROOT, 'docs'), { recursive: true }).filter((f) =>
-    f.endsWith('.html')
-  );
-  for (const page of pages) {
-    const path = join(ROOT, 'docs', page);
-    const content = readFileSync(path, 'utf8');
-    writeFileSync(
-      path,
-      stamp(
-        content,
-        /<span class="year">\d{4}<\/span>/g,
-        `<span class="year">${year}</span>`,
-        `docs/${page}`
-      )
-    );
-  }
-  console.log(`✓ Colophon year: ${year} (${pages.length} pages)`);
 }
 
 // <lastmod> = last commit touching the content a page is generated from. No history, no date:
@@ -116,7 +94,6 @@ if (realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
 
   const now = new Date();
   updateServiceWorker(sha);
-  updateYear(now.getUTCFullYear());
   updateSitemap();
   updateSecurityTxt(now);
 

@@ -739,8 +739,8 @@ article {
   }
 }
 
-/* Colophon: a three-column grid. `1mb ·` | credit, and beneath it the links then the year |
-   theme toggle. Nothing sits under the mark, so the second line aligns with the credit. */
+/* Colophon: two lines on a three-column grid. `1mb ·` | credit | theme toggle, then the links
+   from the second column. Nothing sits under the mark, so they align with the credit. */
 .colophon {
   max-width: 480px;
   margin: 0 auto;
@@ -767,11 +767,10 @@ article {
   grid-column: 3;
 }
 
+/* nowrap: the footer is two lines at every width. */
 .colophon-meta {
-  grid-column: 2;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
+  grid-column: 2 / -1;
+  white-space: nowrap;
 }
 
 .colophon-meta a {

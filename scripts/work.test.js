@@ -549,8 +549,9 @@ describe('rendering', () => {
       /^<footer class="colophon">\n<p class="colophon-home"><a href="\/">1mb<\/a> ·<\/p>\n<p class="colophon-credit">All the hats\. One head\.<\/p>/
     );
     expect(renderColophon()).toMatch(
-      /feed<\/a>\n<span>© <span class="year">\d{4}<\/span><\/span>\n<\/p>\n<\/footer>$/
+      /<a href="mailto:hi@1mb.dev">hi@1mb.dev<\/a> ·\n<a href="https/
     );
+    expect(renderColophon()).toMatch(/feed<\/a>\n<\/p>\n<\/footer>$/);
   });
 
   it('describes a work in structured data with public facts only', () => {

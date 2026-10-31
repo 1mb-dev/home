@@ -12,14 +12,7 @@ describe('stamp', () => {
     );
   });
 
-  it('takes a value that does not change: the year on a page is often the year stamped', () => {
-    const page = '<span class="year">2026</span>';
-    expect(stamp(page, /<span class="year">\d{4}<\/span>/g, page, 'f')).toBe(page);
-  });
-
-  it('replaces every match of a g pattern, twice over', () => {
-    const pattern = /\d/g;
-    expect(stamp('1 1', pattern, '2', 'f')).toBe('2 2');
-    expect(stamp('1 1', pattern, '3', 'f')).toBe('3 3');
+  it('takes a stamp equal to what it replaces', () => {
+    expect(stamp('Expires: x', /^Expires: .*$/m, 'Expires: x', 'f')).toBe('Expires: x');
   });
 });

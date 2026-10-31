@@ -504,10 +504,10 @@ export function renderColophon() {
 <span class="icon-moon" aria-hidden="true">☾</span>
 </button>
 <p class="colophon-meta">
-<a href="${LINKS.github}" rel="me">github</a>
-<a href="${LINKS.log}">log</a>
+<a href="mailto:hi@1mb.dev">hi@1mb.dev</a> ·
+<a href="${LINKS.github}" rel="me">github</a> ·
+<a href="${LINKS.log}">log</a> ·
 <a href="/feed.xml">feed</a>
-<span>© <span class="year">2026</span></span>
 </p>
 </footer>`;
 }
