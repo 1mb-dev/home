@@ -11,7 +11,7 @@
  *   - security.txt Expires, one year from the deploy
  */
 
-import { readFileSync, readdirSync, writeFileSync } from 'fs';
+import { readFileSync, readdirSync, realpathSync, writeFileSync } from 'fs';
 import { execSync } from 'child_process';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -19,14 +19,15 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 
+// Tests the match, not the output: the year on a page often already is the year being stamped.
+export function stamp(text, pattern, replacement, what) {
+  if (text.search(pattern) === -1) throw new Error(`${what}: nothing to stamp`);
+  return text.replace(pattern, replacement);
+}
+
 // Get git commit SHA (short)
 function getCommitSha() {
-  try {
-    return execSync('git rev-parse --short HEAD', { encoding: 'utf8' }).trim();
-  } catch {
-    // Fallback to timestamp if git is not available
-    return Date.now().toString(36);
-  }
+  return execSync('git rev-parse --short HEAD', { encoding: 'utf8' }).trim();
 }
 
 // Inject version into Service Worker
@@ -35,7 +36,12 @@ function updateServiceWorker(sha) {
   let content = readFileSync(swPath, 'utf8');
 
   // Replace cache name pattern: '1mb-v4' or '1mb-abc1234' -> '1mb-{sha}'
-  content = content.replace(/const CACHE_NAME = '1mb-[^']+'/, `const CACHE_NAME = '1mb-${sha}'`);
+  content = stamp(
+    content,
+    /const CACHE_NAME = '1mb-[^']+'/,
+    `const CACHE_NAME = '1mb-${sha}'`,
+    'docs/sw.js'
+  );
 
   writeFileSync(swPath, content);
   console.log(`✓ Service Worker cache version: 1mb-${sha}`);
@@ -51,7 +57,12 @@ function updateYear(year) {
     const content = readFileSync(path, 'utf8');
     writeFileSync(
       path,
-      content.replace(/<span class="year">\d{4}<\/span>/g, `<span class="year">${year}</span>`)
+      stamp(
+        content,
+        /<span class="year">\d{4}<\/span>/g,
+        `<span class="year">${year}</span>`,
+        `docs/${page}`
+      )
     );
   }
   console.log(`✓ Colophon year: ${year} (${pages.length} pages)`);
@@ -88,22 +99,26 @@ function updateSecurityTxt(now) {
   const path = join(ROOT, 'docs', '.well-known', 'security.txt');
   const expires = new Date(now);
   expires.setUTCFullYear(expires.getUTCFullYear() + 1);
-  const content = readFileSync(path, 'utf8').replace(
+  const content = stamp(
+    readFileSync(path, 'utf8'),
     /^Expires: .*$/m,
-    `Expires: ${expires.toISOString()}`
+    `Expires: ${expires.toISOString()}`,
+    'docs/.well-known/security.txt'
   );
   writeFileSync(path, content);
   console.log(`✓ security.txt Expires: ${expires.toISOString()}`);
 }
 
-// Main
-const sha = getCommitSha();
-console.log(`Building 1mb.dev (${sha})...\n`);
+// Importing this file must not stamp the tree. realpath: a symlinked path must still build.
+if (realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  const sha = getCommitSha();
+  console.log(`Building 1mb.dev (${sha})...\n`);
 
-const now = new Date();
-updateServiceWorker(sha);
-updateYear(now.getUTCFullYear());
-updateSitemap();
-updateSecurityTxt(now);
+  const now = new Date();
+  updateServiceWorker(sha);
+  updateYear(now.getUTCFullYear());
+  updateSitemap();
+  updateSecurityTxt(now);
 
-console.log('\n✓ Build complete');
+  console.log('\n✓ Build complete');
+}
