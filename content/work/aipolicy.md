@@ -23,10 +23,11 @@ aipolicy makes it an informed call, in a standard form. CloudNativePG, Kyverno a
 
 ## What it taught
 
-aipolicy set out to show that the position comes first and the files follow. One choice changes the policy section by section. Strict reads "AI-generated code is not accepted."
+The position comes first and the files follow. One choice changes the policy section by section. Strict reads "AI-generated code is not accepted."
 
 The repository's own `AI_POLICY.md` and `AGENTS.md` were generated with its Standard preset.
 
 ## Related
 
 [The Strict policy, as served](https://aipolicy.1mb.dev/presets/strict/AI_POLICY.md)
+[gist, a spec for the assistant to start from](/work/gist/)
