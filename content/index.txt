@@ -5,8 +5,8 @@
 use
   sift
   drift
-  gist
   cleartalk
+  gist
   aipolicy
 read
   log
