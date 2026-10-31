@@ -1,6 +1,6 @@
 ---
 name: shim
-tagline: A Claude Code proxy that logs its edits.
+tagline: A Claude Code proxy that logs its edits
 description: A local proxy that runs Claude Code on DeepSeek, OpenAI, OpenRouter or Ollama, logging its rewrites and measuring every request. One Go binary.
 tags: claude code, llm proxy, deepseek, openrouter, ollama, go
 source: https://github.com/1mb-dev/shim

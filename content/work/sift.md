@@ -1,6 +1,6 @@
 ---
 name: sift
-tagline: Hacker News threads, scored by code.
+tagline: Hacker News threads, scored by code
 description: Hacker News discussions picked by a scoring script with no editor: up to 12 threads, several runs a day, one per domain. No account, no archive.
 tags: hacker news, digest, discussions, comments, rss
 site: https://sift.1mb.dev

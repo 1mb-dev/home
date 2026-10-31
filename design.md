@@ -53,7 +53,7 @@ Copy is checked against this section before it ships: new copy, edited copy and 
 
 | Field          | Says                                                                                            |
 | -------------- | ----------------------------------------------------------------------------------------------- |
-| Tagline        | What the work is, not what it is like, in one sentence. Aim for 36 characters                   |
+| Tagline        | What the work is, not what it is like: one line, no full stop. Aim for 36 characters            |
 | Description    | The search result: the category a searcher types, and the limit. 70 to 160                      |
 | Tags           | Three to six lowercase words a searcher would use. Never padding                                |
 | Synopsis       | What it does, with a number or a name. Then a limit only where the page would otherwise mislead |

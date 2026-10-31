@@ -1,6 +1,6 @@
 ---
 name: drift
-tagline: Always-on radio in six moods.
+tagline: Always-on radio in six moods
 description: Always-on mood radio: focus music, ambient, lo-fi, funk and more, by mood or by album, with lyrics where a track has them. No account, no cookies.
 tags: mood radio, lofi radio, focus music, ambient music, self-hosted
 site: https://drift.1mb.dev

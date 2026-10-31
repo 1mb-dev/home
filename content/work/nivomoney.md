@@ -1,6 +1,6 @@
 ---
 name: nivomoney
-tagline: A neobank, opened up to be read.
+tagline: A neobank, opened up to be read
 description: Neobank demo source: Go microservices, a double-entry ledger in Postgres, React apps, ADRs. Synthetic data, no real money.
 tags: neobank, double-entry ledger, go, microservices, fintech
 site: https://nivomoney.1mb.dev

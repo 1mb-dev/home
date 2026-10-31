@@ -1,6 +1,6 @@
 ---
 name: cleartalk
-tagline: Coaching cards for hard conversations.
+tagline: Coaching cards for hard conversations
 description: Prep for hard conversations, at work or otherwise: profile someone's communication style, pick a situation, read a coaching card. Stays in the browser.
 tags: difficult conversations, giving feedback, communication styles, cross-team collaboration, conversation prep
 site: https://cleartalk.1mb.dev

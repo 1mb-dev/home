@@ -1,6 +1,6 @@
 ---
 name: ledgerq
-tagline: A message queue in a directory.
+tagline: A message queue in a directory
 description: An embedded Go message queue: a persistent, disk-backed log in a directory. No broker, one process, one read position, zero dependencies.
 tags: message queue, go, embedded, disk-backed, zero dependencies
 source: https://github.com/1mb-dev/ledgerq

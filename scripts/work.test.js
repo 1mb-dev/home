@@ -28,7 +28,7 @@ const SEO =
   'description: A description long enough to stand as the snippet shown in a search result.\ntags: one, two, three';
 
 const SIFT = work(
-  `name: sift\ntagline: Ranked by depth.\nsite: https://sift.1mb.dev\nshipped: 2026-02-22\nlisted: 2026-03-01\n${SEO}`
+  `name: sift\ntagline: Ranked by depth\nsite: https://sift.1mb.dev\nshipped: 2026-02-22\nlisted: 2026-03-01\n${SEO}`
 );
 
 describe('parseIndex', () => {
@@ -56,7 +56,7 @@ describe('parseWork', () => {
   it('parses front matter and sections', () => {
     const w = parseWork(
       work(
-        'name: ledgerq\ntagline: A queue.\nsource: https://github.com/x/ledgerq\nretired: true',
+        'name: ledgerq\ntagline: A queue\nsource: https://github.com/x/ledgerq\nretired: true',
         'One.\n\nTwo\ncontinued.\n\n## Why it exists\n\nWhy.\n\n## What it taught\n\nTaught.\n\n## Related\n\n[sift](/work/sift/)'
       ),
       'ledgerq'
@@ -128,14 +128,20 @@ describe('parseWork', () => {
     ).toThrow(':6 "latest" goes stale');
   });
 
-  it('keeps a tagline to one sentence', () => {
-    expect(() => parseWork(work('name: a\ntagline: One. Two.'), 'a')).toThrow(
-      'tagline must be one sentence'
+  it.each(['One. Two', 'One.', 'One!', 'One?'])('rejects the tagline "%s"', (tagline) => {
+    expect(() => parseWork(work(`name: a\ntagline: ${tagline}`), 'a')).toThrow(
+      'tagline is one line with no full stop'
+    );
+  });
+
+  it('takes a dot inside a word in a tagline', () => {
+    expect(parseWork(work('name: a\ntagline: Node.js in one file'), 'a').tagline).toBe(
+      'Node.js in one file'
     );
   });
 
   it('keeps the page title within 70 characters', () => {
-    const long = 'Quite a long tagline that would push the page title past the limit.';
+    const long = 'Quite a long tagline that would push the page title past the limit';
     expect(() => parseWork(work(`name: something\ntagline: ${long}`), 'a')).toThrow(
       'shorten the tagline'
     );

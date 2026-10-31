@@ -1,6 +1,6 @@
 ---
 name: ekam
-tagline: Essays on Advaita Vedanta as design.
+tagline: Essays on Advaita Vedanta as design
 description: Twelve essays on Advaita Vedanta and software engineering: debugging, state, abstraction, failure. Each says where its mapping stops.
 tags: advaita vedanta, upanishads, essays, software engineering, debugging
 site: https://ekam.1mb.dev

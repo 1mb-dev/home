@@ -1,6 +1,6 @@
 ---
 name: playbook
-tagline: A book on how teams ship.
+tagline: A book on how teams ship
 description: A short book of engineering principles for software teams: collaboration, design rules, code review, adoption. Five chapters, about thirty minutes.
 tags: engineering principles, software teams, code review, design rules, collaboration
 site: https://playbook.1mb.dev

@@ -1,6 +1,6 @@
 ---
 name: gist
-tagline: App specs for AI coding assistants.
+tagline: App specs for AI coding assistants
 description: An app spec generator for AI coding assistants: describe an app idea, answer a few questions, download a markdown spec to start from. No account.
 tags: app spec, spec generator, ai coding, markdown, app idea
 site: https://gist.1mb.dev

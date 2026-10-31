@@ -1,6 +1,6 @@
 ---
 name: aipolicy
-tagline: A repository's AI policy, as files.
+tagline: A repository's AI policy, as files
 description: An AI policy generator for a repository: pick a preset, set the rules for contributors, download AI_POLICY.md, AGENTS.md and more. No install, no sign-up.
 tags: ai policy, agents.md, claude.md, policy generator
 site: https://aipolicy.1mb.dev

@@ -1,6 +1,6 @@
 ---
 name: markgo
-tagline: A blog engine in one Go binary.
+tagline: A blog engine in one Go binary
 description: A flat-file Go blog engine: markdown files in a directory, a web compose form, one binary with embedded assets. No database, no build step.
 tags: blog engine, go, markdown, flat-file, single binary, no database
 source: https://github.com/1mb-dev/markgo

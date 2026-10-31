@@ -209,8 +209,8 @@ export function parseWork(text, slug, file = `content/work/${slug}.md`) {
   }
   if (!work.name) throw new ContentError(file, 1, 'missing "name"');
   if (!work.tagline) throw new ContentError(file, 1, 'missing "tagline"');
-  if (/[.!?]\s/.test(work.tagline)) {
-    throw new ContentError(file, 1, 'tagline must be one sentence (it becomes the page title)');
+  if (/[.!?](\s|$)/.test(work.tagline)) {
+    throw new ContentError(file, 1, 'tagline is one line with no full stop (it is the page title)');
   }
   if (work.tagline.length > TAGLINE_MAX) {
     throw new ContentError(file, 1, `tagline is ${work.tagline.length} chars (max ${TAGLINE_MAX})`);
@@ -411,7 +411,7 @@ export function checkDurable(previousLocs, entries) {
 
 // "ledgerq: A durable queue that lives on one disk". Search titles carry what the work is.
 export function workHeadline(work) {
-  return `${work.name}: ${work.tagline.replace(/[.]$/, '')}`;
+  return `${work.name}: ${work.tagline}`;
 }
 
 export function workPath(slug) {
