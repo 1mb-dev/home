@@ -44,7 +44,7 @@ Tests use `@cloudflare/vitest-pool-workers` to run the worker in a local Cloudfl
 
 ## CI/CD
 
-Worker deployment is automated via GitHub Actions (`.github/workflows/deploy-worker.yml`). Pushes to `main` that modify `workers/**` trigger:
+Worker deployment is automated via GitHub Actions (`.github/workflows/deploy-worker.yml`): a `v*` release tag or a manual run deploys it. A merge does not. Each run:
 
 1. **Test**: runs `npm test`
 2. **Deploy**: runs `cloudflare/wrangler-action`
