@@ -86,6 +86,19 @@
     <category term="rss" />
   </entry>
   <entry>
+    <title>drift: Always-on radio in six moods</title>
+    <link href="https://1mb.dev/work/drift/" />
+    <id>https://1mb.dev/work/drift/</id>
+    <published>2026-10-30T00:00:00Z</published>
+    <updated>2026-10-30T00:00:00Z</updated>
+    <summary>Always-on mood radio: focus music, ambient, lo-fi, funk and more, by mood or by album, with lyrics where a track has them. No account, no cookies.</summary>
+    <category term="mood radio" />
+    <category term="lofi radio" />
+    <category term="focus music" />
+    <category term="ambient music" />
+    <category term="self-hosted" />
+  </entry>
+  <entry>
     <title>nivomoney: A neobank, opened up to be read</title>
     <link href="https://1mb.dev/work/nivomoney/" />
     <id>https://1mb.dev/work/nivomoney/</id>
