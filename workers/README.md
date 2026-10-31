@@ -47,7 +47,7 @@ Tests use `@cloudflare/vitest-pool-workers` to run the worker in a local Cloudfl
 Worker deployment is automated via GitHub Actions (`.github/workflows/deploy-worker.yml`): a `v*` release tag or a manual run deploys it. A merge does not. Each run:
 
 1. **Test**: runs `npm test`
-2. **Deploy**: runs `cloudflare/wrangler-action`
+2. **Deploy**: runs `wrangler deploy`, in its own job with the token
 
 **Setup:** Add `CLOUDFLARE_API_TOKEN` as a repo secret. Create the token at the Cloudflare dashboard with "Workers Scripts: Edit" permission.
 
