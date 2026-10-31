@@ -11,3 +11,4 @@ read
 build
   markgo
   ledgerq
+  shim

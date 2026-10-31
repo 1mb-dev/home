@@ -9,6 +9,20 @@
   <author><name>1mb</name></author>
   <icon>https://1mb.dev/favicon.ico</icon>
   <entry>
+    <title>shim: A Claude Code proxy that logs its edits</title>
+    <link href="https://1mb.dev/work/shim/" />
+    <id>https://1mb.dev/work/shim/</id>
+    <published>2026-10-30T00:00:00Z</published>
+    <updated>2026-10-30T00:00:00Z</updated>
+    <summary>A local proxy that runs Claude Code on DeepSeek, OpenAI, OpenRouter or Ollama, logging its rewrites and measuring every request. One Go binary.</summary>
+    <category term="claude code" />
+    <category term="llm proxy" />
+    <category term="deepseek" />
+    <category term="openrouter" />
+    <category term="ollama" />
+    <category term="go" />
+  </entry>
+  <entry>
     <title>log: Short notes on building solo</title>
     <link href="https://1mb.dev/work/log/" />
     <id>https://1mb.dev/work/log/</id>
