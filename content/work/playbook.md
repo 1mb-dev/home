@@ -22,7 +22,7 @@ playbook started as instructions saved in text files, then became repeatable com
 
 ## What it taught
 
-playbook set out to show that quality can be made automatic instead of heroic. A team adopts it in its own shape: "Keep the philosophy intact. Customize everything else."
+Quality can be made automatic instead of heroic. A team adopts playbook in its own shape: "Keep the philosophy intact. Customize everything else."
 
 The commands change from their own use. A paused session leaves a recap, and the next one opens on it. Recaps rewrote the step that handles recaps.
 
