@@ -2,7 +2,7 @@
 name: log
 tagline: Short notes on building solo.
 description: A blog of short notes and essays on solo software work: shipping, maintenance, dependencies. Markdown in git, one Go binary, no database.
-tags: blog, solo developer, software maintenance, open source, markdown blog
+tags: blog, solo developer, software maintenance, open source
 site: https://log.1mb.dev
 source: https://github.com/1mb-dev/log
 maintained: true
