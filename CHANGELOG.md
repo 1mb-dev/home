@@ -6,6 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-10-31
+
+### Added
+
+- Index of works by side (use, read, build with), a page per work, and twelve works listed
+- `content/` and `scripts/gen.js`: pages, feed and sitemap generated from flat files, and committed
+- Atom feed, `security.txt`, private vulnerability reporting
+- `hi@1mb.dev` in the footer
+
+### Changed
+
+- Cover rewritten as the manifesto, with one design language across every page
+- Hosting moves from GitHub Pages to Cloudflare Pages, deployed from CI behind validate and test
+- CSP and security headers in `docs/_headers`
+- The footer no longer carries a year
+
+### Fixed
+
+- Counter: CORS matches whole origins, one vote per IP holds under parallel requests, Redis calls time out
+- Service worker: pages, CSS and JS are network-first, so a deploy shows on the next load
+- Theme: returning visitors follow the system until they choose
+
 ## [1.2.0] - 2026-01-02
 
 ### Added
