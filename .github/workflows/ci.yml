@@ -124,11 +124,9 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
-          cache: 'npm'
 
-      - name: Install dependencies
-        run: npm ci
-
+      # No install: this job's output is the site, so no dependency code runs on its runner.
+      # build.js may import builtins only.
       - name: Build (stamp SW version, year, lastmod, security.txt)
         run: npm run build
 
@@ -158,9 +156,8 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
-          cache: 'npm'
 
-      # This job holds the token: no dependency script may run on its runner.
+      # This job holds the token: no dependency script may run on its runner, and no shared cache.
       - name: Install wrangler
         run: npm ci --ignore-scripts
 
