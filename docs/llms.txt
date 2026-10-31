@@ -15,7 +15,7 @@
 - [log](https://1mb.dev/work/log/): A blog of short notes and essays on solo software work: shipping, maintenance, dependencies. Markdown in git, one Go binary, no database.
 - [playbook](https://1mb.dev/work/playbook/): A short book of engineering principles for software teams: collaboration, design rules, code review, adoption. Five chapters, about thirty minutes.
 - [ekam](https://1mb.dev/work/ekam/): Twelve essays on Advaita Vedanta and software engineering: debugging, state, abstraction, failure. Each says where its mapping stops.
-- [nivomoney](https://1mb.dev/work/nivomoney/): Neobank demo source: Go microservices, a double-entry ledger in Postgres, React apps, ADRs. Synthetic data, no real money.
+- [nivomoney](https://1mb.dev/work/nivomoney/): retired. Neobank demo source: Go microservices, a double-entry ledger in Postgres, React apps, ADRs. Synthetic data, no real money.
 
 ## build with
 

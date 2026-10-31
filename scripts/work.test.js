@@ -652,6 +652,27 @@ describe('rendering', () => {
     ).toBe(true);
   });
 
+  it('marks a retired or unmaintained work in llms.txt, as the index does', () => {
+    const entry = (slug, extra) =>
+      parseWork(
+        work(
+          `name: ${slug}\ntagline: t\nsource: https://g.dev/${slug}\n${extra}\nshipped: 2025-01-01\nlisted: 2026-03-01\n${SEO}`
+        ),
+        slug
+      );
+    const index = parseIndex('use\n  gone\n  old\n  live');
+    const works = new Map([
+      ['gone', entry('gone', 'retired: true')],
+      ['old', entry('old', 'maintained: false')],
+      ['live', entry('live', 'maintained: true')],
+    ]);
+    const description = works.get('gone').description;
+    const llms = renderLlms(index, works, 'x');
+    expect(llms).toContain(`- [gone](https://1mb.dev/work/gone/): retired. ${description}\n`);
+    expect(llms).toContain(`- [old](https://1mb.dev/work/old/): unmaintained. ${description}\n`);
+    expect(llms).toContain(`- [live](https://1mb.dev/work/live/): ${description}\n`);
+  });
+
   it('keeps a script block intact when copy contains "</"', () => {
     const w = parseWork(work(`name: a\ntagline: x </script> y\nsite: https://a.dev\n${SEO}`), 'a');
     expect(workJsonLd(w, 'use')).not.toContain('</script>');
