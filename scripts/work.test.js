@@ -2,6 +2,7 @@ import { readdirSync } from 'fs';
 import { describe, it, expect } from 'vitest';
 import {
   actions,
+  assertNoEmDash,
   checkDurable,
   esc,
   isText,
@@ -187,6 +188,27 @@ describe('parseWork', () => {
       parseWork(work('name: a\ntagline: t', 'S &mdash; s.\n\n## Why it exists\n\nW.'), 'a')
     ).toThrow(':6 em-dash in copy');
   });
+
+  it.each([
+    '\\u{2014}',
+    '&#8212;',
+    '&#8212',
+    '&#08212;',
+    '&#x2014;',
+    '&#X2014',
+    '&#x02014;',
+    '\\2014',
+    '\\002014',
+  ])('rejects the em-dash form %s', (form) => {
+    expect(() => assertNoEmDash(`a ${form} b`, 'f')).toThrow('f:1 em-dash in copy');
+  });
+
+  it.each(['2014', 'in 2014 we', '&#8211;', '\\2013', '&#82120;', '\\20140'])(
+    'leaves %s alone',
+    (text) => {
+      expect(() => assertNoEmDash(text, 'f')).not.toThrow();
+    }
+  );
 
   it('allows emphasis at the start of a paragraph', () => {
     const w = parseWork(

@@ -58,7 +58,7 @@ export class ContentError extends Error {
 }
 
 // Em-dashes are banned from copy (design.md, Voice). Matches the character and its escapes.
-const EM_DASH = /\u2014|&mdash;|\\u2014/;
+const EM_DASH = /\u2014|&mdash;|\\u2014|\\u\{0*2014\}|&#0*8212\b|&#x0*2014\b|\\0*2014\b/i;
 
 export function assertNoEmDash(text, file) {
   const lines = text.split('\n');

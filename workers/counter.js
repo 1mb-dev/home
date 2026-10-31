@@ -1,5 +1,5 @@
 /**
- * 1mb Counter — Cloudflare Worker
+ * 1mb Counter: Cloudflare Worker
  *
  * Proxies requests to Upstash Redis with rate limiting.
  *
