@@ -91,7 +91,7 @@ Upkeep is an editorial claim: it appears only when a content file states it.
 - No pills, badges, coloured status, or traffic lights.
 - No icons or emoji in content. The theme toggle's ☀/☾ is the one glyph control.
 - No screenshots, hero images, or per-work artwork. One shared social image.
-- No motion beyond a 0.2s opacity or colour change on hover, and the watermark's drift. No scroll effects, beyond the line that marks the edge of the mark's band once it has pinned. No loading skeletons.
+- No motion beyond a 0.2s opacity or colour change on hover, and the watermark's drift. No scroll effects, beyond the line that appears under the mark on inner pages once it sticks. No loading skeletons.
 - No hover-only information. No arrows; labels and underlines are the affordance.
 - No `target="_blank"`. A forced new tab breaks Back.
 - No fixed or floating controls, except the mark on inner pages: it stays at the top, and nothing sits beside it. On a short screen it scrolls with the page too.
