@@ -40,7 +40,7 @@ npm test              # run test suite
 npm run test:watch    # run in watch mode
 ```
 
-Tests use `@cloudflare/vitest-pool-workers` to run the worker in a local Cloudflare runtime with mocked Redis (via `fetchMock`).
+Tests use `@cloudflare/vitest-plugin` to run the worker in a local Cloudflare runtime with mocked Redis (a spy on `fetch`).
 
 ## CI/CD
 
