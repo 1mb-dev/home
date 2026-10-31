@@ -6,7 +6,8 @@
 (function () {
   'use strict';
 
-  const STORAGE_KEY = '1mb_theme';
+  // Not 1mb_theme: the February site wrote that on every load, so it cannot tell a choice from a default.
+  const STORAGE_KEY = '1mb_theme_choice';
   const media = window.matchMedia('(prefers-color-scheme: dark)');
 
   // Storage can throw (private mode, blocked site data); a throw must not take the toggle down.
