@@ -89,8 +89,15 @@ jobs:
             exit 1
           fi
           # File names only: a matching line would print the pattern into a public log.
-          if grep -rIilE -- "$PATTERN" docs content; then
+          # 1 is the only pass: `if grep` would read a bad pattern (status 2) as no match.
+          status=0
+          grep -rIilE -- "$PATTERN" docs content || status=$?
+          if [ "$status" -eq 0 ]; then
             echo "::error::A forbidden org name is in the files above."
+            exit 1
+          fi
+          if [ "$status" -ne 1 ]; then
+            echo "::error::grep failed with status $status. Check the FORBIDDEN_ORGS pattern."
             exit 1
           fi
 
