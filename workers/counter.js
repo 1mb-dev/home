@@ -1,5 +1,5 @@
 /**
- * 1mb Counter — Cloudflare Worker
+ * 1mb Counter: Cloudflare Worker
  *
  * Proxies requests to Upstash Redis with rate limiting.
  *
@@ -34,18 +34,17 @@ function log(level, event, data = {}) {
 }
 
 const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': 'https://1mb.dev',
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type',
   'Content-Type': 'application/json',
 };
 
-// For local testing, allow localhost
+const LOCAL_ORIGIN = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
+
+// Whole origins only: a prefix match would trust https://1mb.dev.evil.example.
 function getCorsHeaders(request) {
   const origin = request.headers.get('Origin') || '';
-  const allowedOrigins = ['https://1mb.dev', 'http://localhost', 'http://127.0.0.1'];
-
-  const isAllowed = allowedOrigins.some(allowed => origin.startsWith(allowed));
+  const isAllowed = origin === 'https://1mb.dev' || LOCAL_ORIGIN.test(origin);
 
   return {
     ...CORS_HEADERS,
@@ -59,8 +58,13 @@ async function hashIP(ip) {
   const data = encoder.encode(ip + '_1mb_salt_2024');
   const hash = await crypto.subtle.digest('SHA-256', data);
   const hashArray = Array.from(new Uint8Array(hash));
-  return hashArray.slice(0, 8).map(b => b.toString(16).padStart(2, '0')).join('');
+  return hashArray
+    .slice(0, 8)
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
 }
+
+const REDIS_TIMEOUT_MS = 5000;
 
 // Upstash Redis REST API helper
 async function redis(env, command) {
@@ -71,6 +75,7 @@ async function redis(env, command) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(command),
+    signal: AbortSignal.timeout(REDIS_TIMEOUT_MS),
   });
 
   const data = await response.json();
@@ -94,16 +99,22 @@ async function handlePost(request, env) {
   const ipHash = await hashIP(ip);
   const rateLimitKey = `voted:${ipHash}`;
 
-  // Check if already voted (within 24h)
-  const hasVoted = await redis(env, ['GET', rateLimitKey]);
+  // Claim the vote before counting: a check followed by a later write lets parallel requests
+  // from one IP all through. A failed INCR after the claim loses that vote; it cannot double it.
+  const claimed = await redis(env, ['SET', rateLimitKey, '1', 'NX', 'EX', 86400]);
 
   const today = new Date().toISOString().slice(0, 10);
   const dailyKey = `daily:${today}`;
 
-  if (hasVoted) {
+  if (!claimed) {
     const [count, todayCount] = await redis(env, ['MGET', 'count', dailyKey]);
     log('info', 'vote.rate_limited', { count: parseInt(count) || 0 });
-    return { count: parseInt(count) || 0, today: parseInt(todayCount) || 0, voted: true, message: 'Already counted' };
+    return {
+      count: parseInt(count) || 0,
+      today: parseInt(todayCount) || 0,
+      voted: true,
+      message: 'Already counted',
+    };
   }
 
   // Increment counter + daily
@@ -114,9 +125,6 @@ async function handlePost(request, env) {
   } catch (e) {
     log('warn', 'expire.failed', { key: dailyKey, error: e.message });
   }
-
-  // Mark IP as voted (expires in 24 hours = 86400 seconds)
-  await redis(env, ['SET', rateLimitKey, '1', 'EX', 86400]);
 
   log('info', 'vote.new', { count: parseInt(count), today: parseInt(todayCount) });
   return { count: parseInt(count), today: parseInt(todayCount), voted: true, message: 'Counted' };
@@ -140,7 +148,7 @@ async function handleHealth(env) {
       hosting: 'cloudflare-workers',
       latency_ms: latency,
     };
-  } catch (error) {
+  } catch {
     log('error', 'health.degraded', { error: 'Redis connection failed' });
     return {
       status: 'degraded',
@@ -170,7 +178,7 @@ export { hashIP };
 
 // Main handler
 export default {
-  async fetch(request, env, ctx) {
+  async fetch(request, env) {
     const start = Date.now();
     const url = new URL(request.url);
     const corsHeaders = getCorsHeaders(request);
@@ -210,16 +218,21 @@ export default {
       }
 
       log('info', 'request', { ...reqCtx, status, duration_ms: Date.now() - start });
-      const responseHeaders = request.method === 'GET'
-        ? { ...corsHeaders, 'Cache-Control': 'public, max-age=60', Vary: 'Origin' }
-        : corsHeaders;
+      const responseHeaders =
+        request.method === 'GET'
+          ? { ...corsHeaders, 'Cache-Control': 'public, max-age=60', Vary: 'Origin' }
+          : corsHeaders;
       return new Response(JSON.stringify(result), {
         status: 200,
         headers: responseHeaders,
       });
-
     } catch (error) {
-      log('error', 'request', { ...reqCtx, status: 500, error: error.message, duration_ms: Date.now() - start });
+      log('error', 'request', {
+        ...reqCtx,
+        status: 500,
+        error: error.message,
+        duration_ms: Date.now() - start,
+      });
       return new Response(JSON.stringify({ error: 'Internal error' }), {
         status: 500,
         headers: corsHeaders,

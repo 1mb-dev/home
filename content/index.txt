@@ -1,0 +1,19 @@
+# What the root lists, in which group, in what order.
+# Group lines: use | read | build. Work lines: two-space indent + slug (content/work/{slug}.md).
+# A work file not listed here is a draft: validated, not published.
+
+use
+  sift
+  drift
+  cleartalk
+  gist
+  aipolicy
+read
+  log
+  playbook
+  ekam
+  nivomoney
+build
+  markgo
+  ledgerq
+  shim

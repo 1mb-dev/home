@@ -1,5 +1,5 @@
 /**
- * 1mb — one-man-band
+ * 1mb
  * https://1mb.dev
  */
 
@@ -40,6 +40,7 @@
   --muted: #6b6b6b;
   --border: #e0e0e0;
   --surface: #f0f0f0;
+  --watermark: 0.04;
 
   /* Spacing - 8pt grid */
   --space-1: 0.5rem; /* 8px */
@@ -51,21 +52,21 @@
   --space-8: 4rem; /* 64px */
 
   /* Type Scale - 1.25 ratio */
-  --text-xs: 0.75rem; /* 12px */
   --text-sm: 0.875rem; /* 14px */
   --text-base: 1rem; /* 16px */
   --text-md: 1.125rem; /* 18px */
   --text-lg: 1.25rem; /* 20px */
   --text-xl: 1.5rem; /* 24px */
-  --text-2xl: 2rem; /* 32px */
+  --text-2xl: 1.75rem; /* 28px */
   --text-3xl: 2.5rem; /* 40px */
+  --text-4xl: 3.5rem; /* 56px */
 
   /* Fonts */
   --font-display: 'Space Grotesk', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
 
   /* Misc */
-  --radius: 12px;
+  --radius: 6px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -75,6 +76,7 @@
     --muted: #888;
     --border: #2a2a2a;
     --surface: #151515;
+    --watermark: 0.06;
   }
 }
 
@@ -94,45 +96,38 @@
    Base
    ======================================== */
 
-html {
-  scroll-behavior: smooth;
-}
-
 body {
   font-family: var(--font-body);
   font-size: var(--text-base);
   background: var(--bg);
   color: var(--fg);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: var(--space-4);
+  min-height: 100svh;
+  padding: 0 var(--space-4);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  position: relative;
-  overflow: hidden;
+  overflow-x: clip;
 }
 
-/* Watermark */
-body::before {
+/* Watermark: the numeral behind each content section ('0' on the 404). Opacity is per theme:
+   above 4% in light, muted text over it drops below AA. watermark.js sets --drift-*. */
+.hero::before,
+.page-work main::before,
+.page-404::before {
   content: '1';
-  position: fixed;
+  position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(calc(-50% + var(--parallax-x, 0px)), calc(-45% + var(--parallax-y, 0px)));
+  transform: translate(calc(-50% + var(--drift-x, 0px)), calc(-50% + var(--drift-y, 0px)));
+  transition: transform 0.4s ease-out;
   font-family: var(--font-display);
-  font-size: clamp(250px, 40vw, 400px);
+  font-size: clamp(320px, 50vw, 480px);
   font-weight: 700;
   color: var(--fg);
-  opacity: 0.04;
+  opacity: var(--watermark);
   pointer-events: none;
-  z-index: 0;
+  z-index: -1;
   line-height: 1;
-  transition: transform 0.15s ease-out;
-  will-change: transform;
 }
 
 /* ========================================
@@ -141,13 +136,22 @@ body::before {
 
 main {
   max-width: 480px;
+  margin: 0 auto;
   text-align: center;
   position: relative;
   z-index: 1;
 }
 
-header {
-  margin-bottom: var(--space-6);
+/* Hero: the cover (manifesto, invitation, counter). Capped so the index opens at the fold
+   on a laptop and is never pushed out of reach on a tall screen. */
+.hero {
+  position: relative;
+  isolation: isolate;
+  min-height: min(80svh, 640px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--space-6) 0 0;
 }
 
 article {
@@ -155,36 +159,29 @@ article {
 }
 
 /* ========================================
-   Logo
+   Content
    ======================================== */
 
 .logo {
   font-family: var(--font-display);
-  font-size: var(--text-3xl);
+  font-size: var(--text-4xl);
   font-weight: 700;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
   line-height: 1;
-  margin-bottom: var(--space-2);
-}
-
-.subtitle {
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  color: var(--muted);
-  text-transform: lowercase;
-  letter-spacing: 0.15em;
-}
-
-/* ========================================
-   Content
-   ======================================== */
-
-.manifesto {
-  font-family: var(--font-body);
-  font-size: var(--text-md);
-  font-weight: 500;
   color: var(--fg);
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-3);
+}
+
+/* One line down to 320px: the line runs 10.34em and the body gutters take 64px. */
+.manifesto {
+  font-family: var(--font-display);
+  font-size: clamp(var(--text-xl), 7.5vw, var(--text-2xl));
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  text-wrap: balance;
+  color: var(--fg);
+  margin-bottom: var(--space-5);
 }
 
 .description {
@@ -196,12 +193,8 @@ article {
   line-height: 1.7;
 }
 
-.context {
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  color: var(--muted);
-  margin-top: var(--space-4);
-  line-height: 1.8;
+.description + .description {
+  margin-top: var(--space-3);
 }
 
 /* ========================================
@@ -211,7 +204,7 @@ article {
 .separator {
   border: none;
   margin: var(--space-2) 0;
-  color: var(--border);
+  color: var(--muted);
   font-size: var(--text-sm);
   letter-spacing: 0.5em;
   text-align: center;
@@ -227,9 +220,8 @@ article {
 
 .invitation {
   font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-style: italic;
-  color: var(--muted);
+  font-size: var(--text-base);
+  color: var(--fg);
   margin-bottom: var(--space-4);
 }
 
@@ -237,107 +229,26 @@ article {
    Counter
    ======================================== */
 
-.counter {
-  margin-top: 0;
-}
-
-.counter-btn {
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-weight: 500;
-  font-style: italic;
-  color: var(--bg);
-  background: var(--fg);
-  border: none;
-  padding: var(--space-2) var(--space-4);
-  border-radius: calc(var(--radius) / 2);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.counter-btn:hover:not(:disabled) {
-  opacity: 0.85;
-}
-
-.counter-btn:active:not(:disabled) {
-  transform: scale(0.98);
-}
-
 .counter-btn:disabled {
   cursor: default;
 }
 
-.counter-btn:focus-visible {
-  outline: 2px solid var(--fg);
-  outline-offset: 2px;
-}
-
-.counter-btn.voted {
-  background: transparent;
-  color: var(--muted);
-  font-style: normal;
-}
-
-.counter-btn.voted::before {
-  content: '✓ ';
-}
-
+.counter-btn.voted,
 .counter-btn.error {
   background: transparent;
   color: var(--muted);
-  border: 1px solid var(--border);
-  font-style: normal;
 }
 
+.counter-btn.error {
+  border: 1px solid var(--border);
+}
+
+/* min-height: an empty line has none, and the count arrives after the cover is drawn. */
 .counter-proof {
-  font-family: var(--font-body);
   font-size: var(--text-sm);
   color: var(--muted);
   margin-top: var(--space-3);
-}
-
-.counter-proof span {
-  color: var(--fg);
-  font-weight: 500;
-}
-
-/* Counter loading skeleton - shimmer effect */
-.count-loading {
-  display: inline-block;
-  width: 4em;
-  height: 1em;
-  background: linear-gradient(90deg, var(--border) 0%, var(--surface) 50%, var(--border) 100%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s ease-in-out infinite;
-  border-radius: 4px;
-  vertical-align: middle;
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: 200% 0;
-  }
-
-  100% {
-    background-position: -200% 0;
-  }
-}
-
-/* Counter fade-in */
-.count-loaded {
-  animation: fadeIn 0.3s ease-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  min-height: 1lh;
 }
 
 /* ========================================
@@ -345,22 +256,24 @@ article {
    ======================================== */
 
 .theme-toggle {
-  position: fixed;
-  bottom: var(--space-4);
-  right: var(--space-4);
   background: transparent;
   border: 1px solid var(--border);
   color: var(--muted);
-  width: 40px;
-  height: 40px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: var(--text-base);
-  transition: all 0.2s ease;
-  z-index: 10;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.theme-toggle[hidden] {
+  display: none;
 }
 
 .theme-toggle:hover {
@@ -373,32 +286,14 @@ article {
   outline-offset: 2px;
 }
 
-/* Icons */
+/* Icons: the moon offers dark, the sun offers light. The toggle is only shown once
+   theme.js has set data-theme, so the light case needs no rule of its own. */
 .theme-toggle .icon-sun,
-.theme-toggle .icon-moon {
-  display: none;
-}
-
-/* Default (system/light): show moon */
-.theme-toggle .icon-moon {
-  display: block;
-}
-
-/* Dark mode: show sun */
 [data-theme='dark'] .theme-toggle .icon-moon {
   display: none;
 }
 
 [data-theme='dark'] .theme-toggle .icon-sun {
-  display: block;
-}
-
-/* Light mode explicit: show moon */
-[data-theme='light'] .theme-toggle .icon-sun {
-  display: none;
-}
-
-[data-theme='light'] .theme-toggle .icon-moon {
   display: block;
 }
 
@@ -409,6 +304,7 @@ article {
   --muted: #888;
   --border: #2a2a2a;
   --surface: #151515;
+  --watermark: 0.06;
 }
 
 [data-theme='light'] {
@@ -417,6 +313,7 @@ article {
   --muted: #6b6b6b;
   --border: #e0e0e0;
   --surface: #f0f0f0;
+  --watermark: 0.04;
 }
 
 /* ========================================
@@ -424,16 +321,12 @@ article {
    ======================================== */
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  .counter-btn {
+  .action,
+  .theme-toggle,
+  .hero::before,
+  .page-work main::before,
+  .page-404::before {
     transition: none;
-  }
-
-  body::before {
-    display: none;
   }
 }
 
@@ -441,17 +334,33 @@ article {
    404 Page
    ======================================== */
 
+.page-404 {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-404 .colophon {
+  width: 100%;
+}
+
 .page-404::before {
   content: '0';
 }
 
 .page-404 main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   max-width: 320px;
 }
 
 .page-404 h1 {
   font-family: var(--font-display);
-  font-size: var(--text-3xl);
+  font-size: var(--text-4xl);
   font-weight: 700;
   letter-spacing: -0.03em;
   margin-bottom: var(--space-2);
@@ -470,22 +379,411 @@ article {
   margin-bottom: var(--space-5);
 }
 
-.page-404 .back-link {
+/* ========================================
+   Action: the one filled control. One per page, the page's first action.
+   ======================================== */
+
+.action {
   display: inline-block;
+  font-family: var(--font-body);
   font-size: var(--text-sm);
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
   color: var(--bg);
   background: var(--fg);
   text-decoration: none;
   padding: var(--space-2) var(--space-3);
-  border-radius: calc(var(--radius) / 2);
+  border-radius: var(--radius);
   transition: opacity 0.2s ease;
 }
 
-.page-404 .back-link:hover {
+.action:hover:not(:disabled) {
   opacity: 0.85;
 }
 
-.page-404 .back-link:focus-visible {
+.action:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+}
+
+/* ========================================
+   Work index: a track listing. Sides = groups, numbering runs across sides.
+   ======================================== */
+
+.work {
+  text-align: left;
+  padding-top: var(--space-8);
+}
+
+/* The bridge from the cover: names the three sides in the manifesto's rhythm. */
+.work-title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  margin-bottom: var(--space-6);
+}
+
+.side {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 400;
+  color: var(--muted);
+  letter-spacing: 0.15em;
+  margin: var(--space-6) 0 var(--space-2);
+}
+
+.work-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.work-title a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.work-title a:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+}
+
+.work-title + .side {
+  margin-top: 0;
+}
+
+.tracks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.track {
+  display: grid;
+  grid-template-columns: 2.5em auto 1fr auto;
+  column-gap: var(--space-1);
+  align-items: baseline;
+  padding: var(--space-1) 0;
+}
+
+.track-no {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.track-name a {
+  font-weight: 500;
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.track-state {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  margin-left: var(--space-1);
+}
+
+/* Leader: the dotted run from title to verb, as on a sleeve. */
+.track-lead {
+  min-width: var(--space-2);
+  height: 2px;
+  background-image: radial-gradient(circle, var(--muted) 0.75px, transparent 1px);
+  background-size: 6px 2px;
+  background-repeat: repeat-x;
+  opacity: 0.5;
+  transform: translateY(-0.3em);
+}
+
+.track-verb {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.track-tagline {
+  grid-column: 2 / -1;
+  font-size: var(--text-sm);
+  color: var(--muted);
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+.track-name a:hover,
+.track-verb:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.track-name a:focus-visible,
+.track-verb:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+}
+
+/* ========================================
+   Masthead: the mark alone, top centre. The root's capstone plays this part on the cover.
+   ======================================== */
+
+.masthead {
+  padding-top: var(--space-4);
+  text-align: center;
+}
+
+.mark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-xl);
+  letter-spacing: -0.03em;
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.mark:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 4px;
+}
+
+/* ========================================
+   Work page: liner notes for one track.
+   ======================================== */
+
+.page-work main {
+  text-align: left;
+  padding: var(--space-8) 0 0;
+}
+
+/* The mark stays on inner pages: it rides up 24px, then pins in a 54px band. Above main's stacking
+   context, opaque, full-bleed over body's padding. Short screens keep it in flow: the band would
+   take 14% of a landscape phone. */
+@media (height > 500px) {
+  html:has(.masthead) {
+    scroll-padding-top: var(--space-8);
+  }
+
+  .masthead {
+    position: sticky;
+    top: calc(-1 * var(--space-3));
+    z-index: 2;
+    margin: 0 calc(-1 * var(--space-4));
+    padding: var(--space-4) var(--space-4) var(--space-1);
+    background: var(--bg);
+    border-bottom: 1px solid transparent;
+  }
+
+  .page-work main {
+    padding-top: calc(var(--space-8) - var(--space-1) - 1px);
+  }
+
+  /* The line marks the band's edge only once pinned: at rest it reads as an app header. */
+  @supports (animation-timeline: scroll()) {
+    .masthead {
+      animation: masthead-edge linear both;
+      animation-timeline: scroll();
+      animation-range: 0 var(--space-3);
+    }
+  }
+}
+
+@keyframes masthead-edge {
+  to {
+    border-bottom-color: var(--border);
+  }
+}
+
+.notes-side {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  letter-spacing: 0.15em;
+  margin-bottom: var(--space-1);
+}
+
+.notes h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.notes-tagline {
+  font-size: var(--text-md);
+  color: var(--muted);
+  margin: var(--space-1) 0 var(--space-6);
+  text-wrap: pretty;
+}
+
+.notes-body p,
+.notes-status {
+  margin-bottom: var(--space-2);
+}
+
+.notes h2 {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 400;
+  color: var(--muted);
+  letter-spacing: 0.15em;
+  margin: var(--space-5) 0 var(--space-2);
+}
+
+.notes a:not(.action) {
+  color: var(--fg);
+  text-underline-offset: 0.2em;
+}
+
+.notes code {
+  font-size: 0.9em;
+  background: var(--surface);
+  padding: 0.1em 0.3em;
+  border-radius: 4px;
+}
+
+.notes-status {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  margin-top: var(--space-5);
+}
+
+.notes-next {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-3);
+  margin-top: var(--space-4);
+  font-size: var(--text-sm);
+}
+
+.related {
+  list-style: none;
+  padding: 0;
+  font-size: var(--text-sm);
+}
+
+/* Sequence: the neighbouring tracks, each with its tagline. Next sits right; an end stays empty. */
+.sequence {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+}
+
+.sequence-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-decoration: none;
+}
+
+.sequence-next {
+  grid-column: 2;
+  text-align: right;
+}
+
+.sequence-label {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  letter-spacing: 0.15em;
+}
+
+.sequence-name {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+}
+
+.sequence-tagline {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  line-height: 1.5;
+  text-wrap: balance;
+}
+
+.sequence-item:hover .sequence-name {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.sequence-item:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 4px;
+}
+
+.all-work {
+  margin-top: var(--space-4);
+  text-align: center;
+  font-size: var(--text-sm);
+}
+
+.all-work a {
+  color: var(--muted);
+  text-underline-offset: 0.2em;
+}
+
+@media (width <= 480px) {
+  .sequence {
+    grid-template-columns: 1fr;
+  }
+
+  .sequence-next {
+    grid-column: 1;
+    text-align: left;
+  }
+
+  .all-work {
+    text-align: left;
+  }
+}
+
+/* Colophon: two lines on a three-column grid. `1mb ·` | credit | theme toggle, then the links
+   from the second column. Nothing sits under the mark, so they align with the credit. */
+.colophon {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: var(--space-8) 0 var(--space-4);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  column-gap: 0.35em;
+  row-gap: var(--space-1);
+  align-items: center;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.colophon-home a {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.colophon .theme-toggle {
+  grid-row: 1;
+  grid-column: 3;
+}
+
+/* nowrap: the footer is two lines at every width. */
+.colophon-meta {
+  grid-column: 2 / -1;
+  white-space: nowrap;
+}
+
+.colophon-meta a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.colophon a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.colophon a:focus-visible {
   outline: 2px solid var(--fg);
   outline-offset: 2px;
 }
@@ -495,24 +793,39 @@ article {
    ======================================== */
 
 @media print {
-  body {
-    background: white;
-    color: black;
+  /* Must follow the theme overrides: a dark theme otherwise prints pale ink on white paper. */
+  :root {
+    --bg: #fff;
+    --fg: #000;
+    --muted: #555;
+    --border: #ccc;
+    --surface: #f0f0f0;
   }
 
-  body::before {
+  .hero::before,
+  .page-work main::before,
+  .page-404::before {
     display: none;
   }
 
-  .logo,
-  .subtitle,
-  .manifesto,
-  .description {
-    color: black;
+  .theme-toggle {
+    display: none;
   }
 
-  .logo-container {
-    border-color: #ccc;
+  .description {
+    color: var(--fg);
+  }
+
+  .masthead {
+    position: static;
+    border: 0;
+  }
+
+  /* Browsers drop backgrounds by default, which would leave the fill's paper-coloured label. */
+  .action {
+    background: none;
+    border: 1px solid var(--fg);
+    color: var(--fg);
   }
 
   .counter {

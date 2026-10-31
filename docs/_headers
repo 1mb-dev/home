@@ -1,0 +1,13 @@
+# Rules stack, and a header set twice joins with a comma: two CSPs would both enforce.
+# The root detaches the shared CSP before setting its own.
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+  Strict-Transport-Security: max-age=31536000
+  X-Content-Type-Options: nosniff
+
+/
+  ! Content-Security-Policy
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://1mb-counter.vmx-builds.workers.dev; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+
+https://1mb-dev.pages.dev/*
+  X-Robots-Tag: noindex

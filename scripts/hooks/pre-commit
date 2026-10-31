@@ -1,6 +1,6 @@
 #!/bin/bash
 # Tracked pre-commit hook. Activated by scripts/setup.sh (git config core.hooksPath scripts/hooks).
-# Local convenience only -- CI runs gitleaks server-side where it cannot be skipped.
+# Local convenience only -- the server-side control is GitHub push protection, enabled on the repo.
 
 # Shadow-hook warning. core.hooksPath makes git ignore .git/hooks/ entirely, so an edit
 # landing there is silently dead -- enforcement disappears with no error.

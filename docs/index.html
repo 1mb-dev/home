@@ -5,27 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Primary Meta Tags -->
-    <title>1mb — one-man-band</title>
-    <meta name="title" content="1mb — one-man-band" />
+    <title>1mb, one-man-band: Things to use, read and build with</title>
     <meta
       name="description"
-      content="All the hats. One head. A way of building — own it end to end, ship without waiting."
-    />
-    <meta
-      name="keywords"
-      content="one-man-band, end-to-end ownership, ship without waiting, builder mindset, accountability"
+      content="Things to use, read and build with, each shipped end to end. All the hats. One head."
     />
     <meta name="author" content="1mb" />
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
     <meta name="color-scheme" content="dark light" />
-
-    <!-- Security -->
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://1mb-counter.vmx-builds.workers.dev;"
-    />
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg" />
@@ -37,29 +26,31 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://1mb.dev/" />
-    <meta property="og:title" content="1mb — one-man-band" />
+    <meta property="og:title" content="1mb, one-man-band: Things to use, read and build with" />
     <meta
       property="og:description"
-      content="All the hats. One head. A way of building — own it end to end, ship without waiting."
+      content="Things to use, read and build with, each shipped end to end. All the hats. One head."
     />
     <meta property="og:image" content="https://1mb.dev/assets/images/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="1mb, one-man-band. All the hats. One head." />
     <meta property="og:site_name" content="1mb" />
     <meta property="og:locale" content="en_US" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content="https://1mb.dev/" />
-    <meta name="twitter:title" content="1mb — one-man-band" />
-    <meta
-      name="twitter:description"
-      content="All the hats. One head. A way of building — own it end to end, ship without waiting."
-    />
-    <meta name="twitter:image" content="https://1mb.dev/assets/images/og-image.png" />
 
     <!-- Canonical -->
     <link rel="canonical" href="https://1mb.dev/" />
+    <link rel="author" type="text/plain" href="/humans.txt" />
+    <link rel="alternate" type="application/atom+xml" title="1mb: work" href="/feed.xml" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="1mb: log"
+      href="https://log.1mb.dev/feed.xml"
+    />
 
     <!-- Fonts (self-hosted) -->
     <link
@@ -78,32 +69,27 @@
     />
 
     <!-- Preconnect to API -->
-    <link rel="preconnect" href="https://1mb-counter.vmx-builds.workers.dev" />
+    <link rel="preconnect" href="https://1mb-counter.vmx-builds.workers.dev" crossorigin />
 
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "WebSite",
+        "@id": "https://1mb.dev/#website",
         "name": "1mb",
         "alternateName": "one-man-band",
-        "url": "https://1mb.dev",
-        "description": "All the hats. One head. A way of building — own it end to end, ship without waiting.",
-        "keywords": ["ownership", "end-to-end", "builder", "accountability", "shipping"]
-      }
-    </script>
-
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "CreativeWork",
-        "name": "1mb",
-        "alternateName": "one-man-band",
-        "url": "https://1mb.dev",
-        "description": "A way of working. Own it end to end. Ship without waiting. Sometimes solo, sometimes inside a team. Always accountable.",
-        "slogan": "All the hats. One head.",
-        "abstract": "1mb recognizes a mode of building — taking full ownership, shipping without waiting for permission, and staying accountable regardless of team size.",
-        "keywords": ["one-man-band", "ownership", "accountability", "builder mindset"]
+        "url": "https://1mb.dev/",
+        "description": "Things to use, read and build with, each shipped end to end. All the hats. One head.",
+        "inLanguage": "en",
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://1mb.dev/#org",
+          "name": "1mb",
+          "url": "https://1mb.dev/",
+          "logo": "https://1mb.dev/assets/images/favicon-512.png",
+          "sameAs": ["https://github.com/1mb-dev", "https://log.1mb.dev"]
+        }
       }
     </script>
 
@@ -114,19 +100,9 @@
     <script src="/assets/js/theme.js"></script>
   </head>
   <body>
-    <!-- Theme Toggle -->
-    <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-      <span class="icon-sun">☀</span>
-      <span class="icon-moon">☾</span>
-    </button>
-
     <main>
-      <header>
+      <div class="hero">
         <h1 class="logo">1mb</h1>
-        <p class="subtitle">one-man-band</p>
-      </header>
-
-      <article>
         <p class="manifesto">All the hats. One head.</p>
 
         <p class="description">
@@ -135,7 +111,7 @@
           Ship without waiting.
         </p>
 
-        <p class="context">
+        <p class="description">
           Sometimes solo.
           <br />
           Sometimes inside a team.
@@ -145,28 +121,168 @@
 
         <hr class="separator" aria-hidden="true" />
 
-        <p class="invitation">If this resonates, you're already part of it.</p>
+        <p class="invitation">Work this way too?</p>
 
-        <!-- Counter -->
-        <section id="counter" class="counter" aria-label="Community counter">
-          <button type="button" id="count-btn" class="counter-btn">count me in</button>
-          <p class="counter-proof" aria-live="polite">
-            joined by
-            <span id="count" class="count-loading"></span>
-          </p>
+        <section id="counter" class="counter" aria-label="counter">
+          <button type="button" id="count-btn" class="action counter-btn">count me in</button>
+          <p class="counter-proof" aria-live="polite"><span id="count"></span></p>
         </section>
-      </article>
+      </div>
+
+      <!-- gen:work:start -->
+      <section id="work" class="work" aria-labelledby="work-title">
+        <h2 id="work-title" class="work-title">Use it. Read it. Build with it.</h2>
+        <h3 class="side" id="use">use</h3>
+        <ol class="tracks" start="1">
+          <li class="track">
+            <span class="track-no" aria-hidden="true">01</span>
+            <span class="track-name"><a href="/work/sift/">sift</a></span>
+            <span class="track-lead" aria-hidden="true"></span>
+            <a class="track-verb" href="https://sift.1mb.dev" aria-label="open sift">open</a>
+            <span class="track-tagline">Hacker News threads, scored by code</span>
+          </li>
+          <li class="track">
+            <span class="track-no" aria-hidden="true">02</span>
+            <span class="track-name"><a href="/work/drift/">drift</a></span>
+            <span class="track-lead" aria-hidden="true"></span>
+            <a class="track-verb" href="https://drift.1mb.dev" aria-label="open drift">open</a>
+            <span class="track-tagline">Always-on radio in six moods</span>
+          </li>
+          <li class="track">
+            <span class="track-no" aria-hidden="true">03</span>
+            <span class="track-name"><a href="/work/cleartalk/">cleartalk</a></span>
+            <span class="track-lead" aria-hidden="true"></span>
+            <a class="track-verb" href="https://cleartalk.1mb.dev" aria-label="open cleartalk">
+              open
+            </a>
+            <span class="track-tagline">Coaching cards for hard conversations</span>
+          </li>
+          <li class="track">
+            <span class="track-no" aria-hidden="true">04</span>
+            <span class="track-name"><a href="/work/gist/">gist</a></span>
+            <span class="track-lead" aria-hidden="true"></span>
+            <a class="track-verb" href="https://gist.1mb.dev" aria-label="open gist">open</a>
+            <span class="track-tagline">App specs for AI coding assistants</span>
+          </li>
+          <li class="track">
+            <span class="track-no" aria-hidden="true">05</span>
+            <span class="track-name"><a href="/work/aipolicy/">aipolicy</a></span>
+            <span class="track-lead" aria-hidden="true"></span>
+            <a class="track-verb" href="https://aipolicy.1mb.dev" aria-label="open aipolicy">
+              open
+            </a>
+            <span class="track-tagline">A repository&#39;s AI policy, as files</span>
+          </li>
+        </ol>
+        <h3 class="side" id="read">read</h3>
+        <ol class="tracks" start="6">
+          <li class="track">
+            <span class="track-no" aria-hidden="true">06</span>
+            <span class="track-name"><a href="/work/log/">log</a></span>
+            <span class="track-lead" aria-hidden="true"></span>
+            <a class="track-verb" href="https://log.1mb.dev" aria-label="read log">read</a>
+            <span class="track-tagline">Short notes on building solo</span>
+          </li>
+          <li class="track">
+            <span class="track-no" aria-hidden="true">07</span>
+            <span class="track-name"><a href="/work/playbook/">playbook</a></span>
+            <span class="track-lead" aria-hidden="true"></span>
+            <a class="track-verb" href="https://playbook.1mb.dev" aria-label="read playbook">
+              read
+            </a>
+            <span class="track-tagline">A book on how teams ship</span>
+          </li>
+          <li class="track">
+            <span class="track-no" aria-hidden="true">08</span>
+            <span class="track-name"><a href="/work/ekam/">ekam</a></span>
+            <span class="track-lead" aria-hidden="true"></span>
+            <a class="track-verb" href="https://ekam.1mb.dev" aria-label="read ekam">read</a>
+            <span class="track-tagline">Essays on Advaita Vedanta as design</span>
+          </li>
+          <li class="track">
+            <span class="track-no" aria-hidden="true">09</span>
+            <span class="track-name">
+              <a href="/work/nivomoney/">nivomoney</a>
+              <span class="track-state">retired</span>
+            </span>
+            <span class="track-lead" aria-hidden="true"></span>
+            <a class="track-verb" href="https://nivomoney.1mb.dev" aria-label="read nivomoney">
+              read
+            </a>
+            <span class="track-tagline">A neobank, opened up to be read</span>
+          </li>
+        </ol>
+        <h3 class="side" id="build">build with</h3>
+        <ol class="tracks" start="10">
+          <li class="track">
+            <span class="track-no" aria-hidden="true">10</span>
+            <span class="track-name"><a href="/work/markgo/">markgo</a></span>
+            <span class="track-lead" aria-hidden="true"></span>
+            <a class="track-verb" href="https://github.com/1mb-dev/markgo" aria-label="get markgo">
+              get
+            </a>
+            <span class="track-tagline">A blog engine in one Go binary</span>
+          </li>
+          <li class="track">
+            <span class="track-no" aria-hidden="true">11</span>
+            <span class="track-name"><a href="/work/ledgerq/">ledgerq</a></span>
+            <span class="track-lead" aria-hidden="true"></span>
+            <a
+              class="track-verb"
+              href="https://github.com/1mb-dev/ledgerq"
+              aria-label="get ledgerq"
+            >
+              get
+            </a>
+            <span class="track-tagline">A message queue in a directory</span>
+          </li>
+          <li class="track">
+            <span class="track-no" aria-hidden="true">12</span>
+            <span class="track-name"><a href="/work/shim/">shim</a></span>
+            <span class="track-lead" aria-hidden="true"></span>
+            <a class="track-verb" href="https://github.com/1mb-dev/shim" aria-label="get shim">
+              get
+            </a>
+            <span class="track-tagline">A Claude Code proxy that logs its edits</span>
+          </li>
+        </ol>
+      </section>
+      <!-- gen:work:end -->
     </main>
+
+    <!-- gen:colophon:start -->
+    <footer class="colophon">
+      <p class="colophon-home">
+        <a href="/">1mb</a>
+        ·
+      </p>
+      <p class="colophon-credit">All the hats. One head.</p>
+      <button
+        type="button"
+        id="theme-toggle"
+        class="theme-toggle"
+        aria-label="dark theme"
+        aria-pressed="false"
+        hidden
+      >
+        <span class="icon-sun" aria-hidden="true">☀</span>
+        <span class="icon-moon" aria-hidden="true">☾</span>
+      </button>
+      <p class="colophon-meta">
+        <a href="mailto:hi@1mb.dev">hi@1mb.dev</a>
+        ·
+        <a href="https://github.com/1mb-dev" rel="me">github</a>
+        ·
+        <a href="https://log.1mb.dev">log</a>
+        ·
+        <a href="/feed.xml">feed</a>
+      </p>
+    </footer>
+    <!-- gen:colophon:end -->
 
     <!-- Scripts -->
     <script src="/assets/js/counter.js"></script>
-    <script src="/assets/js/parallax.js"></script>
-
-    <!-- Service Worker Registration -->
-    <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js').catch(() => {});
-      }
-    </script>
+    <script src="/assets/js/sw-register.js"></script>
+    <script src="/assets/js/watermark.js"></script>
   </body>
 </html>

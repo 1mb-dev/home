@@ -1,5 +1,6 @@
-# 1mb.dev
+# 1mb.dev: open to search engines and AI crawlers alike.
 User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 Sitemap: https://1mb.dev/sitemap.xml

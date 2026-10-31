@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nivomoney: A neobank, opened up to be read · 1mb</title>
+    <meta
+      name="description"
+      content="Neobank demo source: Go microservices, a double-entry ledger in Postgres, React apps, ADRs. Synthetic data, no real money."
+    />
+    <meta name="keywords" content="neobank, double-entry ledger, go, microservices, fintech" />
+    <meta name="author" content="1mb" />
+    <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://1mb.dev/work/nivomoney/" />
+    <meta property="og:title" content="nivomoney: A neobank, opened up to be read · 1mb" />
+    <meta
+      property="og:description"
+      content="Neobank demo source: Go microservices, a double-entry ledger in Postgres, React apps, ADRs. Synthetic data, no real money."
+    />
+    <meta property="og:image" content="https://1mb.dev/assets/images/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="1mb, one-man-band. All the hats. One head." />
+    <meta property="og:site_name" content="1mb" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href="https://1mb.dev/work/nivomoney/" />
+    <link rel="alternate" type="application/atom+xml" title="1mb: work" href="/feed.xml" />
+    <link
+      rel="preload"
+      href="/assets/fonts/inter-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/assets/fonts/space-grotesk-700-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <script src="/assets/js/theme.js"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "url": "https://1mb.dev/work/nivomoney/",
+        "name": "nivomoney: A neobank, opened up to be read · 1mb",
+        "description": "Neobank demo source: Go microservices, a double-entry ledger in Postgres, React apps, ADRs. Synthetic data, no real money.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "@id": "https://1mb.dev/#website",
+          "name": "1mb",
+          "url": "https://1mb.dev/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://1mb.dev/#org",
+          "name": "1mb"
+        },
+        "about": {
+          "@type": "CreativeWork",
+          "url": "https://nivomoney.1mb.dev",
+          "name": "nivomoney",
+          "description": "Neobank demo source: Go microservices, a double-entry ledger in Postgres, React apps, ADRs. Synthetic data, no real money.",
+          "keywords": "neobank, double-entry ledger, go, microservices, fintech",
+          "creator": {
+            "@type": "Organization",
+            "@id": "https://1mb.dev/#org",
+            "name": "1mb"
+          },
+          "datePublished": "2025-11-21",
+          "sameAs": "https://github.com/1mb-dev/nivomoney"
+        },
+        "breadcrumb": {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "1mb",
+              "item": "https://1mb.dev/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "nivomoney",
+              "item": "https://1mb.dev/work/nivomoney/"
+            }
+          ]
+        }
+      }
+    </script>
+  </head>
+  <body class="page-work">
+    <header class="masthead"><a class="mark" href="/">1mb</a></header>
+    <main>
+      <article class="notes">
+        <p class="notes-side">read</p>
+        <h1>nivomoney</h1>
+        <p class="notes-tagline">A neobank, opened up to be read</p>
+        <div class="notes-body">
+          <p>
+            A neobank demo in Go: identity, wallets, transactions, risk and a double-entry ledger,
+            each its own service, with React apps on the front. All data is synthetic.
+          </p>
+          <p>Eight services and a gateway. Decisions are written up as ADRs.</p>
+          <h2>why it exists</h2>
+          <p>
+            Tutorials stop at one service and one database. Money integrity, audit trails and fraud
+            limits sit past that point.
+          </p>
+          <p>
+            nivomoney was built to go there: the core systems of a bank, small enough to follow.
+          </p>
+          <h2>what it taught</h2>
+          <p>
+            The source lays out a bank&#39;s parts: where service boundaries fall, how a
+            double-entry ledger works, what moving money across services asks for.
+          </p>
+          <p>
+            A balance rule belongs in the database. Postgres refuses to post an entry of 100 against
+            90.
+          </p>
+          <p>The wiring from transfers to that ledger is where the demo stopped.</p>
+        </div>
+        <p class="notes-status">
+          No longer running. The write-up stays at nivomoney.1mb.dev. Source is public.
+        </p>
+        <p class="notes-next">
+          <a class="action" href="https://nivomoney.1mb.dev">read nivomoney</a>
+          <a href="https://github.com/1mb-dev/nivomoney">source</a>
+        </p>
+        <h2>related</h2>
+        <ul class="related">
+          <li>
+            <a href="https://nivomoney.1mb.dev/adr/001-double-entry-ledger">Why double entry</a>
+          </li>
+        </ul>
+      </article>
+      <nav class="sequence" aria-label="more work">
+        <a class="sequence-item sequence-prev" href="/work/ekam/" rel="prev">
+          <span class="sequence-label">previous</span>
+          <span class="sequence-name">ekam</span>
+          <span class="sequence-tagline">Essays on Advaita Vedanta as design</span>
+        </a>
+        <a class="sequence-item sequence-next" href="/work/markgo/" rel="next">
+          <span class="sequence-label">next</span>
+          <span class="sequence-name">markgo</span>
+          <span class="sequence-tagline">A blog engine in one Go binary</span>
+        </a>
+      </nav>
+      <p class="all-work"><a href="/#work">all work</a></p>
+    </main>
+    <footer class="colophon">
+      <p class="colophon-home"><a href="/">1mb</a> ·</p>
+      <p class="colophon-credit">All the hats. One head.</p>
+      <button
+        type="button"
+        id="theme-toggle"
+        class="theme-toggle"
+        aria-label="dark theme"
+        aria-pressed="false"
+        hidden
+      >
+        <span class="icon-sun" aria-hidden="true">☀</span>
+        <span class="icon-moon" aria-hidden="true">☾</span>
+      </button>
+      <p class="colophon-meta">
+        <a href="mailto:hi@1mb.dev">hi@1mb.dev</a> ·
+        <a href="https://github.com/1mb-dev" rel="me">github</a> ·
+        <a href="https://log.1mb.dev">log</a> ·
+        <a href="/feed.xml">feed</a>
+      </p>
+    </footer>
+    <script src="/assets/js/sw-register.js"></script>
+    <script src="/assets/js/watermark.js"></script>
+  </body>
+</html>

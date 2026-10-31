@@ -14,17 +14,10 @@ Thumbs.db
 # Node
 node_modules/
 
-# Python
-__pycache__/
-*.pyc
-.venv/
+# Wrangler
+.wrangler/
+.dev.vars*
 
-# Go
-vendor/
-
-# Build & env
-dist/
-build/
-coverage/
+# Env
 .env
 .env.local

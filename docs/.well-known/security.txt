@@ -1,0 +1,6 @@
+# Report a vulnerability privately: by email or through GitHub.
+Contact: mailto:security@1mb.dev
+Contact: https://github.com/1mb-dev/home/security/advisories/new
+Expires: 2027-10-29T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://1mb.dev/.well-known/security.txt

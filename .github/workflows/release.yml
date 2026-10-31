@@ -2,6 +2,8 @@ name: Release
 on:
   push:
     tags: ['v*']
+permissions:
+  contents: write
 jobs:
   release:
     uses: 1mb-dev/.github/.github/workflows/release.yml@main

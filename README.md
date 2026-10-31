@@ -8,11 +8,9 @@ All the hats. One head.
 
 ---
 
-A quiet corner for those who build.
+Things to use, read and build with, each shipped end to end.
 
-Some build with teams and titles. Others just build.
-
-This is for the others.
+The site, its counter API, and the design language behind them. To add a work, see [content/README.md](content/README.md). The design language: [design.md](design.md).
 
 ---
 
@@ -20,19 +18,14 @@ This is for the others.
 
 ```bash
 npm install
+npm run gen           # write docs/ from content/; commit both together
+npm test              # worker and generator tests
 npm run validate      # lint, format, html/css checks
-npm run build         # inject SW version (git SHA)
 ```
 
-### Counter API
+`npm run build` runs in CI only: it stamps the service worker version and dates into `docs/`. Never commit its output.
 
-```bash
-npm run worker:dev      # local development
-npm run worker:deploy   # deploy to Cloudflare
-npm run worker:tail     # view live logs
-```
-
-See [workers/README.md](workers/README.md) for setup details.
+Counter API: [workers/README.md](workers/README.md).
 
 ## License
 

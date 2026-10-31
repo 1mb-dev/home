@@ -7,14 +7,14 @@ Site: https://1mb.dev
 /* THANKS */
 
 Every solo builder who ships without waiting.
-Every team player who owns it end to end.
+Every builder inside a team who owns it end to end.
 Everyone who counts themselves in.
 
 /* SITE */
 
 Standards: HTML5, CSS3, Vanilla JS
 Software: Zed, Vim, GitHub, Cloudflare
-Hosting: GitHub Pages
+Hosting: Cloudflare Pages
 API: Cloudflare Workers + Upstash Redis
 
 /* PHILOSOPHY */
@@ -26,6 +26,6 @@ Always accountable.
 
 /* BUILD */
 
-No frameworks. No dependencies. Just code.
-Self-hosted fonts. Edge-deployed API.
-One page. One purpose. One head.
+No frameworks. No runtime dependencies.
+Pages generated from plain text.
+Self-hosted fonts.

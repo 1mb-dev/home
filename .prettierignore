@@ -1,9 +1,0 @@
-node_modules/
-todos/
-scripts/
-workers/
-docs/assets/fonts/
-docs/assets/images/
-*.woff2
-*.png
-*.svg

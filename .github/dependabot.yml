@@ -11,17 +11,19 @@ updates:
     labels:
       - 'dependencies'
     commit-message:
-      prefix: 'chore(deps)'
+      prefix: 'chore'
       include: 'scope'
     groups:
       minor-and-patch:
         update-types:
           - 'minor'
           - 'patch'
-    # Major-bump hold: eslint 10, stylelint 17.
+    # Major-bump hold: eslint 10 (with @eslint/js), stylelint 17.
     # vitest moves only with @cloudflare/vitest-pool-workers' peer range (^4.1 at 0.18-0.23).
     ignore:
       - dependency-name: 'eslint'
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@eslint/js'
         update-types: ['version-update:semver-major']
       - dependency-name: 'stylelint'
         update-types: ['version-update:semver-major']
@@ -41,5 +43,5 @@ updates:
     labels:
       - 'dependencies'
     commit-message:
-      prefix: 'chore(ci)'
+      prefix: 'ci'
       include: 'scope'
