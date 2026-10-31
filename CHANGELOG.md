@@ -22,6 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - Tests run without the deploy token, and the build job installs nothing
 - Release tags cannot be moved or deleted
+- CSP allows Cloudflare's analytics beacon. Cloudflare's inline challenge script stays blocked
 
 ## [2.0.0] - 2026-10-31
 
