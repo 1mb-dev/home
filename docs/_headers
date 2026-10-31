@@ -7,7 +7,7 @@
 
 /
   ! Content-Security-Policy
-  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://1mb-counter.vmx-builds.workers.dev; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://counter.1mb.dev; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
 
 https://1mb-dev.pages.dev/*
   X-Robots-Tag: noindex

@@ -49,12 +49,12 @@ Worker deployment is automated via GitHub Actions (`.github/workflows/deploy-wor
 1. **Test**: runs `npm test`
 2. **Deploy**: runs `wrangler deploy`, in its own job with the token
 
-**Setup:** Add `CLOUDFLARE_API_TOKEN` as a repo secret. Create the token at the Cloudflare dashboard with "Workers Scripts: Edit" permission.
+**Setup:** Add `CLOUDFLARE_API_TOKEN` as a secret on the `production` environment. Create the token at the Cloudflare dashboard with "Workers Scripts: Edit" permission, nothing more.
 
 ## Production
 
-- **URL:** https://1mb-counter.vmx-builds.workers.dev
-- **Health:** https://1mb-counter.vmx-builds.workers.dev/health
+- **URL:** https://counter.1mb.dev (a custom domain bound in the dashboard, not in `wrangler.toml`)
+- **Health:** https://counter.1mb.dev/health
 
 ## Architecture
 

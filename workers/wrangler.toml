@@ -3,6 +3,8 @@ main = "counter.js"
 account_id = "a256c6c12e5ff87e9d2444d72ea65e3a"
 compatibility_date = "2025-12-31"
 preview_urls = false
+# Explicit: wrangler turns workers.dev off when routes are set, and rollback targets still call it.
+workers_dev = true
 
 [observability]
 enabled = true
@@ -14,4 +16,5 @@ enabled = true
 # UPSTASH_REDIS_REST_URL
 # UPSTASH_REDIS_REST_TOKEN
 
-# Production: https://1mb-counter.vmx-builds.workers.dev
+# Production: https://counter.1mb.dev, bound once in the dashboard.
+# No routes here: they would give the CI token zone rights over 1mb.dev.
