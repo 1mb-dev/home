@@ -764,6 +764,18 @@ ${items}
 `;
 }
 
+// llms.txt: the index as plain Markdown, from copy the pages already carry.
+export function renderLlms(entries, works, description) {
+  const sides = Object.keys(GROUPS).map((group) => {
+    const rows = entries
+      .filter((e) => e.group === group)
+      .map((e) => works.get(e.slug))
+      .map((w) => `- [${w.name}](${workUrl(w.slug)}): ${w.description}`);
+    return `## ${GROUPS[group].label}\n\n${rows.join('\n')}`;
+  });
+  return `# 1mb\n\n> ${description}\n\n${sides.join('\n\n')}\n`;
+}
+
 export function renderSitemap(entries) {
   const locs = [`${SITE}/`, ...entries.map((e) => workUrl(e.slug))];
   return `<?xml version="1.0" encoding="UTF-8"?>

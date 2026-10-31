@@ -10,6 +10,7 @@
  *   docs/work/{slug}/        one page per listed work (directory rebuilt each run)
  *   docs/sitemap.xml
  *   docs/feed.xml            Atom feed of listed works by listing date
+ *   docs/llms.txt            the index as plain Markdown
  */
 
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'fs';
@@ -27,6 +28,7 @@ import {
   renderColophon,
   renderFeed,
   renderIndex,
+  renderLlms,
   renderMasthead,
   renderPage,
   renderSitemap,
@@ -118,6 +120,10 @@ async function main() {
   const feed = renderFeed(entries, works, description);
   assertNoEmDash(feed, 'docs/feed.xml');
   writeFileSync(join(DOCS, 'feed.xml'), feed);
+
+  const llms = renderLlms(entries, works, description);
+  assertNoEmDash(llms, 'docs/llms.txt');
+  writeFileSync(join(DOCS, 'llms.txt'), llms);
 
   const drafts = [...works.keys()].filter((slug) => !entries.some((e) => e.slug === slug));
   console.log(
