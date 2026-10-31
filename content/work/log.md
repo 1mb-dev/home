@@ -29,3 +29,4 @@ The site is the proof. The folder is `articles/` in the source.
 ## Related
 
 [Run your own](https://log.1mb.dev/p/run-your-own)
+[markgo, the engine it runs on](/work/markgo/)
