@@ -6,7 +6,7 @@
 (function () {
   'use strict';
 
-  const API_URL = 'https://1mb-counter.vmx-builds.workers.dev';
+  const API_URL = 'https://counter.1mb.dev';
 
   const counter = document.getElementById('counter');
   const countEl = document.getElementById('count');
