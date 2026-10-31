@@ -199,6 +199,29 @@ describe('POST /', () => {
   });
 });
 
+describe('a hung Redis', () => {
+  it('passes a timeout signal on every call', async () => {
+    mockRedis({ result: ['1', '0'] });
+
+    await worker.fetch(new Request('http://localhost/'), env, { waitUntil() {} });
+
+    const [, init] = globalThis.fetch.mock.calls[0];
+    expect(init.signal).toBeInstanceOf(AbortSignal);
+  });
+
+  it('answers 500 when the timeout fires', async () => {
+    globalThis.fetch.mockImplementation(async () => {
+      throw new DOMException('The operation timed out', 'TimeoutError');
+    });
+
+    const response = await worker.fetch(new Request('http://localhost/'), env, {
+      waitUntil() {},
+    });
+
+    expect(response.status).toBe(500);
+  });
+});
+
 describe('GET /health', () => {
   it('returns ok on PING success', async () => {
     mockRedis({ result: 'PONG' });

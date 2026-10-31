@@ -64,6 +64,8 @@ async function hashIP(ip) {
     .join('');
 }
 
+const REDIS_TIMEOUT_MS = 5000;
+
 // Upstash Redis REST API helper
 async function redis(env, command) {
   const response = await fetch(`${env.UPSTASH_REDIS_REST_URL}`, {
@@ -73,6 +75,7 @@ async function redis(env, command) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(command),
+    signal: AbortSignal.timeout(REDIS_TIMEOUT_MS),
   });
 
   const data = await response.json();
