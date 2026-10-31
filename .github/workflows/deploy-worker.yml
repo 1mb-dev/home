@@ -1,10 +1,10 @@
 name: Deploy Worker
 
+# As the site: a release tag or a manual run. Paths do not filter tags, so each release redeploys.
 on:
   push:
-    branches: [main]
-    paths:
-      - 'workers/**'
+    tags: ['v*']
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -13,6 +13,8 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
+    environment: production
 
     steps:
       - name: Checkout
