@@ -48,6 +48,18 @@
     <category term="conversation prep" />
   </entry>
   <entry>
+    <title>aipolicy: A repository&#39;s AI policy, as files</title>
+    <link href="https://1mb.dev/work/aipolicy/" />
+    <id>https://1mb.dev/work/aipolicy/</id>
+    <published>2026-10-30T00:00:00Z</published>
+    <updated>2026-10-30T00:00:00Z</updated>
+    <summary>An AI policy generator for a repository: pick a preset, set the rules for contributors, download AI_POLICY.md, AGENTS.md and more. No install, no sign-up.</summary>
+    <category term="ai policy" />
+    <category term="agents.md" />
+    <category term="claude.md" />
+    <category term="policy generator" />
+  </entry>
+  <entry>
     <title>gist: App specs for AI coding assistants</title>
     <link href="https://1mb.dev/work/gist/" />
     <id>https://1mb.dev/work/gist/</id>

@@ -6,6 +6,7 @@ use
   sift
   gist
   cleartalk
+  aipolicy
 read
   log
   nivomoney
