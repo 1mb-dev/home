@@ -48,6 +48,10 @@ jobs:
       - name: Validate CSS
         run: npm run validate:css
 
+      # Build runs on main only, so this is a PR's one run of the stamps. Last: it dirties docs/.
+      - name: Rehearse the deploy stamp
+        run: npm run build
+
   test:
     name: Test
     runs-on: ubuntu-latest
