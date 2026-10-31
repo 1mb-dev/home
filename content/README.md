@@ -8,6 +8,8 @@ Copy follows [design.md](../design.md#voice), field by field.
 
 A file not listed in `index.txt` is a draft. A work is listed only when the maker has approved its copy and every status claim it makes. Once listed, a work's page never disappears; retire it instead.
 
+A work links to its `{name}.1mb.dev` address where one exists, even while that address redirects to another domain.
+
 Within a side, the work most useful to a reader with no context comes first; retired and unmaintained works come last. No side launches or stays at a single row: one row reads as a stub.
 
 A listed work needs `description`, `tags` and two dates, both set by hand. `shipped: YYYY-MM-DD` is its go-live date: the first release or tag, the first commit, or a hand pick. `listed: YYYY-MM-DD` is the day it joins the index and dates the feed. It may not precede `shipped`.
