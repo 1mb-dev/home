@@ -8,7 +8,7 @@ shipped: 2026-02-22
 listed: 2026-10-30
 ---
 
-A digest of Hacker News discussions. Code scores each thread, mostly from its comments, and lists up to twelve, one per domain, with no LLM and no editor.
+A digest of Hacker News discussions. Code scores each thread, mostly from its comments, and lists up to twelve, one per domain, with no editor.
 
 A story needs over 30 comments and over 100 points to enter, or over 50 points for Ask and Show HN, so a quiet thread never does. The list is rebuilt several times a day, and a failed run leaves the last one up.
 
