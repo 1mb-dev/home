@@ -34,18 +34,17 @@ function log(level, event, data = {}) {
 }
 
 const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': 'https://1mb.dev',
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type',
   'Content-Type': 'application/json',
 };
 
-// For local testing, allow localhost
+const LOCAL_ORIGIN = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
+
+// Whole origins only: a prefix match would trust https://1mb.dev.evil.example.
 function getCorsHeaders(request) {
   const origin = request.headers.get('Origin') || '';
-  const allowedOrigins = ['https://1mb.dev', 'http://localhost', 'http://127.0.0.1'];
-
-  const isAllowed = allowedOrigins.some((allowed) => origin.startsWith(allowed));
+  const isAllowed = origin === 'https://1mb.dev' || LOCAL_ORIGIN.test(origin);
 
   return {
     ...CORS_HEADERS,

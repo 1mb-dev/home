@@ -240,6 +240,32 @@ describe('CORS', () => {
     expect(response.headers.get('Access-Control-Allow-Origin')).toBe('http://localhost:8080');
   });
 
+  it('allows 127.0.0.1 with a port', async () => {
+    mockRedis({ result: ['1', '0'] });
+
+    const request = new Request('http://localhost/', {
+      headers: { Origin: 'http://127.0.0.1:8788' },
+    });
+    const response = await worker.fetch(request, env, { waitUntil() {} });
+
+    expect(response.headers.get('Access-Control-Allow-Origin')).toBe('http://127.0.0.1:8788');
+  });
+
+  it.each([
+    'https://1mb.dev.evil.example',
+    'https://1mb.dev:8443',
+    'http://localhost.evil.example',
+    'http://localhost:8000.evil.example',
+    'http://127.0.0.1.evil.example',
+  ])('does not reflect the lookalike %s', async (origin) => {
+    mockRedis({ result: ['1', '0'] });
+
+    const request = new Request('http://localhost/', { headers: { Origin: origin } });
+    const response = await worker.fetch(request, env, { waitUntil() {} });
+
+    expect(response.headers.get('Access-Control-Allow-Origin')).toBe('https://1mb.dev');
+  });
+
   it('defaults to 1mb.dev for unknown origins', async () => {
     mockRedis({ result: ['1', '0'] });
 
