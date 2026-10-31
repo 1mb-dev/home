@@ -11,6 +11,7 @@ use
 read
   log
   playbook
+  ekam
   nivomoney
 build
   markgo
