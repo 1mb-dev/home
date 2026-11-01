@@ -6,6 +6,7 @@ use
   sift
   firsthour
   drift
+  geetanjali
   cleartalk
   gist
   aipolicy

@@ -7,6 +7,7 @@
 - [sift](https://1mb.dev/work/sift/): Hacker News discussions picked by a scoring script with no editor: up to 12 threads, several runs a day, one per domain. No account, no archive.
 - [firsthour](https://1mb.dev/work/firsthour/): Remote jobs from the Hacker News "Who is hiring?" thread and the job boards of companies posting there, listed by age. Last seven days, no account.
 - [drift](https://1mb.dev/work/drift/): Always-on mood radio: focus music, ambient, lo-fi, funk and more, by mood or by album, with lyrics where a track has them. No account, no cookies.
+- [geetanjali](https://1mb.dev/work/geetanjali/): Bhagavad Gita consultations for hard decisions: get options with tradeoffs and cited verses. Also 701 verses in Sanskrit, Hindi and English. No account.
 - [cleartalk](https://1mb.dev/work/cleartalk/): Prep for hard conversations, at work or otherwise: profile someone's communication style, pick a situation, read a coaching card. Stays in the browser.
 - [gist](https://1mb.dev/work/gist/): An app spec generator for AI coding assistants: describe an app idea, answer a few questions, download a markdown spec to start from. No account.
 - [aipolicy](https://1mb.dev/work/aipolicy/): An AI policy generator for a repository: pick a preset, set the rules for contributors, download AI_POLICY.md, AGENTS.md and more. No install, no sign-up.
