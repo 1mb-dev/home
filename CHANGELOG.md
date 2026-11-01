@@ -9,6 +9,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Changed
 
 - The cover's counter closes in two lines, and a vote says how many others are in
+- Tests run on vitest 5
+- The deploy stamp rehearses without `node_modules`, so a non-builtin import fails on a PR
 
 ### Fixed
 
@@ -20,6 +22,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - `npm run worker:deploy`: the worker deploys from CI
 - The bridge's links to the sides at 16 works: no reader could see them
+
+### Security
+
+- Token jobs turn the package-manager cache off
 
 ## [2.0.1] - 2026-11-01
 

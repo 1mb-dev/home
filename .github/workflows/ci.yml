@@ -52,8 +52,9 @@ jobs:
         run: npm run validate:css
 
       # Build runs on a tag or a manual run, so this is a PR's one run of the stamps. Last: it dirties docs/.
+      # No node_modules, as on Build: a non-builtin import fails here, not on a tag that cannot move.
       - name: Rehearse the deploy stamp
-        run: npm run build
+        run: rm -rf node_modules && npm run build
 
   test:
     name: Test
@@ -156,6 +157,7 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version-file: '.nvmrc'
+          package-manager-cache: false
 
       # This job holds the token: no dependency script may run on its runner, and no shared cache.
       - name: Install wrangler
