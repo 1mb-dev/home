@@ -510,11 +510,20 @@ article {
   background-repeat: repeat-x;
   opacity: 0.5;
   transform: translateY(-0.3em);
+  pointer-events: none;
 }
 
 .track-verb {
+  position: relative;
   font-size: var(--text-sm);
   color: var(--muted);
+}
+
+/* The tagline starts 3px under the verb. */
+.track-verb::after {
+  content: '';
+  position: absolute;
+  inset: -0.5rem -0.75rem -0.1875rem;
 }
 
 .track-tagline {
@@ -525,8 +534,23 @@ article {
   text-wrap: pretty;
 }
 
-.track-name a:hover {
-  text-decoration: underline;
+/* On touch the name's target is the whole row. A mouse keeps the tagline selectable. */
+@media (hover: none) and (pointer: coarse) {
+  .track {
+    position: relative;
+  }
+
+  .track-name a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+}
+
+@media (hover: hover) {
+  .track-name a:hover {
+    text-decoration: underline;
+  }
 }
 
 /* ========================================
@@ -776,6 +800,23 @@ article {
   .all-work a:hover {
     color: var(--fg);
   }
+}
+
+/* A wider target that leaves the box and the ring on the word. 8px is the gap beside these. */
+.colophon-home a,
+.colophon-meta a,
+.notes-next a:not(.action),
+.all-work a {
+  position: relative;
+}
+
+.colophon-home a::after,
+.colophon-meta a::after,
+.notes-next a:not(.action)::after,
+.all-work a::after {
+  content: '';
+  position: absolute;
+  inset: -0.5rem 0;
 }
 
 .colophon-home a:hover {

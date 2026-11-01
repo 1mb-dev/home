@@ -10,7 +10,7 @@ This file says how it is made, and what it refuses. Values live in `docs/assets/
 
 A stranger arrives from a link, often on a phone, often skimming. They want what 1mb is, then the thing, in one click.
 
-Every work page stands alone for that reader. A row's name goes to the 1mb page; its verb goes straight to the product. A work's address never changes with its status.
+Every work page stands alone for that reader. A row's name goes to the 1mb page, and on touch the whole row does; its verb goes straight to the product. A work's address never changes with its status.
 
 ## The record
 
