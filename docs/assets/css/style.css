@@ -51,7 +51,7 @@
   --space-6: 3rem; /* 48px */
   --space-8: 4rem; /* 64px */
 
-  /* Type Scale - 1.25 ratio */
+  /* Type Scale */
   --text-sm: 0.875rem; /* 14px */
   --text-base: 1rem; /* 16px */
   --text-md: 1.125rem; /* 18px */
@@ -109,8 +109,13 @@ body {
   overflow-x: clip;
 }
 
+:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+}
+
 /* Watermark: the numeral behind each content section ('0' on the 404). Opacity is per theme:
-   above 4% in light, muted text over it drops below AA. watermark.js sets --drift-*. */
+   light stops at 4%, where muted text over it holds 4.7; at 6% it sits at the edge of AA. watermark.js sets --drift-*. */
 .hero::before,
 .page-work main::before,
 .page-404::before {
@@ -190,7 +195,6 @@ article {
 }
 
 .description {
-  font-family: var(--font-body);
   font-size: var(--text-base);
   color: var(--muted);
   max-width: 320px;
@@ -225,7 +229,6 @@ article {
    ======================================== */
 
 .invitation {
-  font-family: var(--font-body);
   font-size: var(--text-base);
   color: var(--fg);
   margin-bottom: var(--space-2);
@@ -311,11 +314,6 @@ article {
   color: var(--fg);
 }
 
-.theme-toggle:focus-visible {
-  outline: 2px solid var(--fg);
-  outline-offset: 2px;
-}
-
 /* Icons: the moon offers dark, the sun offers light. The toggle is only shown once
    theme.js has set data-theme, so the light case needs no rule of its own. */
 .theme-toggle .icon-sun,
@@ -329,6 +327,8 @@ article {
 
 /* Theme overrides */
 [data-theme='dark'] {
+  color-scheme: dark;
+
   --bg: #0a0a0a;
   --fg: #e5e5e5;
   --muted: #888;
@@ -338,6 +338,8 @@ article {
 }
 
 [data-theme='light'] {
+  color-scheme: light;
+
   --bg: #fafafa;
   --fg: #1a1a1a;
   --muted: #6b6b6b;
@@ -428,13 +430,8 @@ article {
   transition: opacity 0.2s ease;
 }
 
-.action:hover:not(:disabled) {
+.action:hover {
   opacity: 0.85;
-}
-
-.action:focus-visible {
-  outline: 2px solid var(--fg);
-  outline-offset: 2px;
 }
 
 /* ========================================
@@ -457,7 +454,6 @@ article {
 }
 
 .side {
-  font-family: var(--font-body);
   font-size: var(--text-sm);
   font-weight: 400;
   color: var(--muted);
@@ -532,12 +528,6 @@ article {
   text-underline-offset: 0.2em;
 }
 
-.track-name a:focus-visible,
-.track-verb:focus-visible {
-  outline: 2px solid var(--fg);
-  outline-offset: 2px;
-}
-
 /* ========================================
    Masthead: the mark alone, top centre. The root's capstone plays this part on the cover.
    ======================================== */
@@ -554,11 +544,6 @@ article {
   letter-spacing: -0.03em;
   color: var(--fg);
   text-decoration: none;
-}
-
-.mark:focus-visible {
-  outline: 2px solid var(--fg);
-  outline-offset: 4px;
 }
 
 /* ========================================
@@ -636,7 +621,6 @@ article {
 }
 
 .notes h2 {
-  font-family: var(--font-body);
   font-size: var(--text-sm);
   font-weight: 400;
   color: var(--muted);
@@ -723,11 +707,6 @@ article {
   text-underline-offset: 0.2em;
 }
 
-.sequence-item:focus-visible {
-  outline: 2px solid var(--fg);
-  outline-offset: 4px;
-}
-
 .all-work {
   margin-top: var(--space-4);
   text-align: center;
@@ -798,11 +777,6 @@ article {
   text-underline-offset: 0.2em;
 }
 
-.colophon a:focus-visible {
-  outline: 2px solid var(--fg);
-  outline-offset: 2px;
-}
-
 /* ========================================
    Print
    ======================================== */
@@ -810,6 +784,8 @@ article {
 @media print {
   /* Must follow the theme overrides: a dark theme otherwise prints pale ink on white paper. */
   :root {
+    color-scheme: light;
+
     --bg: #fff;
     --fg: #000;
     --muted: #555;

@@ -1,6 +1,14 @@
 {
   "extends": ["stylelint-config-standard"],
   "rules": {
+    "rule-selector-property-disallowed-list": [
+      {
+        "/^(?!:focus-visible$|\\.counter:focus$)/": ["outline", "outline-offset"]
+      },
+      {
+        "message": "The focus ring lives in the one :focus-visible rule in style.css; .counter:focus is the one exception."
+      }
+    ],
     "no-unknown-custom-properties": true,
     "selector-class-pattern": null,
     "custom-property-pattern": null,

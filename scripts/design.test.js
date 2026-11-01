@@ -3,13 +3,16 @@ import { describe, expect, it } from 'vitest';
 
 const css = readFileSync('docs/assets/css/style.css', 'utf8');
 
-// The custom properties of the first rule opening with this exact text.
-function tokens(open) {
+// The first rule opening with this exact text, up to its closing brace.
+function rule(open) {
   const start = css.indexOf(open);
   if (start === -1) throw new Error(`no rule opens with: ${open}`);
-  const body = css.slice(start + open.length, css.indexOf('}', start));
+  return css.slice(start + open.length, css.indexOf('}', start));
+}
+
+function tokens(open) {
   return Object.fromEntries(
-    [...body.matchAll(/--([\w-]+):\s*([^;]+);/g)].map(([, name, value]) => [name, value])
+    [...rule(open).matchAll(/--([\w-]+):\s*([^;]+);/g)].map(([, name, value]) => [name, value])
   );
 }
 
@@ -47,6 +50,13 @@ describe('theme values', () => {
     expect(darkAttr).toEqual(darkMedia);
     // A token the light block drops leaks the dark media value onto a light page.
     expect(Object.keys(lightAttr).sort()).toEqual(Object.keys(darkMedia).sort());
+  });
+
+  // With no data-theme, as without script, the meta tag in each page's head sets the scheme.
+  it('set color-scheme with the toggle, and light for print', () => {
+    expect(rule("[data-theme='dark'] {")).toContain('color-scheme: dark;');
+    expect(rule("[data-theme='light'] {")).toContain('color-scheme: light;');
+    expect(rule('@media print {')).toContain('color-scheme: light;');
   });
 
   it.each(['docs/index.html', 'docs/404.html', 'scripts/work.js'])(
