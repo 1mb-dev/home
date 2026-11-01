@@ -3,7 +3,7 @@
   "rules": {
     "rule-selector-property-disallowed-list": [
       {
-        "/^(?!:focus-visible$|\\.counter:focus$)/": ["outline", "outline-offset"]
+        "/^(?!:focus-visible$|\\.counter:focus$)/": ["/^outline/"]
       },
       {
         "message": "The focus ring lives in the one :focus-visible rule in style.css; .counter:focus is the one exception."
