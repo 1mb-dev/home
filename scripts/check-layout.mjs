@@ -129,6 +129,42 @@ const SWEEP = `(() => {
   };
 })()`;
 
+// Five points around every verb reach the verb, and its tagline stays clear of it. The rest of
+// the row reaches the name on touch and nothing on a mouse, which keeps the tagline selectable.
+const TARGETS = `(() => {
+  const coarse = matchMedia('(hover: none) and (pointer: coarse)').matches;
+  const link = (x, y) => document.elementFromPoint(x, y)?.closest('a');
+  const centre = (e) => {
+    const r = e.getBoundingClientRect();
+    return [r.left + r.width / 2, r.top + r.height / 2];
+  };
+  const missed = [];
+  for (const row of document.querySelectorAll('.track')) {
+    row.scrollIntoView({ block: 'center' });
+    const verb = row.querySelector('.track-verb');
+    const name = row.querySelector('.track-name a');
+    const r = verb.getBoundingClientRect();
+    const points = [
+      centre(verb),
+      [r.left - 8, r.top - 6],
+      [r.right + 8, r.top - 6],
+      [r.left - 8, r.bottom + 2],
+      [r.right + 8, r.bottom + 2],
+    ];
+    if (points.some(([x, y]) => link(x, y) !== verb)) missed.push('verb ' + name.textContent);
+    const expected = coarse ? name : null;
+    const cells = ['.track-tagline', '.track-no', '.track-lead'].map((s) => row.querySelector(s));
+    if (cells.some((c) => (link(...centre(c)) ?? null) !== expected)) {
+      missed.push('row ' + name.textContent);
+    }
+    const range = document.createRange();
+    range.selectNodeContents(row.querySelector('.track-tagline'));
+    const line = range.getClientRects()[0];
+    if (link(centre(verb)[0], line.top + 2) === verb) missed.push('tagline ' + name.textContent);
+  }
+  return { coarse, missed };
+})()`;
+
 const works = readdirSync(join(ROOT, 'work'), { withFileTypes: true }).filter((e) =>
   e.isDirectory()
 );
@@ -146,6 +182,16 @@ try {
   const { targetId } = await send('Target.createTarget', { url: 'about:blank' });
   const { sessionId } = await send('Target.attachToTarget', { targetId, flatten: true });
   const tab = (method, params) => send(method, params, sessionId);
+  const read = async (expression) => {
+    const { result, exceptionDetails } = await tab('Runtime.evaluate', {
+      expression,
+      returnByValue: true,
+    });
+    if (exceptionDetails) {
+      throw new Error(`in the page: ${exceptionDetails.exception?.description}`);
+    }
+    return result.value;
+  };
   await tab('Page.enable');
   await tab('Network.enable');
   await tab('Network.setBypassServiceWorker', { bypass: true });
@@ -161,6 +207,7 @@ try {
       mobile,
       deviceScaleFactor: 1,
     });
+    await tab('Emulation.setTouchEmulationEnabled', { enabled: mobile });
     for (const page of pages) {
       const loaded = next('Page.loadEventFired');
       loaded.catch(() => {}); // Chrome can die before this is awaited; the await still throws.
@@ -172,14 +219,18 @@ try {
         continue;
       }
       await tab('Runtime.evaluate', { expression: 'document.fonts.ready', awaitPromise: true });
-      const { result } = await tab('Runtime.evaluate', { expression: SWEEP, returnByValue: true });
-      const { bad, lines, bridgeBottom, actionTop } = result.value;
+      const { bad, lines, bridgeBottom, actionTop } = await read(SWEEP);
       if (bad.length) failures.push(`${at}: past the edge: ${[...new Set(bad)].join(', ')}`);
       if (page === '/' && lines !== 1) failures.push(`${at}: manifesto on ${lines} lines`);
       if (page === '/' && width === 1280 && (bridgeBottom === null || bridgeBottom > height)) {
         failures.push(`${at}: bridge below the fold, ${bridgeBottom}`);
       }
       if (page.startsWith('/work/') && actionTop === null) failures.push(`${at}: no action`);
+      if (page === '/') {
+        const { coarse, missed } = await read(TARGETS);
+        if (coarse !== mobile) failures.push(`${at}: pointer is not what this size emulates`);
+        if (missed.length) failures.push(`${at}: target missed: ${missed.join(', ')}`);
+      }
       if (width === 375 && page.startsWith('/work/')) {
         console.log(
           `${page.padEnd(20)} action at ${actionTop}, ${(actionTop / height).toFixed(2)}`

@@ -39,8 +39,10 @@
   --fg: #1a1a1a;
   --muted: #6b6b6b;
   --border: #e0e0e0;
-  --surface: #f0f0f0;
   --watermark: 0.04;
+
+  /* Page side padding, held once so the masthead's bleed always matches it. */
+  --gutter: var(--space-3);
 
   /* Spacing - 8pt grid */
   --space-1: 0.5rem; /* 8px */
@@ -64,6 +66,7 @@
   /* Fonts */
   --font-display: 'Space Grotesk', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', 'Menlo', 'Consolas', monospace;
 
   /* Misc */
   --radius: 6px;
@@ -75,7 +78,6 @@
     --fg: #e5e5e5;
     --muted: #888;
     --border: #2a2a2a;
-    --surface: #151515;
     --watermark: 0.06;
   }
 }
@@ -102,11 +104,15 @@ body {
   background: var(--bg);
   color: var(--fg);
   min-height: 100svh;
-  padding: 0 var(--space-4);
+  padding: 0 var(--gutter);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
+}
+
+a {
+  text-underline-offset: 0.2em;
 }
 
 :focus-visible {
@@ -182,7 +188,7 @@ article {
   margin-bottom: var(--space-3);
 }
 
-/* One line down to 320px: the line runs 10.34em and the body gutters take 64px. */
+/* One line down to 320px: the line runs 10.34em and the body gutters take 48px. */
 .manifesto {
   font-family: var(--font-display);
   font-size: clamp(var(--text-xl), 7.5vw, var(--text-2xl));
@@ -333,7 +339,6 @@ article {
   --fg: #e5e5e5;
   --muted: #888;
   --border: #2a2a2a;
-  --surface: #151515;
   --watermark: 0.06;
 }
 
@@ -344,7 +349,6 @@ article {
   --fg: #1a1a1a;
   --muted: #6b6b6b;
   --border: #e0e0e0;
-  --surface: #f0f0f0;
   --watermark: 0.04;
 }
 
@@ -446,18 +450,25 @@ article {
 /* The bridge from the cover: names the three sides in the manifesto's rhythm. */
 .work-title {
   font-family: var(--font-display);
-  font-size: var(--text-xl);
+  font-size: var(--text-lg);
   font-weight: 700;
   letter-spacing: -0.02em;
+  line-height: 1.3;
   color: var(--fg);
   margin-bottom: var(--space-6);
 }
 
-.side {
+.side,
+.notes-side,
+.notes h2,
+.sequence-label {
   font-size: var(--text-sm);
+  letter-spacing: 0.15em;
+}
+
+.side {
   font-weight: 400;
   color: var(--muted);
-  letter-spacing: 0.15em;
   margin: var(--space-6) 0 var(--space-2);
 }
 
@@ -506,12 +517,20 @@ article {
   background-repeat: repeat-x;
   opacity: 0.5;
   transform: translateY(-0.3em);
+  pointer-events: none;
 }
 
 .track-verb {
+  position: relative;
   font-size: var(--text-sm);
   color: var(--muted);
-  text-decoration: none;
+}
+
+/* The tagline starts 3px under the verb. */
+.track-verb::after {
+  content: '';
+  position: absolute;
+  inset: -0.5rem -0.75rem -0.1875rem;
 }
 
 .track-tagline {
@@ -522,10 +541,23 @@ article {
   text-wrap: pretty;
 }
 
-.track-name a:hover,
-.track-verb:hover {
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
+/* On touch the name's target is the whole row. A mouse keeps the tagline selectable. */
+@media (hover: none) and (pointer: coarse) {
+  .track {
+    position: relative;
+  }
+
+  .track-name a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+}
+
+@media (hover: hover) {
+  .track-name a:hover {
+    text-decoration: underline;
+  }
 }
 
 /* ========================================
@@ -567,8 +599,8 @@ article {
     position: sticky;
     top: calc(-1 * var(--space-3));
     z-index: 2;
-    margin: 0 calc(-1 * var(--space-4));
-    padding: var(--space-4) var(--space-4) var(--space-1);
+    margin: 0 calc(-1 * var(--gutter));
+    padding: var(--space-4) var(--gutter) var(--space-1);
     background: var(--bg);
     border-bottom: 1px solid transparent;
   }
@@ -594,9 +626,7 @@ article {
 }
 
 .notes-side {
-  font-size: var(--text-sm);
   color: var(--muted);
-  letter-spacing: 0.15em;
   margin-bottom: var(--space-1);
 }
 
@@ -621,23 +651,22 @@ article {
 }
 
 .notes h2 {
-  font-size: var(--text-sm);
   font-weight: 400;
-  color: var(--muted);
-  letter-spacing: 0.15em;
+  color: var(--fg);
   margin: var(--space-5) 0 var(--space-2);
 }
 
 .notes a:not(.action) {
   color: var(--fg);
-  text-underline-offset: 0.2em;
 }
 
+/* Whole when a term fits, wrapped when it cannot, as at a large text setting. */
 .notes code {
+  display: inline-block;
+  max-width: 100%;
+  font-family: var(--font-mono);
   font-size: 0.9em;
-  background: var(--surface);
-  padding: 0.1em 0.3em;
-  border-radius: 4px;
+  overflow-wrap: anywhere;
 }
 
 .notes-status {
@@ -682,9 +711,7 @@ article {
 }
 
 .sequence-label {
-  font-size: var(--text-sm);
   color: var(--muted);
-  letter-spacing: 0.15em;
 }
 
 .sequence-name {
@@ -704,18 +731,15 @@ article {
 
 .sequence-item:hover .sequence-name {
   text-decoration: underline;
-  text-underline-offset: 0.2em;
 }
 
 .all-work {
   margin-top: var(--space-4);
-  text-align: center;
   font-size: var(--text-sm);
 }
 
 .all-work a {
   color: var(--muted);
-  text-underline-offset: 0.2em;
 }
 
 @media (width <= 480px) {
@@ -725,10 +749,6 @@ article {
 
   .sequence-next {
     grid-column: 1;
-    text-align: left;
-  }
-
-  .all-work {
     text-align: left;
   }
 }
@@ -769,12 +789,36 @@ article {
 
 .colophon-meta a {
   color: var(--muted);
-  text-decoration: none;
 }
 
-.colophon a:hover {
+/* Inside the query: a tap on a touch screen would leave the ink behind. */
+@media (hover: hover) {
+  .track-verb:hover,
+  .colophon-meta a:hover,
+  .all-work a:hover {
+    color: var(--fg);
+  }
+}
+
+/* A wider target that leaves the box and the ring on the word. 8px is the gap beside these. */
+.colophon-home a,
+.colophon-meta a,
+.notes-next a:not(.action),
+.all-work a {
+  position: relative;
+}
+
+.colophon-home a::after,
+.colophon-meta a::after,
+.notes-next a:not(.action)::after,
+.all-work a::after {
+  content: '';
+  position: absolute;
+  inset: -0.5rem 0;
+}
+
+.colophon-home a:hover {
   text-decoration: underline;
-  text-underline-offset: 0.2em;
 }
 
 /* ========================================
@@ -790,7 +834,6 @@ article {
     --fg: #000;
     --muted: #555;
     --border: #ccc;
-    --surface: #f0f0f0;
   }
 
   .hero::before,
