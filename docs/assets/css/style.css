@@ -859,7 +859,11 @@ article {
     border: 1px solid var(--fg);
     color: var(--fg);
   }
+}
 
+@media print, (scripting: none) {
+  .separator,
+  .invitation,
   .counter {
     display: none;
   }

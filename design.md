@@ -34,7 +34,7 @@ Numbering is for the index only. It follows the index order and changes when tha
 
 1. **The manifesto leads.** The work is the proof beneath it, never the headline above it.
 2. **Typography is the interface.** Two faces and the system's mono for code, one ink, one paper. No icons, images, colour accents or illustrations carry meaning.
-3. **Quiet by default.** Live work shows no status. Private source shows nothing. One filled control per page.
+3. **Quiet by default.** Live work shows no status. Private source shows nothing. At most one filled control per page.
 4. **Predictable.** Every page ends the same way, and the top is always the mark. Things are where they were on the last page.
 5. **Readable without script.** HTML first; JavaScript adds the counter, theme, offline and the watermark's drift. Cloudflare injects its analytics beacon; nothing else runs.
 6. **Every element earns its place.** If deleting it loses the reader nothing, it goes.
@@ -120,7 +120,7 @@ The index grows in place. Never paginate, collapse, filter, pin headings or drop
 
 The manifesto holds one line down to a 320px screen. Its size gives way before its line does.
 
-One `h1` per page. Focus order matches visual order, and every link and control takes one focus ring: 2px of ink at a 2px offset. Without JavaScript the theme toggle goes missing, the counter's proof shows no count, and the count button does nothing. The button's row keeps its height in every state, so neither the count nor a vote moves the cover.
+One `h1` per page. Focus order matches visual order, and every link and control takes one focus ring: 2px of ink at a 2px offset. Without JavaScript the theme control, the invitation and the counter go missing. With it, the button's row keeps its height in every state, so neither the count nor a vote moves the cover.
 
 ## Considered, not taken
 
