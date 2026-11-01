@@ -112,7 +112,8 @@ body {
   overflow-wrap: break-word;
 }
 
-a {
+a,
+.theme-toggle {
   text-underline-offset: 0.2em;
 }
 
@@ -297,40 +298,12 @@ article {
    ======================================== */
 
 .theme-toggle {
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--text-base);
-  transition:
-    color 0.2s ease,
-    border-color 0.2s ease;
-}
-
-.theme-toggle[hidden] {
-  display: none;
-}
-
-.theme-toggle:hover {
-  border-color: var(--fg);
-  color: var(--fg);
-}
-
-/* Icons: the moon offers dark, the sun offers light. The toggle is only shown once
-   theme.js has set data-theme, so the light case needs no rule of its own. */
-.theme-toggle .icon-sun,
-[data-theme='dark'] .theme-toggle .icon-moon {
-  display: none;
-}
-
-[data-theme='dark'] .theme-toggle .icon-sun {
-  display: block;
+  text-decoration: underline;
 }
 
 /* Theme overrides */
@@ -360,7 +333,6 @@ article {
 
 @media (prefers-reduced-motion: reduce) {
   .action,
-  .theme-toggle,
   .hero::before,
   .page-work main::before,
   .page-404::before {
@@ -767,22 +739,15 @@ article {
   }
 }
 
-/* Colophon: two lines on a three-column grid at a normal text size. `1mb ·` | credit | theme toggle, then the links
-   from the second column. Nothing sits under the mark, so they align with the credit. */
 .colophon {
   max-width: 480px;
   margin: 0 auto;
   padding: var(--space-8) 0 var(--space-4);
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  column-gap: 0.35em;
-  row-gap: var(--space-1);
-  align-items: center;
   font-size: var(--text-sm);
   color: var(--muted);
 }
 
-.colophon-home a {
+.colophon-home {
   font-family: var(--font-display);
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -790,13 +755,8 @@ article {
   text-decoration: none;
 }
 
-.colophon .theme-toggle {
-  grid-row: 1;
-  grid-column: 3;
-}
-
 .colophon-meta {
-  grid-column: 2 / -1;
+  margin-top: var(--space-1);
 }
 
 .colophon-meta a {
@@ -807,6 +767,7 @@ article {
 @media (hover: hover) {
   .track-verb:hover,
   .colophon-meta a:hover,
+  .theme-toggle:hover,
   .all-work a:hover {
     color: var(--fg);
   }
@@ -815,8 +776,9 @@ article {
 /* Wider targets that leave the box and the ring on the word. They stop at the line beside them,
    and run further only where the space below stays empty. */
 .mark,
-.colophon-home a,
+.colophon-home,
 .colophon-meta a,
+.theme-toggle,
 .notes-next a:not(.action),
 .notes-tail a,
 .all-work a {
@@ -824,8 +786,9 @@ article {
 }
 
 .mark::after,
-.colophon-home a::after,
+.colophon-home::after,
 .colophon-meta a::after,
+.theme-toggle::after,
 .notes-next a:not(.action)::after,
 .notes-tail a::after,
 .all-work a::after {
@@ -841,17 +804,18 @@ article {
   inset: -0.5rem 0;
 }
 
-.colophon-home a::after {
-  inset: -1.25rem -0.25rem -0.5rem;
+.colophon-home::after {
+  inset: -1.25rem -0.25rem -0.25rem;
 }
 
 .colophon-meta a::after,
+.theme-toggle::after,
 .notes-tail a::after,
 .all-work a::after {
   inset: -0.5rem -0.25rem -1.25rem;
 }
 
-.colophon-home a:hover {
+.colophon-home:hover {
   text-decoration: underline;
 }
 
@@ -876,7 +840,7 @@ article {
     display: none;
   }
 
-  .theme-toggle {
+  #theme-wrap {
     display: none;
   }
 

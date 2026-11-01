@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 const SOURCE = readFileSync('docs/assets/js/theme.js', 'utf8');
 const KEY = '1mb_theme_choice';
 
-function page({ saved = null, system = 'light', storage = true } = {}) {
+function page({ saved = null, system = 'light', storage = true, cached = false } = {}) {
   const dataset = {};
   const root = {
     dataset,
@@ -15,9 +15,12 @@ function page({ saved = null, system = 'light', storage = true } = {}) {
     getAttribute: (name) => (name === 'data-theme' ? (dataset.theme ?? null) : null),
   };
   const listeners = {};
+  const wrap = { hidden: true };
+  const attrs = new Map();
   const toggle = {
-    hidden: true,
-    setAttribute: () => {},
+    textContent: 'dark',
+    attrs,
+    setAttribute: (name, value) => attrs.set(name, value),
     addEventListener: (type, fn) => (listeners[type] = fn),
     click: () => listeners.click(),
   };
@@ -27,7 +30,10 @@ function page({ saved = null, system = 'light', storage = true } = {}) {
   let ready = () => {};
   const document = {
     documentElement: root,
-    getElementById: (id) => (parsed && id === 'theme-toggle' ? toggle : null),
+    getElementById: (id) => {
+      if (!parsed || (cached && id === 'theme-wrap')) return null;
+      return { 'theme-toggle': toggle, 'theme-wrap': wrap }[id];
+    },
     addEventListener: (type, fn) => {
       if (type === 'DOMContentLoaded') ready = fn;
     },
@@ -47,10 +53,11 @@ function page({ saved = null, system = 'light', storage = true } = {}) {
     },
   };
 
-  runInNewContext(SOURCE, { window, document, localStorage, String });
+  runInNewContext(SOURCE, { window, document, localStorage });
   return {
     root,
     toggle,
+    wrap,
     store,
     parse() {
       parsed = true;
@@ -88,10 +95,36 @@ describe('theme', () => {
   });
 
   it('shows the toggle only once the page has parsed', () => {
-    const { toggle, parse } = page();
-    expect(toggle.hidden).toBe(true);
+    const { wrap, parse } = page();
+    expect(wrap.hidden).toBe(true);
+    parse();
+    expect(wrap.hidden).toBe(false);
+  });
+
+  it('still works on a page cached before the wrap existed', () => {
+    const { toggle, parse, root } = page({ cached: true, system: 'light' });
+    toggle.hidden = true;
     parse();
     expect(toggle.hidden).toBe(false);
+    toggle.click();
+    expect(root.dataset.theme).toBe('dark');
+  });
+
+  it('names the theme a tap turns on, from the first paint of the toggle', () => {
+    const { toggle, parse } = page({ saved: 'dark', system: 'light' });
+    parse();
+    expect(toggle.textContent).toBe('light');
+    expect(toggle.attrs.get('aria-label')).toBe('light theme');
+    toggle.click();
+    expect(toggle.textContent).toBe('dark');
+    expect(toggle.attrs.get('aria-label')).toBe('dark theme');
+  });
+
+  it('keeps the name true when the system changes', () => {
+    const { toggle, parse, systemChange } = page({ system: 'light' });
+    parse();
+    systemChange('dark');
+    expect(toggle.textContent).toBe('light');
   });
 
   it('saves the choice a click makes, and holds it when storage throws', () => {
@@ -104,6 +137,8 @@ describe('theme', () => {
     const blocked = page({ system: 'light', storage: false });
     blocked.parse();
     blocked.toggle.click();
+    expect(blocked.root.dataset.theme).toBe('dark');
+    blocked.systemChange('light');
     expect(blocked.root.dataset.theme).toBe('dark');
   });
 });

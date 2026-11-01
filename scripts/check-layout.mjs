@@ -177,15 +177,16 @@ const TARGETS = `(() => {
 // below run further: a miss there lands on nothing.
 const REACH = `(() => {
   const missed = [];
-  const small = '.mark, .colophon a, .all-work a, .notes-next a:not(.action), .notes-tail a';
+  const small = '.mark, .colophon a, .theme-toggle, .all-work a, .notes-next a:not(.action), .notes-tail a';
   for (const a of document.querySelectorAll(small)) {
     a.scrollIntoView({ block: 'center' });
     const r = a.getBoundingClientRect();
     const x = r.left + r.width / 2;
-    const at = (y) => document.elementFromPoint(x, y)?.closest('a');
+    const at = (y) => document.elementFromPoint(x, y)?.closest('a, button');
     const home = a.closest('.colophon-home');
     const up = home ? 16 : 6;
-    const down = a.closest('.colophon-meta, .all-work, .notes-tail') ? 16 : 6;
+    const end = a.closest('.colophon-meta, .all-work, .notes-tail');
+    const down = home ? 3 : end ? 16 : 6;
     if (at(r.top - up) !== a || at(r.bottom + down) !== a) missed.push('short ' + a.textContent);
     if (!home && at(r.top - 10) === a) missed.push('over ' + a.textContent);
   }

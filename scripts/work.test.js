@@ -594,12 +594,14 @@ describe('rendering', () => {
     expect(page).toContain(renderColophon());
     expect(renderColophon()).toContain('hidden>'); // toggle absent without JS
     expect(renderColophon()).toMatch(
-      /^<footer class="colophon">\n<p class="colophon-home"><a href="\/">1mb<\/a> ·<\/p>\n<p class="colophon-credit">All the hats\. One head\.<\/p>/
+      /^<footer class="colophon">\n<p class="colophon-credit"><a class="colophon-home" href="\/">1mb<\/a> · All the hats\. One head\.<\/p>/
     );
     expect(renderColophon()).toMatch(
       /<a href="mailto:hi@1mb.dev">hi@1mb.dev<\/a> ·\n<a href="https/
     );
-    expect(renderColophon()).toMatch(/feed<\/a>\n<\/p>\n<\/footer>$/);
+    expect(renderColophon()).toMatch(
+      /feed<\/a><span id="theme-wrap" hidden>.*<\/span>\n<\/p>\n<\/footer>$/
+    );
   });
 
   it('describes a work in structured data with public facts only', () => {

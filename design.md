@@ -83,13 +83,13 @@ Every claim is checked at its source. A claim that could not be verified is stat
 
 Upkeep is an editorial claim: it appears only when a content file states it. Retired and unmaintained sit above the action, because they change what a reader does with it. Kept current sits after the notes.
 
-**Interface strings are lowercase.** The verb is fixed by side: `open`, `read`, `get`. A content file cannot set it. The counter speaks in the same word as its button: `count me in` beside `{n} in`, then `you're in with {n-1} others`, or `you're in` alone.
+**Interface strings are lowercase.** The verb is fixed by side: `open`, `read`, `get`. A content file cannot set it. The theme control names the theme it turns on: `dark` or `light`. The counter speaks in the same word as its button: `count me in` beside `{n} in`, then `you're in with {n-1} others`, or `you're in` alone.
 
 ## What 1mb does not do
 
 - No cards, shadows, gradients, glass, or hover lift.
 - No pills, badges, coloured status, or traffic lights.
-- No icons or emoji in content. The theme toggle's ☀/☾ is the one glyph control.
+- No icons or emoji in content.
 - No screenshots, hero images, or per-work artwork. One shared social image.
 - No motion beyond a 0.2s opacity or colour change on hover, and the watermark's drift. No scroll effects, beyond the line that appears under the mark on inner pages once it sticks. No loading skeletons.
 - No hover-only information. No arrows; a link is underlined, filled as the action, or is a name in ink: a track, the sequence, the mark.
