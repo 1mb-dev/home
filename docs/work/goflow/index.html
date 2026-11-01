@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>goflow: Go rate limiters, worker pools, cron · 1mb</title>
+    <meta
+      name="description"
+      content="A Go concurrency library: token and leaky bucket rate limiters, worker pools, cron scheduling, pipelines and streams with backpressure. Needs Go 1.26. MIT."
+    />
+    <meta
+      name="keywords"
+      content="golang, rate limiter, worker pool, cron scheduler, concurrency, backpressure"
+    />
+    <meta name="author" content="1mb" />
+    <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://1mb.dev/work/goflow/" />
+    <meta property="og:title" content="goflow: Go rate limiters, worker pools, cron · 1mb" />
+    <meta
+      property="og:description"
+      content="A Go concurrency library: token and leaky bucket rate limiters, worker pools, cron scheduling, pipelines and streams with backpressure. Needs Go 1.26. MIT."
+    />
+    <meta property="og:image" content="https://1mb.dev/assets/images/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="1mb, one-man-band. All the hats. One head." />
+    <meta property="og:site_name" content="1mb" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href="https://1mb.dev/work/goflow/" />
+    <link rel="alternate" type="application/atom+xml" title="1mb: work" href="/feed.xml" />
+    <link
+      rel="preload"
+      href="/assets/fonts/inter-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/assets/fonts/space-grotesk-700-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <script src="/assets/js/theme.js"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "url": "https://1mb.dev/work/goflow/",
+        "name": "goflow: Go rate limiters, worker pools, cron · 1mb",
+        "description": "A Go concurrency library: token and leaky bucket rate limiters, worker pools, cron scheduling, pipelines and streams with backpressure. Needs Go 1.26. MIT.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "@id": "https://1mb.dev/#website",
+          "name": "1mb",
+          "url": "https://1mb.dev/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://1mb.dev/#org",
+          "name": "1mb"
+        },
+        "about": {
+          "@type": "SoftwareSourceCode",
+          "codeRepository": "https://github.com/1mb-dev/goflow",
+          "programmingLanguage": "Go",
+          "name": "goflow",
+          "description": "A Go concurrency library: token and leaky bucket rate limiters, worker pools, cron scheduling, pipelines and streams with backpressure. Needs Go 1.26. MIT.",
+          "keywords": "golang, rate limiter, worker pool, cron scheduler, concurrency, backpressure",
+          "creator": {
+            "@type": "Organization",
+            "@id": "https://1mb.dev/#org",
+            "name": "1mb"
+          },
+          "datePublished": "2025-08-27",
+          "sameAs": "https://1mb-dev.github.io/goflow/"
+        },
+        "breadcrumb": {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "1mb",
+              "item": "https://1mb.dev/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "goflow",
+              "item": "https://1mb.dev/work/goflow/"
+            }
+          ]
+        }
+      }
+    </script>
+  </head>
+  <body class="page-work">
+    <header class="masthead"><a class="mark" href="/">1mb</a></header>
+    <main>
+      <article class="notes">
+        <p class="notes-side">build with</p>
+        <h1>goflow</h1>
+        <p class="notes-tagline">Go rate limiters, worker pools, cron</p>
+        <div class="notes-body">
+          <p>
+            Rate limiting, task scheduling and streaming in one Go library. Token bucket, leaky
+            bucket and concurrency limiters. Worker pools, pipelines, and a scheduler that takes
+            intervals or six-field cron, seconds included. Streams with four backpressure
+            strategies.
+          </p>
+          <p>A token bucket at rate 10 and burst 20 lets 20 through at once, then 10 a second.</p>
+          <p>Shutdown lets running tasks finish. Queued tasks can be dropped, with no error.</p>
+          <h2>why it exists</h2>
+          <p>A project needed a token bucket, a worker pool and a scheduler.</p>
+          <p>goflow makes them primitives to import.</p>
+          <h2>what it taught</h2>
+          <p>
+            A library can say when not to use it. The README sends a reader with one need to a
+            single-purpose library, and to <code>sync.WaitGroup</code> and channels when those are
+            enough.
+          </p>
+        </div>
+        <p class="notes-status">Source is public.</p>
+        <p class="notes-next">
+          <a class="action" href="https://github.com/1mb-dev/goflow">get goflow</a>
+          <a href="https://1mb-dev.github.io/goflow/">docs</a>
+        </p>
+        <h2>related</h2>
+        <ul class="related">
+          <li>
+            <a href="https://1mb-dev.github.io/goflow/docs/guides/decision-guide/"
+              >When to use goflow</a
+            >
+          </li>
+          <li><a href="/work/markgo/">markgo, which runs its cleanups on the scheduler</a></li>
+        </ul>
+      </article>
+      <nav class="sequence" aria-label="more work">
+        <a class="sequence-item sequence-prev" href="/work/ledgerq/" rel="prev">
+          <span class="sequence-label">previous</span>
+          <span class="sequence-name">ledgerq</span>
+          <span class="sequence-tagline">A message queue in a directory</span>
+        </a>
+        <a class="sequence-item sequence-next" href="/work/shim/" rel="next">
+          <span class="sequence-label">next</span>
+          <span class="sequence-name">shim</span>
+          <span class="sequence-tagline">A Claude Code proxy that logs its edits</span>
+        </a>
+      </nav>
+      <p class="all-work"><a href="/#work">all work</a></p>
+    </main>
+    <footer class="colophon">
+      <p class="colophon-home"><a href="/">1mb</a> ·</p>
+      <p class="colophon-credit">All the hats. One head.</p>
+      <button
+        type="button"
+        id="theme-toggle"
+        class="theme-toggle"
+        aria-label="dark theme"
+        aria-pressed="false"
+        hidden
+      >
+        <span class="icon-sun" aria-hidden="true">☀</span>
+        <span class="icon-moon" aria-hidden="true">☾</span>
+      </button>
+      <p class="colophon-meta">
+        <a href="mailto:hi@1mb.dev">hi@1mb.dev</a> ·
+        <a href="https://github.com/1mb-dev" rel="me">github</a> ·
+        <a href="https://log.1mb.dev">log</a> ·
+        <a href="/feed.xml">feed</a>
+      </p>
+    </footer>
+    <script src="/assets/js/sw-register.js"></script>
+    <script src="/assets/js/watermark.js"></script>
+  </body>
+</html>

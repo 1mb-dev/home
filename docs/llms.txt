@@ -23,4 +23,5 @@
 
 - [markgo](https://1mb.dev/work/markgo/): A flat-file Go blog engine: markdown files in a directory, a web compose form, one binary with embedded assets. No database, no build step.
 - [ledgerq](https://1mb.dev/work/ledgerq/): An embedded Go message queue: a persistent, disk-backed log in a directory. No broker, one process, one read position, zero dependencies.
+- [goflow](https://1mb.dev/work/goflow/): A Go concurrency library: token and leaky bucket rate limiters, worker pools, cron scheduling, pipelines and streams with backpressure. Needs Go 1.26. MIT.
 - [shim](https://1mb.dev/work/shim/): A local proxy that runs Claude Code on DeepSeek, OpenAI, OpenRouter or Ollama, logging its rewrites and measuring every request. One Go binary.

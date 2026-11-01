@@ -36,6 +36,20 @@
     <category term="dilemma" />
   </entry>
   <entry>
+    <title>goflow: Go rate limiters, worker pools, cron</title>
+    <link href="https://1mb.dev/work/goflow/" />
+    <id>https://1mb.dev/work/goflow/</id>
+    <published>2026-11-01T00:00:00Z</published>
+    <updated>2026-11-01T00:00:00Z</updated>
+    <summary>A Go concurrency library: token and leaky bucket rate limiters, worker pools, cron scheduling, pipelines and streams with backpressure. Needs Go 1.26. MIT.</summary>
+    <category term="golang" />
+    <category term="rate limiter" />
+    <category term="worker pool" />
+    <category term="cron scheduler" />
+    <category term="concurrency" />
+    <category term="backpressure" />
+  </entry>
+  <entry>
     <title>ekam: Essays on Advaita Vedanta as design</title>
     <link href="https://1mb.dev/work/ekam/" />
     <id>https://1mb.dev/work/ekam/</id>
