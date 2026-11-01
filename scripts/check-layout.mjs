@@ -146,8 +146,8 @@ const TARGETS = `(() => {
     const r = verb.getBoundingClientRect();
     const points = [
       centre(verb),
-      [r.left - 8, r.top - 6],
-      [r.right + 8, r.top - 6],
+      [r.left - 8, r.top - 10],
+      [r.right + 8, r.top - 10],
       [r.left - 8, r.bottom + 2],
       [r.right + 8, r.bottom + 2],
     ];
@@ -161,8 +161,35 @@ const TARGETS = `(() => {
     range.selectNodeContents(row.querySelector('.track-tagline'));
     const line = range.getClientRects()[0];
     if (link(centre(verb)[0], line.top + 2) === verb) missed.push('tagline ' + name.textContent);
+    const previous = row.previousElementSibling?.querySelector('.track-tagline');
+    if (previous) {
+      range.selectNodeContents(previous);
+      const last = [...range.getClientRects()].pop();
+      if (link(centre(verb)[0], last.bottom - 2) === verb) {
+        missed.push('tagline above ' + name.textContent);
+      }
+    }
   }
   return { coarse, missed };
+})()`;
+
+// Touch: each small link's reach, and it stops short of the line above. Links at a page's end
+// run further: a miss below them lands on nothing.
+const REACH = `(() => {
+  const missed = [];
+  const small = '.mark, .colophon a, .all-work a, .notes-next a:not(.action)';
+  for (const a of document.querySelectorAll(small)) {
+    a.scrollIntoView({ block: 'center' });
+    const r = a.getBoundingClientRect();
+    const x = r.left + r.width / 2;
+    const at = (y) => document.elementFromPoint(x, y)?.closest('a');
+    const home = a.closest('.colophon-home');
+    const up = home ? 16 : 6;
+    const down = a.closest('.colophon-meta, .all-work') ? 16 : 6;
+    if (at(r.top - up) !== a || at(r.bottom + down) !== a) missed.push('short ' + a.textContent);
+    if (!home && at(r.top - 10) === a) missed.push('over ' + a.textContent);
+  }
+  return missed;
 })()`;
 
 const works = readdirSync(join(ROOT, 'work'), { withFileTypes: true }).filter((e) =>
@@ -192,6 +219,13 @@ try {
     }
     return result.value;
   };
+  const visit = async (page) => {
+    const loaded = next('Page.loadEventFired');
+    loaded.catch(() => {}); // Chrome can die before this is awaited; the await still throws.
+    await tab('Page.navigate', { url: base + page });
+    await loaded;
+    await tab('Runtime.evaluate', { expression: 'document.fonts.ready', awaitPromise: true });
+  };
   await tab('Page.enable');
   await tab('Network.enable');
   await tab('Network.setBypassServiceWorker', { bypass: true });
@@ -209,16 +243,12 @@ try {
     });
     await tab('Emulation.setTouchEmulationEnabled', { enabled: mobile });
     for (const page of pages) {
-      const loaded = next('Page.loadEventFired');
-      loaded.catch(() => {}); // Chrome can die before this is awaited; the await still throws.
-      await tab('Page.navigate', { url: base + page });
-      await loaded;
+      await visit(page);
       const at = `${width} ${page}`;
       if (notFound.has(page)) {
         failures.push(`${at}: not found`);
         continue;
       }
-      await tab('Runtime.evaluate', { expression: 'document.fonts.ready', awaitPromise: true });
       const { bad, lines, bridgeBottom, actionTop } = await read(SWEEP);
       if (bad.length) failures.push(`${at}: past the edge: ${[...new Set(bad)].join(', ')}`);
       if (page === '/' && lines !== 1) failures.push(`${at}: manifesto on ${lines} lines`);
@@ -230,6 +260,10 @@ try {
         const { coarse, missed } = await read(TARGETS);
         if (coarse !== mobile) failures.push(`${at}: pointer is not what this size emulates`);
         if (missed.length) failures.push(`${at}: target missed: ${missed.join(', ')}`);
+      }
+      if (mobile) {
+        const missed = await read(REACH);
+        if (missed.length) failures.push(`${at}: reach: ${missed.join(', ')}`);
       }
       if (width === 375 && page.startsWith('/work/')) {
         console.log(

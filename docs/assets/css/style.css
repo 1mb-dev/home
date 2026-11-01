@@ -530,7 +530,7 @@ article {
 .track-verb::after {
   content: '';
   position: absolute;
-  inset: -0.5rem -0.75rem -0.1875rem;
+  inset: -0.75rem -0.75rem -0.1875rem;
 }
 
 .track-tagline {
@@ -800,7 +800,9 @@ article {
   }
 }
 
-/* A wider target that leaves the box and the ring on the word. 8px is the gap beside these. */
+/* Wider targets that leave the box and the ring on the word. They stop at the line beside them,
+   and run further only into the empty space at a page's end. */
+.mark,
 .colophon-home a,
 .colophon-meta a,
 .notes-next a:not(.action),
@@ -808,13 +810,30 @@ article {
   position: relative;
 }
 
+.mark::after,
 .colophon-home a::after,
 .colophon-meta a::after,
 .notes-next a:not(.action)::after,
 .all-work a::after {
   content: '';
   position: absolute;
+}
+
+.mark::after {
+  inset: -0.5rem -0.75rem;
+}
+
+.notes-next a:not(.action)::after {
   inset: -0.5rem 0;
+}
+
+.colophon-home a::after {
+  inset: -1.25rem -0.25rem -0.5rem;
+}
+
+.colophon-meta a::after,
+.all-work a::after {
+  inset: -0.5rem -0.25rem -1.25rem;
 }
 
 .colophon-home a:hover {
