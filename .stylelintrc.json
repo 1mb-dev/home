@@ -1,6 +1,7 @@
 {
   "extends": ["stylelint-config-standard"],
   "rules": {
+    "no-unknown-custom-properties": true,
     "selector-class-pattern": null,
     "custom-property-pattern": null,
     "declaration-block-no-redundant-longhand-properties": null,

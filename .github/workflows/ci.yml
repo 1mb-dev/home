@@ -128,7 +128,7 @@ jobs:
 
       # No install: this job's output is the site, so no dependency code runs on its runner.
       # build.js may import builtins only.
-      - name: Build (stamp SW version, year, lastmod, security.txt)
+      - name: Build (stamp SW version, lastmod, security.txt)
         run: npm run build
 
       - name: Upload site
