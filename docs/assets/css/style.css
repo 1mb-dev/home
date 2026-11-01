@@ -329,6 +329,8 @@ article {
 
 /* Theme overrides */
 [data-theme='dark'] {
+  color-scheme: dark;
+
   --bg: #0a0a0a;
   --fg: #e5e5e5;
   --muted: #888;
@@ -338,6 +340,8 @@ article {
 }
 
 [data-theme='light'] {
+  color-scheme: light;
+
   --bg: #fafafa;
   --fg: #1a1a1a;
   --muted: #6b6b6b;
@@ -784,6 +788,8 @@ article {
 @media print {
   /* Must follow the theme overrides: a dark theme otherwise prints pale ink on white paper. */
   :root {
+    color-scheme: light;
+
     --bg: #fff;
     --fg: #000;
     --muted: #555;
