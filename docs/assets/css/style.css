@@ -457,11 +457,17 @@ article {
   margin-bottom: var(--space-6);
 }
 
-.side {
+.side,
+.notes-side,
+.notes h2,
+.sequence-label {
   font-size: var(--text-sm);
+  letter-spacing: 0.15em;
+}
+
+.side {
   font-weight: 400;
   color: var(--muted);
-  letter-spacing: 0.15em;
   margin: var(--space-6) 0 var(--space-2);
 }
 
@@ -619,9 +625,7 @@ article {
 }
 
 .notes-side {
-  font-size: var(--text-sm);
   color: var(--muted);
-  letter-spacing: 0.15em;
   margin-bottom: var(--space-1);
 }
 
@@ -646,10 +650,8 @@ article {
 }
 
 .notes h2 {
-  font-size: var(--text-sm);
   font-weight: 400;
-  color: var(--muted);
-  letter-spacing: 0.15em;
+  color: var(--fg);
   margin: var(--space-5) 0 var(--space-2);
 }
 
@@ -706,9 +708,7 @@ article {
 }
 
 .sequence-label {
-  font-size: var(--text-sm);
   color: var(--muted);
-  letter-spacing: 0.15em;
 }
 
 .sequence-name {

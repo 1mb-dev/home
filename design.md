@@ -104,7 +104,7 @@ Upkeep is an editorial claim: it appears only when a content file states it.
 
 Two faces. Space Grotesk 700 for the capstone, mark, manifesto, bridge, titles, sequence names and watermark; Inter for everything else. Roman throughout: the faces ship no italic, so none is set.
 
-Two levels of ink on one paper. No accent colour. Monochrome is the brand.
+Two levels of ink on one paper. No accent colour. Monochrome is the brand. Labels are 14px and tracked: sides and sequence labels in muted, note headings in ink.
 
 One column, about 60 characters, shared by the cover, the index, the notes and the credit. Text never drops below 14px.
 
