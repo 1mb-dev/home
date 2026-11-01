@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - The cover's counter closes in two lines, and a vote says how many others are in
 - Tests run on vitest 5
 - The deploy stamp rehearses without `node_modules`, so a non-builtin import fails on a PR
+- Theme values, watermark contrast and `theme.js` have tests; `npm run check:layout` checks layout in Chrome by hand
 
 ### Fixed
 
