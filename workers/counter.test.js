@@ -181,7 +181,7 @@ describe('POST /', () => {
     expect(count).toBe(2);
   });
 
-  it('hashes IP for privacy (does not store raw IP)', async () => {
+  it('hashes an IP to a stable 16-hex digest', async () => {
     const hash = await hashIP('10.0.0.1');
 
     // Hash is a 16-char hex string (8 bytes), not the raw IP
@@ -196,6 +196,82 @@ describe('POST /', () => {
     // Same IP produces same hash (deterministic)
     const hash3 = await hashIP('10.0.0.1');
     expect(hash).toBe(hash3);
+  });
+});
+
+describe('against a store', () => {
+  function fakeRedis() {
+    const store = new Map();
+    const ttl = new Map();
+    const auth = [];
+    globalThis.fetch.mockImplementation(async (_url, init) => {
+      auth.push(init.headers.Authorization);
+      const [command, ...args] = JSON.parse(init.body);
+      let result = null;
+      if (command === 'SET' && !store.has(args[0])) {
+        store.set(args[0], args[1]);
+        ttl.set(args[0], args[args.indexOf('EX') + 1]);
+        result = 'OK';
+      } else if (command === 'INCR') {
+        result = Number(store.get(args[0]) ?? 0) + 1;
+        store.set(args[0], String(result));
+      } else if (command === 'EXPIRE') {
+        ttl.set(args[0], args[1]);
+        result = 1;
+      } else if (command === 'MGET') {
+        result = args.map((key) => store.get(key) ?? null);
+      }
+      return new Response(JSON.stringify({ result }), { status: 200 });
+    });
+    return { store, ttl, auth };
+  }
+
+  const vote = (ip) =>
+    worker.fetch(
+      new Request('http://localhost/', {
+        method: 'POST',
+        headers: { 'CF-Connecting-IP': ip },
+      }),
+      env,
+      { waitUntil() {} }
+    );
+
+  it('counts two visitors as two, expires only the day, stores no raw IP', async () => {
+    const { store, ttl, auth } = fakeRedis();
+
+    await vote('1.2.3.4');
+    await vote('5.6.7.8');
+    await vote('1.2.3.4');
+
+    const response = await worker.fetch(new Request('http://localhost/'), env, { waitUntil() {} });
+    expect(await response.json()).toEqual({ count: 2, today: 2 });
+
+    const dailyKey = `daily:${new Date().toISOString().slice(0, 10)}`;
+    expect(ttl.get(dailyKey)).toBe(172800);
+    expect(ttl.has('count')).toBe(false);
+    expect([...store.keys()].join()).not.toContain('1.2.3.4');
+    expect(new Set(auth)).toEqual(new Set([`Bearer ${env.UPSTASH_REDIS_REST_TOKEN}`]));
+  });
+
+  it('still counts the vote when EXPIRE fails', async () => {
+    mockRedisSequence([{ result: 'OK' }, { result: 1 }, { result: 1 }, { error: 'ERR expire' }]);
+    const logged = vi.spyOn(console, 'log');
+
+    const response = await vote('1.2.3.4');
+
+    expect(response.status).toBe(200);
+    expect((await response.json()).message).toBe('Counted');
+    expect(logged.mock.calls.some(([line]) => line.includes('expire.failed'))).toBe(true);
+  });
+
+  it('reports degraded health on an Upstash error body', async () => {
+    mockRedis({ error: 'WRONGPASS' });
+
+    const response = await worker.fetch(new Request('http://localhost/health'), env, {
+      waitUntil() {},
+    });
+
+    expect(response.status).toBe(503);
   });
 });
 
