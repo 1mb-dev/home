@@ -213,6 +213,7 @@ article {
   font-size: var(--text-sm);
   letter-spacing: 0.5em;
   text-align: center;
+  padding-left: 0.5em; /* letter-spacing trails the last dot: without this they sit left of the axis */
 }
 
 .separator::before {
