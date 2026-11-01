@@ -109,6 +109,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
+  overflow-wrap: anywhere;
 }
 
 a {
@@ -257,11 +258,12 @@ article {
   outline: none;
 }
 
-/* min-width: `...` would shrink the button and slide the count. */
+/* min-width: `...` would shrink the button and slide the count. Capped at the column: 9em
+   outgrows it at a large browser font. */
 .counter-btn {
   grid-column: 2;
   grid-row: 1;
-  min-width: 9em;
+  min-width: min(9em, 100vw - 2 * var(--gutter) - 2 * var(--space-2));
 }
 
 /* box-shadow: a border would move the cover 1px. */
@@ -530,7 +532,7 @@ article {
 .track-verb::after {
   content: '';
   position: absolute;
-  inset: -0.5rem -0.75rem -0.1875rem;
+  inset: -0.75rem -0.75rem -0.1875rem;
 }
 
 .track-tagline {
@@ -660,13 +662,9 @@ article {
   color: var(--fg);
 }
 
-/* Whole when a term fits, wrapped when it cannot, as at a large text setting. */
 .notes code {
-  display: inline-block;
-  max-width: 100%;
   font-family: var(--font-mono);
   font-size: 0.9em;
-  overflow-wrap: anywhere;
 }
 
 .notes-status {
@@ -753,7 +751,7 @@ article {
   }
 }
 
-/* Colophon: two lines on a three-column grid. `1mb ·` | credit | theme toggle, then the links
+/* Colophon: two lines on a three-column grid at a normal text size. `1mb ·` | credit | theme toggle, then the links
    from the second column. Nothing sits under the mark, so they align with the credit. */
 .colophon {
   max-width: 480px;
@@ -781,10 +779,8 @@ article {
   grid-column: 3;
 }
 
-/* nowrap: the footer is two lines at every width. */
 .colophon-meta {
   grid-column: 2 / -1;
-  white-space: nowrap;
 }
 
 .colophon-meta a {
@@ -800,7 +796,9 @@ article {
   }
 }
 
-/* A wider target that leaves the box and the ring on the word. 8px is the gap beside these. */
+/* Wider targets that leave the box and the ring on the word. They stop at the line beside them,
+   and run further only into the empty space at a page's end. */
+.mark,
 .colophon-home a,
 .colophon-meta a,
 .notes-next a:not(.action),
@@ -808,13 +806,30 @@ article {
   position: relative;
 }
 
+.mark::after,
 .colophon-home a::after,
 .colophon-meta a::after,
 .notes-next a:not(.action)::after,
 .all-work a::after {
   content: '';
   position: absolute;
+}
+
+.mark::after {
+  inset: -0.5rem -0.75rem;
+}
+
+.notes-next a:not(.action)::after {
   inset: -0.5rem 0;
+}
+
+.colophon-home a::after {
+  inset: -1.25rem -0.25rem -0.5rem;
+}
+
+.colophon-meta a::after,
+.all-work a::after {
+  inset: -0.5rem -0.25rem -1.25rem;
 }
 
 .colophon-home a:hover {
