@@ -272,6 +272,20 @@ try {
       }
     }
   }
+
+  // A setting in the browser, not on the page: this is what the stylesheet's rem query reads.
+  await tab('Page.setFontSizes', { fontSizes: { standard: 32, fixed: 32 } });
+  await tab('Emulation.setDeviceMetricsOverride', {
+    width: 320,
+    height: 640,
+    mobile: true,
+    deviceScaleFactor: 1,
+  });
+  for (const page of pages) {
+    await visit(page);
+    const { bad } = await read(SWEEP);
+    if (bad.length) failures.push(`large text ${page}: ${[...new Set(bad)].join(', ')}`);
+  }
 } catch (error) {
   failures.push(error.message);
 } finally {
