@@ -192,6 +192,20 @@ const REACH = `(() => {
   return missed;
 })()`;
 
+// Large text: a row gives way, and a name or verb is never split to fit.
+const WHOLE = `(() => {
+  const lines = (e) => {
+    const range = document.createRange();
+    range.selectNodeContents(e);
+    const rects = [...range.getClientRects()].filter((r) => r.width > 0);
+    return new Set(rects.map((r) => Math.round(r.top))).size;
+  };
+  const words = (e) => e.textContent.trim().split(/\\s+/).length;
+  return [...document.querySelectorAll('.track-name a, .track-verb')]
+    .filter((e) => lines(e) > words(e))
+    .map((e) => e.textContent.trim());
+})()`;
+
 const works = readdirSync(join(ROOT, 'work'), { withFileTypes: true }).filter((e) =>
   e.isDirectory()
 );
@@ -285,6 +299,10 @@ try {
     await visit(page);
     const { bad } = await read(SWEEP);
     if (bad.length) failures.push(`large text ${page}: ${[...new Set(bad)].join(', ')}`);
+    if (page === '/') {
+      const split = await read(WHOLE);
+      if (split.length) failures.push(`large text: split ${split.join(', ')}`);
+    }
   }
 } catch (error) {
   failures.push(error.message);

@@ -109,7 +109,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 
 a {
@@ -479,20 +479,26 @@ article {
 }
 
 .tracks {
+  /* A step: hung, or flush under 12rem of row. 100% resolves where used. 48 is .track-no's 40
+     plus the gap. */
+  --indent: clamp(0px, (100% - 12rem) * 999, 40px + var(--space-1));
+
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
 .track {
-  display: grid;
-  grid-template-columns: 2.5em auto 1fr auto;
+  display: flex;
+  flex-wrap: wrap;
   column-gap: var(--space-1);
   align-items: baseline;
   padding: var(--space-1) 0;
 }
 
 .track-no {
+  flex: none;
+  width: 40px;
   font-size: var(--text-sm);
   color: var(--muted);
   font-variant-numeric: tabular-nums;
@@ -512,6 +518,7 @@ article {
 
 /* Leader: the dotted run from title to verb, as on a sleeve. */
 .track-lead {
+  flex: 1;
   min-width: var(--space-2);
   height: 2px;
   background-image: radial-gradient(circle, var(--muted) 0.75px, transparent 1px);
@@ -524,6 +531,7 @@ article {
 
 .track-verb {
   position: relative;
+  margin-left: auto;
   font-size: var(--text-sm);
   color: var(--muted);
 }
@@ -536,7 +544,8 @@ article {
 }
 
 .track-tagline {
-  grid-column: 2 / -1;
+  flex-basis: calc(100% - var(--indent));
+  margin-left: var(--indent);
   font-size: var(--text-sm);
   color: var(--muted);
   line-height: 1.5;
