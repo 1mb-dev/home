@@ -14,61 +14,60 @@
 
   if (!counter || !countEl || !button) return;
 
-  // Check if user already voted (client-side memory). Storage can throw; treat that as not voted.
-  let hasVotedLocally = false;
+  let voted = false;
   try {
-    hasVotedLocally = localStorage.getItem('1mb_voted') === 'true';
+    voted = localStorage.getItem('1mb_voted') === 'true';
   } catch (_e) {
     // no storage: the server's per-IP limit still applies
   }
-  let isErrorState = false;
+  let busy = false;
+  let count = null;
 
-  function formatCount(count) {
-    return count === 0 ? 'no one yet' : count.toLocaleString() + ' in';
+  function proof() {
+    if (voted) {
+      const others = count === null ? 0 : count - 1;
+      if (others < 1) return "you're in";
+      return `you're in with ${others.toLocaleString()} ${others === 1 ? 'other' : 'others'}`;
+    }
+    if (!count) return '';
+    return count.toLocaleString() + ' in';
   }
 
-  // The proof line stays empty until there is a count to show; on failure it never fills.
-  function showCount(count) {
-    countEl.textContent = formatCount(count);
+  function render() {
+    counter.classList.toggle('in', voted);
+    countEl.textContent = proof();
   }
 
-  // Fetch current count
+  // A GET that lands after the POST holds the older number.
+  function take(n) {
+    count = count === null ? n : Math.max(count, n);
+    render();
+  }
+
+  // One write per load: the proof is a live region, and each write is announced.
   async function fetchCount() {
     try {
       const res = await fetch(API_URL);
       if (!res.ok) throw new Error(res.status);
-      const data = await res.json();
-      showCount(data.count);
+      take((await res.json()).count);
     } catch (_e) {
-      // Count unavailable: say nothing rather than show a placeholder.
+      render();
     }
   }
 
-  // Handle error state with retry
-  function setErrorState() {
-    isErrorState = true;
-    button.removeAttribute('aria-label');
-    button.textContent = 'try again';
-    button.disabled = false;
-    button.classList.add('error');
+  function remember() {
+    try {
+      localStorage.setItem('1mb_voted', 'true');
+    } catch (_e) {
+      // not remembered locally; the server still counted it
+    }
   }
 
-  // Clear error state
-  function clearErrorState() {
-    isErrorState = false;
-    button.classList.remove('error');
-  }
-
-  // Submit vote
+  // Never button.disabled: it drops focus to body, so Enter cannot reach `try again`.
   async function vote() {
-    if (hasVotedLocally || (button.disabled && !isErrorState)) return;
-
-    // Clear error state if retrying
-    if (isErrorState) {
-      clearErrorState();
-    }
-
-    button.disabled = true;
+    if (voted || busy) return;
+    busy = true;
+    button.classList.remove('error');
     button.textContent = '...';
     button.setAttribute('aria-label', 'counting');
 
@@ -76,33 +75,19 @@
       const res = await fetch(API_URL, { method: 'POST' });
       if (!res.ok) throw new Error(res.status);
       const data = await res.json();
-
-      showCount(data.count);
-      markAsVoted();
+      remember();
+      if (document.activeElement === button) counter.focus({ preventScroll: true });
+      voted = true;
+      take(data.count);
     } catch (_e) {
-      setErrorState();
+      button.removeAttribute('aria-label');
+      button.textContent = 'try again';
+      button.classList.add('error');
     }
+    busy = false;
   }
 
-  function markAsVoted() {
-    try {
-      localStorage.setItem('1mb_voted', 'true');
-    } catch (_e) {
-      // not remembered locally; the server still counted it
-    }
-    button.removeAttribute('aria-label');
-    button.textContent = "you're in";
-    button.disabled = true;
-    button.classList.add('voted');
-  }
-
-  // Init
-  if (hasVotedLocally) {
-    button.textContent = "you're in";
-    button.disabled = true;
-    button.classList.add('voted');
-  }
-
+  counter.classList.toggle('in', voted);
   button.addEventListener('click', vote);
   fetchCount();
 })();

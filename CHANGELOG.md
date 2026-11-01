@@ -6,8 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Changed
+
+- The cover's counter closes in two lines, and a vote says how many others are in
+
 ### Fixed
 
+- `try again` keeps keyboard focus, and a late count no longer undoes a vote
 - `llms.txt` marks a retired or unmaintained work
 
 ### Removed
