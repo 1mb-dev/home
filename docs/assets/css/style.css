@@ -51,7 +51,7 @@
   --space-6: 3rem; /* 48px */
   --space-8: 4rem; /* 64px */
 
-  /* Type Scale - 1.25 ratio */
+  /* Type Scale */
   --text-sm: 0.875rem; /* 14px */
   --text-base: 1rem; /* 16px */
   --text-md: 1.125rem; /* 18px */
@@ -115,7 +115,7 @@ body {
 }
 
 /* Watermark: the numeral behind each content section ('0' on the 404). Opacity is per theme:
-   above 4% in light, muted text over it drops below AA. watermark.js sets --drift-*. */
+   light stops at 4%, where muted text over it holds 4.7; at 6% it sits at the edge of AA. watermark.js sets --drift-*. */
 .hero::before,
 .page-work main::before,
 .page-404::before {
@@ -195,7 +195,6 @@ article {
 }
 
 .description {
-  font-family: var(--font-body);
   font-size: var(--text-base);
   color: var(--muted);
   max-width: 320px;
@@ -230,7 +229,6 @@ article {
    ======================================== */
 
 .invitation {
-  font-family: var(--font-body);
   font-size: var(--text-base);
   color: var(--fg);
   margin-bottom: var(--space-2);
@@ -432,7 +430,7 @@ article {
   transition: opacity 0.2s ease;
 }
 
-.action:hover:not(:disabled) {
+.action:hover {
   opacity: 0.85;
 }
 
@@ -456,7 +454,6 @@ article {
 }
 
 .side {
-  font-family: var(--font-body);
   font-size: var(--text-sm);
   font-weight: 400;
   color: var(--muted);
@@ -624,7 +621,6 @@ article {
 }
 
 .notes h2 {
-  font-family: var(--font-body);
   font-size: var(--text-sm);
   font-weight: 400;
   color: var(--muted);
