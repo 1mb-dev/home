@@ -561,28 +561,6 @@ export function workJsonLd(work, group) {
   return JSON.stringify(data, null, 2).replace(/<\//g, '<\\/');
 }
 
-// Each side's id is its address (/#build). Past the trigger the bridge links to them
-// (design.md, Layout); gen says when that switches on.
-const BRIDGE = { use: 'Use it', read: 'Read it', build: 'Build with it' };
-
-export function bridgeLinked(entries) {
-  const longSide = Object.keys(GROUPS).some(
-    (group) => entries.filter((e) => e.group === group).length > 12
-  );
-  return longSide || entries.length >= 16;
-}
-
-function bridge(entries) {
-  const linked = bridgeLinked(entries);
-  return Object.entries(BRIDGE)
-    .map(([group, text]) =>
-      linked && entries.some((e) => e.group === group)
-        ? `<a href="#${group}">${text}</a>.`
-        : `${text}.`
-    )
-    .join(' ');
-}
-
 /**
  * The root index: sides (groups) of numbered tracks. Numbering runs across sides.
  */
@@ -613,7 +591,7 @@ ${rows.join('\n')}
     .filter(Boolean);
 
   return `<section id="work" class="work" aria-labelledby="work-title">
-<h2 id="work-title" class="work-title">${bridge(entries)}</h2>
+<h2 id="work-title" class="work-title">Use it. Read it. Build with it.</h2>
 ${sides.join('\n')}
 </section>`;
 }

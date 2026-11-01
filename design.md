@@ -116,7 +116,7 @@ The cover stops short of the fold. On a 1280×800 screen the bridge line stays v
 
 Short work pages end where the notes end. Nothing pushes the credit down.
 
-The index grows in place. Never paginate, collapse, filter, pin headings or drop taglines. Each side has an address (`/#build`). When a side passes 12 rows or the index reaches 16 works, the bridge's three sentences link to their sides. A home page past 8 viewports at 1280×800 is a decision, never an automatic change.
+The index grows in place. Never paginate, collapse, filter, pin headings or drop taglines. Each side has an address (`/#build`). The bridge stays plain text. A home page past 8 viewports at 1280×800 is a decision, never an automatic change.
 
 The manifesto holds one line down to a 320px screen. Its size gives way before its line does.
 
