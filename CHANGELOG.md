@@ -9,6 +9,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Changed
 
 - The cover's counter closes in two lines, and a vote says how many others are in
+- Verbs and colophon links are underlined at rest, with wider targets; on touch the whole row reaches a work
+- Note headings in ink, code in a named mono with no chip, the bridge at 20px, a 24px gutter
+- `all work` takes its page's alignment
 - Tests run on vitest 5
 - The deploy stamp rehearses without `node_modules`, so a non-builtin import fails on a PR
 - Theme values, watermark contrast and `theme.js` have tests; `npm run check:layout` checks layout in Chrome by hand
