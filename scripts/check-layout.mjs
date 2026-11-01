@@ -273,7 +273,7 @@ try {
     }
   }
 
-  // A setting in the browser, not on the page: this is what the stylesheet's rem query reads.
+  // A setting in the browser, not on the page: rem-based type and spacing follow it.
   await tab('Page.setFontSizes', { fontSizes: { standard: 32, fixed: 32 } });
   await tab('Emulation.setDeviceMetricsOverride', {
     width: 320,

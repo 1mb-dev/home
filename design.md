@@ -106,7 +106,7 @@ Two faces, and the system's mono for code. Space Grotesk 700 for the capstone, m
 
 Two levels of ink on one paper. No accent colour. Monochrome is the brand. Labels are 14px and tracked: sides and sequence labels in muted, note headings in ink.
 
-One column, about 60 characters, shared by the cover, the index, the notes and the credit. Text wraps rather than clips, code included: a split term is still all there. Text never drops below 14px. A link's target runs past its word and stops at the line beside it, and further at a page's end.
+One column, about 60 characters, shared by the cover, the index, the notes and the credit. Text wraps rather than clips, code included: a split term is still all there. Text never drops below 14px. A standalone link's target runs past its word and stops at the line beside it, and further at a page's end.
 
 The watermark sits at 4% ink in light and 6% in dark, so it reads the same in both. Light cannot go higher: at 6%, muted text falls to the edge of WCAG AA.
 

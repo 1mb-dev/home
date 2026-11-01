@@ -263,7 +263,7 @@ article {
 .counter-btn {
   grid-column: 2;
   grid-row: 1;
-  min-width: min(9em, 100vw - 2 * var(--gutter));
+  min-width: min(9em, 100vw - 2 * var(--gutter) - 2 * var(--space-2));
 }
 
 /* box-shadow: a border would move the cover 1px. */
@@ -751,7 +751,7 @@ article {
   }
 }
 
-/* Colophon: two lines on a three-column grid. `1mb ·` | credit | theme toggle, then the links
+/* Colophon: two lines on a three-column grid at a normal text size. `1mb ·` | credit | theme toggle, then the links
    from the second column. Nothing sits under the mark, so they align with the credit. */
 .colophon {
   max-width: 480px;
