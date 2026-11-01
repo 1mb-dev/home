@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Removed
 
 - `npm run worker:deploy`: the worker deploys from CI
+- The bridge's links to the sides at 16 works: no reader could see them
 
 ## [2.0.1] - 2026-11-01
 

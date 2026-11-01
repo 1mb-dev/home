@@ -486,7 +486,7 @@ describe('rendering', () => {
     expect(index).toContain('<span class="track-no" aria-hidden="true">02</span>');
   });
 
-  it('gives each side an id and links the bridge only past the trigger', () => {
+  it('gives each side an id and keeps the bridge plain text at any length', () => {
     const w = (slug) =>
       parseWork(work(`name: ${slug}\ntagline: t\nsite: https://${slug}.dev`), slug);
     const slugs = (n, p) => Array.from({ length: n }, (_, i) => `${p}${i}`);
@@ -504,13 +504,8 @@ describe('rendering', () => {
     expect(short).toContain('<h3 class="side" id="use">use</h3>');
     expect(short).toContain('>Use it. Read it. Build with it.</h2>');
 
-    const longSide = index(13, 1);
-    expect(longSide).toContain(
-      '<a href="#use">Use it</a>. <a href="#read">Read it</a>. Build with it.'
-    );
-
-    const atSixteen = index(9, 7);
-    expect(atSixteen).toContain('<a href="#use">Use it</a>.');
+    const long = index(13, 7);
+    expect(long).toContain('>Use it. Read it. Build with it.</h2>');
   });
 
   it('gives each page its own canonical and description', () => {
