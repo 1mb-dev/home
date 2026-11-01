@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `try again` keeps keyboard focus, and a late count no longer undoes a vote
 - The cover's separator sits on the axis
 - `llms.txt` marks a retired or unmaintained work
+- Every link and control shows one focus ring, and `color-scheme` follows the theme toggle
 
 ### Removed
 
