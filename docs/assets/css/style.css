@@ -109,6 +109,10 @@ body {
   overflow-x: clip;
 }
 
+a {
+  text-underline-offset: 0.2em;
+}
+
 :focus-visible {
   outline: 2px solid var(--fg);
   outline-offset: 2px;
@@ -511,7 +515,6 @@ article {
 .track-verb {
   font-size: var(--text-sm);
   color: var(--muted);
-  text-decoration: none;
 }
 
 .track-tagline {
@@ -522,10 +525,8 @@ article {
   text-wrap: pretty;
 }
 
-.track-name a:hover,
-.track-verb:hover {
+.track-name a:hover {
   text-decoration: underline;
-  text-underline-offset: 0.2em;
 }
 
 /* ========================================
@@ -630,7 +631,6 @@ article {
 
 .notes a:not(.action) {
   color: var(--fg);
-  text-underline-offset: 0.2em;
 }
 
 .notes code {
@@ -704,7 +704,6 @@ article {
 
 .sequence-item:hover .sequence-name {
   text-decoration: underline;
-  text-underline-offset: 0.2em;
 }
 
 .all-work {
@@ -715,7 +714,6 @@ article {
 
 .all-work a {
   color: var(--muted);
-  text-underline-offset: 0.2em;
 }
 
 @media (width <= 480px) {
@@ -769,12 +767,19 @@ article {
 
 .colophon-meta a {
   color: var(--muted);
-  text-decoration: none;
 }
 
-.colophon a:hover {
+/* Inside the query: a tap on a touch screen would leave the ink behind. */
+@media (hover: hover) {
+  .track-verb:hover,
+  .colophon-meta a:hover,
+  .all-work a:hover {
+    color: var(--fg);
+  }
+}
+
+.colophon-home a:hover {
   text-decoration: underline;
-  text-underline-offset: 0.2em;
 }
 
 /* ========================================
