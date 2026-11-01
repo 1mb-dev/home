@@ -4,6 +4,7 @@
 
 use
   sift
+  firsthour
   drift
   cleartalk
   gist

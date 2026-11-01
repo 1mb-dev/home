@@ -5,9 +5,22 @@
   <link href="https://1mb.dev/feed.xml" rel="self" />
   <link href="https://1mb.dev/" />
   <id>https://1mb.dev/</id>
-  <updated>2026-10-31T00:00:00Z</updated>
+  <updated>2026-11-01T00:00:00Z</updated>
   <author><name>1mb</name></author>
   <icon>https://1mb.dev/favicon.ico</icon>
+  <entry>
+    <title>firsthour: Remote roles from Hacker News, by age</title>
+    <link href="https://1mb.dev/work/firsthour/" />
+    <id>https://1mb.dev/work/firsthour/</id>
+    <published>2026-11-01T00:00:00Z</published>
+    <updated>2026-11-01T00:00:00Z</updated>
+    <summary>Remote jobs from the Hacker News &quot;Who is hiring?&quot; thread and the job boards of companies posting there, listed by age. Last seven days, no account.</summary>
+    <category term="remote jobs" />
+    <category term="hacker news" />
+    <category term="who is hiring" />
+    <category term="job board" />
+    <category term="remote work" />
+  </entry>
   <entry>
     <title>ekam: Essays on Advaita Vedanta as design</title>
     <link href="https://1mb.dev/work/ekam/" />
