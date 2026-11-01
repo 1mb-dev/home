@@ -735,7 +735,6 @@ article {
 
 .all-work {
   margin-top: var(--space-4);
-  text-align: center;
   font-size: var(--text-sm);
 }
 
@@ -750,10 +749,6 @@ article {
 
   .sequence-next {
     grid-column: 1;
-    text-align: left;
-  }
-
-  .all-work {
     text-align: left;
   }
 }
