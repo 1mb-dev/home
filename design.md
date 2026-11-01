@@ -33,7 +33,7 @@ Numbering is for the index only. It follows the index order and changes when tha
 ## Principles (in order)
 
 1. **The manifesto leads.** The work is the proof beneath it, never the headline above it.
-2. **Typography is the interface.** Two faces, one ink, one paper. No icons, images, colour accents or illustrations carry meaning.
+2. **Typography is the interface.** Two faces and the system's mono for code, one ink, one paper. No icons, images, colour accents or illustrations carry meaning.
 3. **Quiet by default.** Live work shows no status. Private source shows nothing. One filled control per page.
 4. **Predictable.** Every page ends the same way, and the top is always the mark. Things are where they were on the last page.
 5. **Readable without script.** HTML first; JavaScript adds the counter, theme, offline and the watermark's drift. Cloudflare injects its analytics beacon; nothing else runs.
@@ -102,7 +102,7 @@ Upkeep is an editorial claim: it appears only when a content file states it.
 
 ## Type and ink
 
-Two faces. Space Grotesk 700 for the capstone, mark, manifesto, bridge, titles, sequence names and watermark; Inter for everything else. Roman throughout: the faces ship no italic, so none is set.
+Two faces, and the system's mono for code. Space Grotesk 700 for the capstone, mark, manifesto, bridge, titles, sequence names and watermark; Inter for everything else. Roman throughout: the faces ship no italic, so none is set.
 
 Two levels of ink on one paper. No accent colour. Monochrome is the brand. Labels are 14px and tracked: sides and sequence labels in muted, note headings in ink.
 

@@ -39,7 +39,6 @@
   --fg: #1a1a1a;
   --muted: #6b6b6b;
   --border: #e0e0e0;
-  --surface: #f0f0f0;
   --watermark: 0.04;
 
   /* Spacing - 8pt grid */
@@ -64,6 +63,7 @@
   /* Fonts */
   --font-display: 'Space Grotesk', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', 'Menlo', 'Consolas', monospace;
 
   /* Misc */
   --radius: 6px;
@@ -75,7 +75,6 @@
     --fg: #e5e5e5;
     --muted: #888;
     --border: #2a2a2a;
-    --surface: #151515;
     --watermark: 0.06;
   }
 }
@@ -337,7 +336,6 @@ article {
   --fg: #e5e5e5;
   --muted: #888;
   --border: #2a2a2a;
-  --surface: #151515;
   --watermark: 0.06;
 }
 
@@ -348,7 +346,6 @@ article {
   --fg: #1a1a1a;
   --muted: #6b6b6b;
   --border: #e0e0e0;
-  --surface: #f0f0f0;
   --watermark: 0.04;
 }
 
@@ -659,11 +656,13 @@ article {
   color: var(--fg);
 }
 
+/* Whole when a term fits, wrapped when it cannot, as at a large text setting. */
 .notes code {
+  display: inline-block;
+  max-width: 100%;
+  font-family: var(--font-mono);
   font-size: 0.9em;
-  background: var(--surface);
-  padding: 0.1em 0.3em;
-  border-radius: 4px;
+  overflow-wrap: anywhere;
 }
 
 .notes-status {
@@ -836,7 +835,6 @@ article {
     --fg: #000;
     --muted: #555;
     --border: #ccc;
-    --surface: #f0f0f0;
   }
 
   .hero::before,
