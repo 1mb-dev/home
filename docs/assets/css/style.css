@@ -147,11 +147,16 @@ main {
 .hero {
   position: relative;
   isolation: isolate;
-  min-height: min(80svh, 640px);
+  min-height: min(72svh, 576px);
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: var(--space-6) 0 0;
+}
+
+/* Tied to the 576px cap: at 50% the numeral rises behind the capstone. */
+.hero::before {
+  top: 55.5%;
 }
 
 article {
@@ -222,33 +227,57 @@ article {
   font-family: var(--font-body);
   font-size: var(--text-base);
   color: var(--fg);
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-2);
 }
 
 /* ========================================
    Counter
    ======================================== */
 
-.counter-btn:disabled {
-  cursor: default;
+/* Three cells hold the button on the cover's axis, whatever the count's width.
+   minmax(0, 1fr): a plain 1fr lets a long count push the button off centre. */
+.counter {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  column-gap: var(--space-2);
+  align-items: center;
 }
 
-.counter-btn.voted,
+.counter:focus {
+  outline: none;
+}
+
+/* min-width: `...` would shrink the button and slide the count. */
+.counter-btn {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 9em;
+}
+
+/* box-shadow: a border would move the cover 1px. */
 .counter-btn.error {
   background: transparent;
   color: var(--muted);
+  box-shadow: inset 0 0 0 1px var(--border);
 }
 
-.counter-btn.error {
-  border: 1px solid var(--border);
-}
-
-/* min-height: an empty line has none, and the count arrives after the cover is drawn. */
 .counter-proof {
+  grid-column: 3;
+  grid-row: 1;
   font-size: var(--text-sm);
   color: var(--muted);
-  margin-top: var(--space-3);
-  min-height: 1lh;
+  text-align: left;
+  white-space: nowrap;
+}
+
+/* visibility: the row keeps its height, so a vote moves nothing. */
+.counter.in .counter-btn {
+  visibility: hidden;
+}
+
+.counter.in .counter-proof {
+  grid-column: 1 / -1;
+  text-align: center;
 }
 
 /* ========================================

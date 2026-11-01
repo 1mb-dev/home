@@ -83,7 +83,7 @@ Every claim is checked at its source. A claim that could not be verified is stat
 
 Upkeep is an editorial claim: it appears only when a content file states it.
 
-**Interface strings are lowercase.** The verb is fixed by side: `open`, `read`, `get`. A content file cannot set it. The counter speaks in the same word as its button: `count me in`, then `you're in`, and beneath it `{n} in`, or `no one yet`.
+**Interface strings are lowercase.** The verb is fixed by side: `open`, `read`, `get`. A content file cannot set it. The counter speaks in the same word as its button: `count me in` beside `{n} in`, then `you're in with {n-1} others`, or `you're in` alone.
 
 ## What 1mb does not do
 
@@ -120,7 +120,7 @@ The index grows in place. Never paginate, collapse, filter, pin headings or drop
 
 The manifesto holds one line down to a 320px screen. Its size gives way before its line does.
 
-One `h1` per page. Focus order matches visual order. Without JavaScript the theme toggle goes missing, the counter's proof shows no count, and the count button does nothing. The proof's line keeps its height either way, so the count arrives without moving the cover.
+One `h1` per page. Focus order matches visual order. Without JavaScript the theme toggle goes missing, the counter's proof shows no count, and the count button does nothing. The button's row keeps its height in every state, so neither the count nor a vote moves the cover.
 
 ## Considered, not taken
 
