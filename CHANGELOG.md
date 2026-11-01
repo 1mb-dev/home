@@ -14,12 +14,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `all work` takes its page's alignment
 - Text wraps rather than clips at large text, and a track gives way with its name and verb whole
 - A work page puts its action above the notes, and a plain link to the same place ends them
+- The colophon sits on one left edge, and the theme control is the word `dark` or `light`
 - Tests run on vitest 5
 - The deploy stamp rehearses without `node_modules`, so a non-builtin import fails on a PR
 - Theme values, watermark contrast and `theme.js` have tests; `npm run check:layout` checks layout in Chrome by hand
 
 ### Fixed
 
+- With scripting off the cover drops the count button, and a theme choice holds for the page when storage is blocked
 - `try again` keeps keyboard focus, and a late count no longer undoes a vote
 - The cover's separator sits on the axis
 - `llms.txt` marks a retired or unmaintained work
