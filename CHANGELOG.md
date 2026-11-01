@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Note headings in ink, code in a named mono with no chip, the bridge at 20px, a 24px gutter
 - `all work` takes its page's alignment
 - Text wraps rather than clips at large text, and a track gives way with its name and verb whole
+- A work page puts its action above the notes, and a plain link to the same place ends them
 - Tests run on vitest 5
 - The deploy stamp rehearses without `node_modules`, so a non-builtin import fails on a PR
 - Theme values, watermark contrast and `theme.js` have tests; `npm run check:layout` checks layout in Chrome by hand
@@ -26,6 +27,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Removed
 
+- "Source is public.": each of those pages links to its source
 - `npm run worker:deploy`: the worker deploys from CI
 - The bridge's links to the sides at 16 works: no reader could see them
 

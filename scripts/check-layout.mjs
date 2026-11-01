@@ -173,11 +173,11 @@ const TARGETS = `(() => {
   return { coarse, missed };
 })()`;
 
-// Touch: each small link's reach, and it stops short of the line above. Links at a page's end
-// run further: a miss below them lands on nothing.
+// Touch: each small link's reach, and it stops short of the line above. Links with empty space
+// below run further: a miss there lands on nothing.
 const REACH = `(() => {
   const missed = [];
-  const small = '.mark, .colophon a, .all-work a, .notes-next a:not(.action)';
+  const small = '.mark, .colophon a, .all-work a, .notes-next a:not(.action), .notes-tail a';
   for (const a of document.querySelectorAll(small)) {
     a.scrollIntoView({ block: 'center' });
     const r = a.getBoundingClientRect();
@@ -185,7 +185,7 @@ const REACH = `(() => {
     const at = (y) => document.elementFromPoint(x, y)?.closest('a');
     const home = a.closest('.colophon-home');
     const up = home ? 16 : 6;
-    const down = a.closest('.colophon-meta, .all-work') ? 16 : 6;
+    const down = a.closest('.colophon-meta, .all-work, .notes-tail') ? 16 : 6;
     if (at(r.top - up) !== a || at(r.bottom + down) !== a) missed.push('short ' + a.textContent);
     if (!home && at(r.top - 10) === a) missed.push('over ' + a.textContent);
   }
