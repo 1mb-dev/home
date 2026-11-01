@@ -120,7 +120,7 @@ The index grows in place. Never paginate, collapse, filter, pin headings or drop
 
 The manifesto holds one line down to a 320px screen. Its size gives way before its line does.
 
-One `h1` per page. Focus order matches visual order. Without JavaScript the theme toggle goes missing, the counter's proof shows no count, and the count button does nothing. The button's row keeps its height in every state, so neither the count nor a vote moves the cover.
+One `h1` per page. Focus order matches visual order, and every link and control takes one focus ring: 2px of ink at a 2px offset. Without JavaScript the theme toggle goes missing, the counter's proof shows no count, and the count button does nothing. The button's row keeps its height in every state, so neither the count nor a vote moves the cover.
 
 ## Considered, not taken
 
