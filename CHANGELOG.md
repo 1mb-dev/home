@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Verbs and colophon links are underlined at rest, with wider targets; on touch the whole row reaches a work
 - Note headings in ink, code in a named mono with no chip, the bridge at 20px, a 24px gutter
 - `all work` takes its page's alignment
+- Text wraps rather than clips at large text, and a track gives way with its name and verb whole
 - Tests run on vitest 5
 - The deploy stamp rehearses without `node_modules`, so a non-builtin import fails on a PR
 - Theme values, watermark contrast and `theme.js` have tests; `npm run check:layout` checks layout in Chrome by hand
