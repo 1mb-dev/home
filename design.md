@@ -76,7 +76,7 @@ Every claim is checked at its source. A claim that could not be verified is stat
 | ------------------------- | ------------------------------------------------ | -------------- |
 | Live                      | nothing                                          | nothing        |
 | `retired: true` with site | No longer running. The write-up stays at {host}. | `retired`      |
-| `source` set              | Source is public.                                | nothing        |
+| `source` set              | nothing                                          | nothing        |
 | `maintained: true`        | Source is public and kept current.               | nothing        |
 | `maintained: false`       | Source stays public. No longer maintained.       | `unmaintained` |
 | Private source            | nothing, anywhere                                | nothing        |

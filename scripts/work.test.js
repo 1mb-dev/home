@@ -283,7 +283,7 @@ describe('status and actions', () => {
 
   it('claims upkeep only when the file says so', () => {
     const src = { ...base, source: 'https://github.com/x/w' };
-    expect(statusLines(src)).toEqual(['Source is public.']);
+    expect(statusLines(src)).toEqual([]);
     expect(statusLines({ ...src, maintained: true })).toEqual([
       'Source is public and kept current.',
     ]);

@@ -448,7 +448,6 @@ export function statusLines(work) {
   if (work.source) {
     if (work.maintained === true) lines.push('Source is public and kept current.');
     else if (work.maintained === false) lines.push('Source stays public. No longer maintained.');
-    else lines.push('Source is public.');
   }
   return lines;
 }
