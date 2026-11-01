@@ -652,7 +652,7 @@ article {
 .notes-tagline {
   font-size: var(--text-md);
   color: var(--muted);
-  margin: var(--space-1) 0 var(--space-6);
+  margin: var(--space-1) 0 var(--space-3);
   text-wrap: pretty;
 }
 
@@ -676,10 +676,17 @@ article {
   font-size: 0.9em;
 }
 
+.notes-body {
+  margin-bottom: var(--space-5);
+}
+
 .notes-status {
   font-size: var(--text-sm);
   color: var(--muted);
-  margin-top: var(--space-5);
+}
+
+.notes-tail {
+  font-size: var(--text-sm);
 }
 
 .notes-next {
@@ -687,7 +694,7 @@ article {
   flex-wrap: wrap;
   align-items: center;
   gap: var(--space-1) var(--space-3);
-  margin-top: var(--space-4);
+  margin-bottom: var(--space-6);
   font-size: var(--text-sm);
 }
 
@@ -806,11 +813,12 @@ article {
 }
 
 /* Wider targets that leave the box and the ring on the word. They stop at the line beside them,
-   and run further only into the empty space at a page's end. */
+   and run further only where the space below stays empty. */
 .mark,
 .colophon-home a,
 .colophon-meta a,
 .notes-next a:not(.action),
+.notes-tail a,
 .all-work a {
   position: relative;
 }
@@ -819,6 +827,7 @@ article {
 .colophon-home a::after,
 .colophon-meta a::after,
 .notes-next a:not(.action)::after,
+.notes-tail a::after,
 .all-work a::after {
   content: '';
   position: absolute;
@@ -837,6 +846,7 @@ article {
 }
 
 .colophon-meta a::after,
+.notes-tail a::after,
 .all-work a::after {
   inset: -0.5rem -0.25rem -1.25rem;
 }

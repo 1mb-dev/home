@@ -20,7 +20,7 @@ Every work page stands alone for that reader. A row's name goes to the 1mb page,
 | Bridge      | "Use it. Read it. Build with it." opens the index and names the sides   |
 | Sides       | Groups named by the reader's action: use, read, build with              |
 | Tracks      | Number, title, dotted leader, verb, tagline beneath. Same on every side |
-| Liner notes | A work's own page: side, title, tagline, notes, status, next            |
+| Liner notes | A work's own page: side, title, tagline, next, notes, status, link      |
 | Sequence    | Previous and next work, each with its tagline. No wrap: a record ends   |
 | Credit      | The manifesto again on every page, the back of the sleeve               |
 
@@ -81,7 +81,7 @@ Every claim is checked at its source. A claim that could not be verified is stat
 | `maintained: false`       | Source stays public. No longer maintained.       | `unmaintained` |
 | Private source            | nothing, anywhere                                | nothing        |
 
-Upkeep is an editorial claim: it appears only when a content file states it.
+Upkeep is an editorial claim: it appears only when a content file states it. Retired and unmaintained sit above the action, because they change what a reader does with it. Kept current sits after the notes.
 
 **Interface strings are lowercase.** The verb is fixed by side: `open`, `read`, `get`. A content file cannot set it. The counter speaks in the same word as its button: `count me in` beside `{n} in`, then `you're in with {n-1} others`, or `you're in` alone.
 
@@ -92,7 +92,7 @@ Upkeep is an editorial claim: it appears only when a content file states it.
 - No icons or emoji in content. The theme toggle's ☀/☾ is the one glyph control.
 - No screenshots, hero images, or per-work artwork. One shared social image.
 - No motion beyond a 0.2s opacity or colour change on hover, and the watermark's drift. No scroll effects, beyond the line that appears under the mark on inner pages once it sticks. No loading skeletons.
-- No hover-only information. No arrows; labels and underlines are the affordance.
+- No hover-only information. No arrows; a link is underlined, filled as the action, or is a name in ink: a track, the sequence, the mark.
 - No `target="_blank"`. A forced new tab breaks Back.
 - No fixed or floating controls, except the mark on inner pages: it stays at the top, and nothing sits beside it. On a short screen it scrolls with the page too.
 - No centred lists. Centre the cover, left-align anything scanned.
@@ -106,7 +106,7 @@ Two faces, and the system's mono for code. Space Grotesk 700 for the capstone, m
 
 Two levels of ink on one paper. No accent colour. Monochrome is the brand. Labels are 14px and tracked: sides and sequence labels in muted, note headings in ink.
 
-One column, about 60 characters, shared by the cover, the index, the notes and the credit. Text wraps rather than clips, code included: a split term is still all there. Text never drops below 14px. A standalone link's target runs past its word and stops at the line beside it, and further at a page's end.
+One column, about 60 characters, shared by the cover, the index, the notes and the credit. Text wraps rather than clips, code included: a split term is still all there. Text never drops below 14px. A standalone link's target runs past its word and stops at the line beside it, and further where the space below stays empty.
 
 The watermark sits at 4% ink in light and 6% in dark, so it reads the same in both. Light cannot go higher: at 6%, muted text falls to the edge of WCAG AA.
 

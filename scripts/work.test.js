@@ -456,6 +456,58 @@ describe('rendering', () => {
   const pageFor = (w, group = 'use', opts = {}) =>
     renderPage(w, { slug: w.slug, group }, { works: new Map([[w.slug, w]]), ...opts });
 
+  describe("a work page's order", () => {
+    const classes = ['notes-tagline', 'notes-status', 'notes-next', 'notes-body', 'notes-tail'];
+    const order = (front) => {
+      const html = pageFor(parseWork(work(`name: q\ntagline: t\n${SEO}\n${front}`), 'q'));
+      expect(html.match(/class="action"/g)).toHaveLength(1);
+      expect(html.match(/class="notes-tail"/g)).toHaveLength(1);
+      return classes
+        .filter((c) => html.includes(`class="${c}"`))
+        .sort((a, b) => html.indexOf(`class="${a}"`) - html.indexOf(`class="${b}"`));
+    };
+
+    it('puts a retired or unmaintained line before the action', () => {
+      const first = ['notes-tagline', 'notes-status', 'notes-next', 'notes-body', 'notes-tail'];
+      expect(order('site: https://q.dev\nretired: true')).toEqual(first);
+      expect(order('site: https://q.dev\nsource: https://g.dev/q\nmaintained: false')).toEqual(
+        first
+      );
+    });
+
+    it('leaves a calm line after the notes, before the tail', () => {
+      expect(order('site: https://q.dev\nsource: https://g.dev/q\nmaintained: true')).toEqual([
+        'notes-tagline',
+        'notes-next',
+        'notes-body',
+        'notes-status',
+        'notes-tail',
+      ]);
+    });
+
+    it('ends the notes on the action, whatever the side', () => {
+      const w = parseWork(work(`name: q\ntagline: t\n${SEO}\nsource: https://g.dev/q`), 'q');
+      expect(pageFor(w, 'build')).toContain(
+        '<p class="notes-tail"><a href="https://g.dev/q">get q</a></p>'
+      );
+    });
+
+    it('refuses a retired work kept current: its upkeep has no place on the page', () => {
+      expect(() =>
+        parseWork(work('name: q\ntagline: t\nretired: true\nmaintained: true'), 'q')
+      ).toThrow('a retired work cannot be maintained: true');
+    });
+
+    it('says nothing for plain public source', () => {
+      expect(order('site: https://q.dev\nsource: https://g.dev/q')).toEqual([
+        'notes-tagline',
+        'notes-next',
+        'notes-body',
+        'notes-tail',
+      ]);
+    });
+  });
+
   it('escapes content in rows and pages', () => {
     const snippet = '"<x>" and enough other words to stand as the snippet in a search result.';
     const front = `name: a&b\ntagline: "<x>"\nsite: https://a.dev\ndescription: ${snippet}\ntags: a, b, c`;

@@ -204,6 +204,9 @@ export function parseWork(text, slug, file = `content/work/${slug}.md`) {
   }
   if (i >= lines.length) throw new ContentError(file, 1, 'front matter is not closed with "---"');
 
+  if (work.retired && work.maintained === true) {
+    throw new ContentError(file, 1, 'a retired work cannot be maintained: true');
+  }
   if (work.listed && work.shipped && work.listed < work.shipped) {
     throw new ContentError(file, listedLine, 'listed must not precede shipped');
   }
@@ -620,6 +623,8 @@ export function renderPage(work, entry, { prev = null, next = null, works } = {}
     return `<h2>${s.label}</h2>\n${paras(work[key])}`;
   };
   const status = statusLines(work);
+  const statusLine = status.length ? `<p class="notes-status">${status.join(' ')}</p>` : '';
+  const decision = rowState(work);
   const neighbour = (e, rel) => {
     if (!e) return '';
     const w = works.get(e.slug);
@@ -675,16 +680,18 @@ ${renderMasthead()}
 <p class="notes-side">${GROUPS[group].label}</p>
 <h1>${esc(work.name)}</h1>
 <p class="notes-tagline">${esc(work.tagline)}</p>
+${decision ? statusLine : ''}
+<p class="notes-next">
+<a class="action" href="${esc(primary.href)}">${esc(primary.label)}</a>
+${rest.map((a) => `<a href="${esc(a.href)}">${a.label}</a>`).join('\n')}
+</p>
 <div class="notes-body">
 ${paras(work.synopsis)}
 ${section('why')}
 ${section('taught')}
 </div>
-${status.length ? `<p class="notes-status">${status.join(' ')}</p>` : ''}
-<p class="notes-next">
-<a class="action" href="${esc(primary.href)}">${esc(primary.label)}</a>
-${rest.map((a) => `<a href="${esc(a.href)}">${a.label}</a>`).join('\n')}
-</p>
+${decision ? '' : statusLine}
+<p class="notes-tail"><a href="${esc(primary.href)}">${esc(primary.label)}</a></p>
 ${section('related')}
 </article>
 ${prev || next ? `<nav class="sequence" aria-label="more work">\n${neighbour(prev, 'prev')}\n${neighbour(next, 'next')}\n</nav>` : ''}
