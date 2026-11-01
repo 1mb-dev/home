@@ -17,6 +17,7 @@ read
   nivomoney
 build
   markgo
+  natcheck
   ledgerq
   goflow
   shim

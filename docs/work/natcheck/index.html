@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>natcheck: NAT type and direct P2P forecast · 1mb</title>
+    <meta
+      name="description"
+      content="A NAT type check for WebRTC and P2P: one command forecasts whether direct connections will work from this network or TURN is needed. Go CLI, MIT."
+    />
+    <meta name="keywords" content="nat type, symmetric nat, stun, webrtc, p2p, turn" />
+    <meta name="author" content="1mb" />
+    <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://1mb.dev/work/natcheck/" />
+    <meta property="og:title" content="natcheck: NAT type and direct P2P forecast · 1mb" />
+    <meta
+      property="og:description"
+      content="A NAT type check for WebRTC and P2P: one command forecasts whether direct connections will work from this network or TURN is needed. Go CLI, MIT."
+    />
+    <meta property="og:image" content="https://1mb.dev/assets/images/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="1mb, one-man-band. All the hats. One head." />
+    <meta property="og:site_name" content="1mb" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href="https://1mb.dev/work/natcheck/" />
+    <link rel="alternate" type="application/atom+xml" title="1mb: work" href="/feed.xml" />
+    <link
+      rel="preload"
+      href="/assets/fonts/inter-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/assets/fonts/space-grotesk-700-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <script src="/assets/js/theme.js"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "url": "https://1mb.dev/work/natcheck/",
+        "name": "natcheck: NAT type and direct P2P forecast · 1mb",
+        "description": "A NAT type check for WebRTC and P2P: one command forecasts whether direct connections will work from this network or TURN is needed. Go CLI, MIT.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "@id": "https://1mb.dev/#website",
+          "name": "1mb",
+          "url": "https://1mb.dev/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://1mb.dev/#org",
+          "name": "1mb"
+        },
+        "about": {
+          "@type": "SoftwareSourceCode",
+          "codeRepository": "https://github.com/1mb-dev/natcheck",
+          "programmingLanguage": "Go",
+          "name": "natcheck",
+          "description": "A NAT type check for WebRTC and P2P: one command forecasts whether direct connections will work from this network or TURN is needed. Go CLI, MIT.",
+          "keywords": "nat type, symmetric nat, stun, webrtc, p2p, turn",
+          "creator": {
+            "@type": "Organization",
+            "@id": "https://1mb.dev/#org",
+            "name": "1mb"
+          },
+          "datePublished": "2026-04-19",
+          "sameAs": "https://1mb-dev.github.io/natcheck/"
+        },
+        "breadcrumb": {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "1mb",
+              "item": "https://1mb.dev/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "natcheck",
+              "item": "https://1mb.dev/work/natcheck/"
+            }
+          ]
+        }
+      }
+    </script>
+  </head>
+  <body class="page-work">
+    <header class="masthead"><a class="mark" href="/">1mb</a></header>
+    <main>
+      <article class="notes">
+        <p class="notes-side">build with</p>
+        <h1>natcheck</h1>
+        <p class="notes-tagline">NAT type and direct P2P forecast</p>
+        <div class="notes-body">
+          <p>
+            One command asks two public STUN servers how this network&#39;s NAT maps its traffic.
+            Line one is the forecast: <code>Direct P2P: likely</code>, <code>possible</code>,
+            <code>unlikely</code> or <code>unknown</code>. Below it come the NAT type and, when the
+            probe can run, hairpinning. On a CGNAT network the forecast is <code>unknown</code>.
+            <code>--json</code> gives a script the same report, and the exit code answers on its
+            own.
+          </p>
+          <p>
+            When the two servers see different public ports, the NAT is symmetric:
+            <code>Direct P2P: unlikely</code>, exit code 1.
+          </p>
+          <p>
+            A default run stops at <code>possible</code>: <code>likely</code> needs a STUN server
+            that measures filtering. Cone detection was tested on Linux netfilter in a lab. No
+            consumer router has been tried.
+          </p>
+          <p>
+            Homebrew or <code>go install</code>, Go 1.26 or later. One direct dependency,
+            <code>pion/stun</code>.
+          </p>
+          <h2>why it exists</h2>
+          <p>
+            A WebRTC or P2P connection fails, and the question is what kind of NAT this is and
+            whether direct connections will work. Answering it meant <code>stun-client</code>, an
+            online classifier and RFC 5780.
+          </p>
+          <p>natcheck puts the answer in one command.</p>
+          <h2>what it taught</h2>
+          <p>
+            A NAT test needs one socket. natcheck opened one per server, so it compared two local
+            ports and called networks with no NAT symmetric. Tests with a stubbed prober passed.
+            <a href="https://github.com/1mb-dev/natcheck/issues/28">Issue #28</a> caught it.
+          </p>
+        </div>
+        <p class="notes-status">Source is public.</p>
+        <p class="notes-next">
+          <a class="action" href="https://github.com/1mb-dev/natcheck">get natcheck</a>
+          <a href="https://1mb-dev.github.io/natcheck/">docs</a>
+        </p>
+      </article>
+      <nav class="sequence" aria-label="more work">
+        <a class="sequence-item sequence-prev" href="/work/markgo/" rel="prev">
+          <span class="sequence-label">previous</span>
+          <span class="sequence-name">markgo</span>
+          <span class="sequence-tagline">A blog engine in one Go binary</span>
+        </a>
+        <a class="sequence-item sequence-next" href="/work/ledgerq/" rel="next">
+          <span class="sequence-label">next</span>
+          <span class="sequence-name">ledgerq</span>
+          <span class="sequence-tagline">A message queue in a directory</span>
+        </a>
+      </nav>
+      <p class="all-work"><a href="/#work">all work</a></p>
+    </main>
+    <footer class="colophon">
+      <p class="colophon-home"><a href="/">1mb</a> ·</p>
+      <p class="colophon-credit">All the hats. One head.</p>
+      <button
+        type="button"
+        id="theme-toggle"
+        class="theme-toggle"
+        aria-label="dark theme"
+        aria-pressed="false"
+        hidden
+      >
+        <span class="icon-sun" aria-hidden="true">☀</span>
+        <span class="icon-moon" aria-hidden="true">☾</span>
+      </button>
+      <p class="colophon-meta">
+        <a href="mailto:hi@1mb.dev">hi@1mb.dev</a> ·
+        <a href="https://github.com/1mb-dev" rel="me">github</a> ·
+        <a href="https://log.1mb.dev">log</a> ·
+        <a href="/feed.xml">feed</a>
+      </p>
+    </footer>
+    <script src="/assets/js/sw-register.js"></script>
+    <script src="/assets/js/watermark.js"></script>
+  </body>
+</html>

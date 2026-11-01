@@ -22,6 +22,20 @@
     <category term="remote work" />
   </entry>
   <entry>
+    <title>natcheck: NAT type and direct P2P forecast</title>
+    <link href="https://1mb.dev/work/natcheck/" />
+    <id>https://1mb.dev/work/natcheck/</id>
+    <published>2026-11-01T00:00:00Z</published>
+    <updated>2026-11-01T00:00:00Z</updated>
+    <summary>A NAT type check for WebRTC and P2P: one command forecasts whether direct connections will work from this network or TURN is needed. Go CLI, MIT.</summary>
+    <category term="nat type" />
+    <category term="symmetric nat" />
+    <category term="stun" />
+    <category term="webrtc" />
+    <category term="p2p" />
+    <category term="turn" />
+  </entry>
+  <entry>
     <title>geetanjali: Hard decisions, set against the Gita</title>
     <link href="https://1mb.dev/work/geetanjali/" />
     <id>https://1mb.dev/work/geetanjali/</id>
