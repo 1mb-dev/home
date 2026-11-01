@@ -5,6 +5,7 @@
 ## use
 
 - [sift](https://1mb.dev/work/sift/): Hacker News discussions picked by a scoring script with no editor: up to 12 threads, several runs a day, one per domain. No account, no archive.
+- [firsthour](https://1mb.dev/work/firsthour/): Remote jobs from the Hacker News "Who is hiring?" thread and the job boards of companies posting there, listed by age. Last seven days, no account.
 - [drift](https://1mb.dev/work/drift/): Always-on mood radio: focus music, ambient, lo-fi, funk and more, by mood or by album, with lyrics where a track has them. No account, no cookies.
 - [cleartalk](https://1mb.dev/work/cleartalk/): Prep for hard conversations, at work or otherwise: profile someone's communication style, pick a situation, read a coaching card. Stays in the browser.
 - [gist](https://1mb.dev/work/gist/): An app spec generator for AI coding assistants: describe an app idea, answer a few questions, download a markdown spec to start from. No account.
