@@ -492,9 +492,8 @@ export const LINKS = {
   log: 'https://log.1mb.dev',
 };
 
-// Two lines on a three-column grid: `1mb ·` | the credit, then the links and year beneath it |
-// the theme toggle. The links align with the credit, not the mark. The year is stamped at deploy
-// by scripts/build.js; the committed value only has to be a year.
+// Two lines on a three-column grid: `1mb ·` | the credit, then the links beneath it | the theme
+// toggle. The links align with the credit, not the mark.
 export function renderColophon() {
   return `<footer class="colophon">
 <p class="colophon-home"><a href="/">1mb</a> ·</p>
