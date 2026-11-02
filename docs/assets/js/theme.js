@@ -9,9 +9,11 @@
   // Not 1mb_theme: the February site wrote that on every load, so it cannot tell a choice from a default.
   const STORAGE_KEY = '1mb_theme_choice';
   const media = window.matchMedia('(prefers-color-scheme: dark)');
+  let chosen = null;
 
   // Storage can throw (private mode, blocked site data); a throw must not take the toggle down.
   function saved() {
+    if (chosen) return chosen;
     try {
       return localStorage.getItem(STORAGE_KEY);
     } catch (_e) {
@@ -23,12 +25,18 @@
     return media.matches ? 'dark' : 'light';
   }
 
-  // Always set data-theme: the icon CSS keys off it. Only an explicit toggle persists.
+  // Only an explicit toggle persists. The toggle names the theme a tap turns on; in the head it
+  // does not exist yet, so the parsed page sets it again below.
   function setTheme(theme, persist) {
     document.documentElement.setAttribute('data-theme', theme);
     const toggle = document.getElementById('theme-toggle');
-    if (toggle) toggle.setAttribute('aria-pressed', String(theme === 'dark'));
+    if (toggle) {
+      const other = theme === 'dark' ? 'light' : 'dark';
+      toggle.textContent = other;
+      toggle.setAttribute('aria-label', `${other} theme`);
+    }
     if (!persist) return;
+    chosen = theme;
     try {
       localStorage.setItem(STORAGE_KEY, theme);
     } catch (_e) {
@@ -37,7 +45,7 @@
   }
 
   function toggleTheme() {
-    const current = document.documentElement.getAttribute('data-theme') || systemTheme();
+    const current = document.documentElement.getAttribute('data-theme');
     setTheme(current === 'dark' ? 'light' : 'dark', true);
   }
 
@@ -52,11 +60,9 @@
   document.addEventListener('DOMContentLoaded', () => {
     const toggle = document.getElementById('theme-toggle');
     if (toggle) {
-      toggle.setAttribute(
-        'aria-pressed',
-        String(document.documentElement.dataset.theme === 'dark')
-      );
-      toggle.hidden = false;
+      setTheme(document.documentElement.dataset.theme, false);
+      // A page cached before the wrap existed hides the button itself.
+      (document.getElementById('theme-wrap') || toggle).hidden = false;
       toggle.addEventListener('click', toggleTheme);
     }
   });

@@ -494,21 +494,15 @@ export const LINKS = {
   log: 'https://log.1mb.dev',
 };
 
-// Two lines on a three-column grid: `1mb ·` | the credit, then the links beneath it | the theme
-// toggle. The links align with the credit, not the mark.
+// Two lines on one left edge. The theme control ships hidden, in its wrap with its middot.
 export function renderColophon() {
   return `<footer class="colophon">
-<p class="colophon-home"><a href="/">1mb</a> ·</p>
-<p class="colophon-credit">All the hats. One head.</p>
-<button type="button" id="theme-toggle" class="theme-toggle" aria-label="dark theme" aria-pressed="false" hidden>
-<span class="icon-sun" aria-hidden="true">☀</span>
-<span class="icon-moon" aria-hidden="true">☾</span>
-</button>
+<p class="colophon-credit"><a class="colophon-home" href="/">1mb</a> · All the hats. One head.</p>
 <p class="colophon-meta">
 <a href="mailto:hi@1mb.dev">hi@1mb.dev</a> ·
 <a href="${LINKS.github}" rel="me">github</a> ·
 <a href="${LINKS.log}">log</a> ·
-<a href="/feed.xml">feed</a>
+<a href="/feed.xml">feed</a><span id="theme-wrap" hidden> · <button type="button" id="theme-toggle" class="theme-toggle" aria-label="dark theme">dark</button></span>
 </p>
 </footer>`;
 }
